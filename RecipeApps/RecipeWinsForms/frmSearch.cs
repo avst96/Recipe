@@ -13,9 +13,16 @@ namespace RecipeWinsForms
             gRecipes.CellDoubleClick += GRecipes_CellDoubleClick;
         }
 
+        private void ShowRecipeForm(int rowindex)
+        {
+            int recipeid = (int)gRecipes.Rows[rowindex].Cells["RecipeID"].Value;
+            frmSingleRecipe frm = new();
+            frm.ShowForm(recipeid);
+        }
+
         private void GRecipes_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
         {
-            throw new NotImplementedException();
+            ShowRecipeForm(e.RowIndex);
         }
 
         private void SearchForRecipe(string recipename)

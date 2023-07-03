@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CPUFramework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,5 +17,20 @@ namespace RecipeWinsForms
         {
             InitializeComponent();
         }
+
+        public void ShowForm(int recipeid)
+        {
+            string sql = "select RecipeName, Calories, DateDrafted, DatePublished, DateArchived, RecipeStatus, RecipePic from Recipe where RecipeID =" + recipeid;
+            DataTable dt = SQLUtility.GetDataTable(sql);
+            lblRecipe.DataBindings.Add("Text", dt, "RecipeName");
+            lblCalories.DataBindings.Add("Text", dt, "Calories");
+            lblDateDrafted.DataBindings.Add("Text", dt, "DateDrafted");
+            lblDatePublished.DataBindings.Add("Text", dt, "DatePublished");
+            lblDateArchived.DataBindings.Add("Text", dt, "DateArchived");
+            lblCurrentStatus.DataBindings.Add("Text", dt, "RecipeStatus");
+            lblPictureFile.DataBindings.Add("Text", dt, "RecipePic");
+            this.Show();
+        }
     }
 }
+
