@@ -1,3 +1,5 @@
+using CPUFramework;
+
 namespace RecipeWinsForms
 {
     internal static class Program
@@ -11,7 +13,8 @@ namespace RecipeWinsForms
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            SQLUtility.ConnectionString = "Server=.\\SQLExpress;Database=HeartyHearthDB;Trusted_Connection=true;TrustServerCertificate=True";
+            Application.Run(new frmSearch());
         }
     }
 }
