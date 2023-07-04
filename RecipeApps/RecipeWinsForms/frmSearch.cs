@@ -27,7 +27,7 @@ namespace RecipeWinsForms
 
         private void SearchForRecipe(string recipename)
         {
-            string sql = "select RecipeID, RecipeName from Recipe where RecipeName like '%" + recipename + "%'";
+            string sql = "select RecipeID, RecipeName, Calories, DateDrafted, DatePublished, DateArchived, RecipeStatus, RecipePic from Recipe where RecipeName like '%" + recipename + "%'";
             DataTable dt = SQLUtility.GetDataTable(sql);
             gRecipes.DataSource = dt;
             gRecipes.Columns["RecipeID"].Visible = false;
@@ -36,7 +36,7 @@ namespace RecipeWinsForms
         {
             gRecipes.AllowUserToAddRows = false;
             gRecipes.ReadOnly = true;
-            gRecipes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            gRecipes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             gRecipes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
         private void BtnSearch_Click(object? sender, EventArgs e)
