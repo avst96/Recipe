@@ -51,7 +51,7 @@
             tblMain.RowCount = 2;
             tblMain.RowStyles.Add(new RowStyle());
             tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 82.77027F));
-            tblMain.Size = new Size(571, 469);
+            tblMain.Size = new Size(869, 471);
             tblMain.TabIndex = 0;
             // 
             // tblInput
@@ -110,14 +110,14 @@
             gRecipes.Location = new Point(3, 46);
             gRecipes.Name = "gRecipes";
             gRecipes.RowTemplate.Height = 25;
-            gRecipes.Size = new Size(565, 420);
+            gRecipes.Size = new Size(863, 422);
             gRecipes.TabIndex = 1;
             // 
             // frmSearch
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(571, 469);
+            ClientSize = new Size(869, 471);
             Controls.Add(tblMain);
             Name = "frmSearch";
             Text = "Recipe Search";

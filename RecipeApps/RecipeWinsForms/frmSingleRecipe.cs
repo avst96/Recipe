@@ -20,15 +20,17 @@ namespace RecipeWinsForms
 
         public void ShowForm(int recipeid)
         {
-            string sql = "select RecipeName, Calories, DateDrafted, DatePublished, DateArchived, RecipeStatus, RecipePic from Recipe where RecipeID =" + recipeid;
+            string sql = "select r.RecipeName, u.UserName, c.CuisineName, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeStatus, r.RecipePic from Recipe r join Users u on r.UsersID = u.UsersID join Cuisine c on r.CuisineID = c.CuisineID where RecipeID = " + recipeid;
             DataTable dt = SQLUtility.GetDataTable(sql);
-            lblRecipe.DataBindings.Add("Text", dt, "RecipeName");
-            lblCalories.DataBindings.Add("Text", dt, "Calories");
-            lblDateDrafted.DataBindings.Add("Text", dt, "DateDrafted");
-            lblDatePublished.DataBindings.Add("Text", dt, "DatePublished");
-            lblDateArchived.DataBindings.Add("Text", dt, "DateArchived");
-            lblCurrentStatus.DataBindings.Add("Text", dt, "RecipeStatus");
-            lblPictureFile.DataBindings.Add("Text", dt, "RecipePic");
+            txtRecipe.DataBindings.Add("Text", dt, "RecipeName");
+            txtUserName.DataBindings.Add("Text", dt, "UserName");
+            txtCuisine.DataBindings.Add("Text", dt, "CuisineName");
+            txtCalories.DataBindings.Add("Text", dt, "Calories");
+            txtDateDrafted.DataBindings.Add("Text", dt, "DateDrafted");
+            txtDatePublished.DataBindings.Add("Text", dt, "DatePublished");
+            txtDateArchived.DataBindings.Add("Text", dt, "DateArchived");
+            txtCurrentStatus.DataBindings.Add("Text", dt, "RecipeStatus");
+            txtPictureFile.DataBindings.Add("Text", dt, "RecipePic");
             this.Show();
         }
     }
