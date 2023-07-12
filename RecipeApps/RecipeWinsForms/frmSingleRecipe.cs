@@ -1,14 +1,6 @@
 ﻿using CPUFramework;
 using CPUWindowsFormsFramework;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace RecipeWinsForms
 {
@@ -28,7 +20,6 @@ namespace RecipeWinsForms
 
             WindowsFormsUtiity.SetListBinding(lstUserName, dtusers, dtrecipe, "Users");
             WindowsFormsUtiity.SetListBinding(lstCuisineName, dtcuisine, dtrecipe, "Cuisine");
-            //lstCuisineName.DataBindings.Add("Text", dt, "CuisineName");
 
             WindowsFormsUtiity.SetControlBinding(txtRecipeName, dtrecipe);
             WindowsFormsUtiity.SetControlBinding(txtCalories, dtrecipe);
@@ -43,3 +34,4 @@ namespace RecipeWinsForms
     }
 }
 
+//Make save and delete buttons work
