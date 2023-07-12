@@ -33,6 +33,7 @@
             label1 = new Label();
             txtRecipeName = new TextBox();
             btnSearch = new Button();
+            btnNew = new Button();
             gRecipes = new DataGridView();
             tblMain.SuspendLayout();
             tblInput.SuspendLayout();
@@ -57,18 +58,20 @@
             // tblInput
             // 
             tblInput.AutoSize = true;
-            tblInput.ColumnCount = 3;
+            tblInput.ColumnCount = 4;
             tblInput.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tblInput.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tblInput.ColumnStyles.Add(new ColumnStyle());
             tblInput.ColumnStyles.Add(new ColumnStyle());
             tblInput.Controls.Add(label1, 0, 0);
             tblInput.Controls.Add(txtRecipeName, 1, 0);
             tblInput.Controls.Add(btnSearch, 2, 0);
+            tblInput.Controls.Add(btnNew, 3, 0);
             tblInput.Location = new Point(3, 3);
             tblInput.Name = "tblInput";
             tblInput.RowCount = 1;
             tblInput.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tblInput.Size = new Size(289, 37);
+            tblInput.Size = new Size(370, 37);
             tblInput.TabIndex = 0;
             // 
             // label1
@@ -100,8 +103,19 @@
             btnSearch.Name = "btnSearch";
             btnSearch.Size = new Size(67, 31);
             btnSearch.TabIndex = 2;
-            btnSearch.Text = "Search";
+            btnSearch.Text = "&Search";
             btnSearch.UseVisualStyleBackColor = true;
+            // 
+            // btnNew
+            // 
+            btnNew.Dock = DockStyle.Fill;
+            btnNew.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnNew.Location = new Point(292, 3);
+            btnNew.Name = "btnNew";
+            btnNew.Size = new Size(75, 31);
+            btnNew.TabIndex = 3;
+            btnNew.Text = "&New";
+            btnNew.UseVisualStyleBackColor = true;
             // 
             // gRecipes
             // 
@@ -137,5 +151,6 @@
         private TextBox txtRecipeName;
         private Button btnSearch;
         private DataGridView gRecipes;
+        private Button btnNew;
     }
 }

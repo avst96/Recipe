@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeWinsForms", "RecipeWinsForms\RecipeWinsForms.csproj", "{F3F386C2-27EB-4954-B1F3-49B9208F3F6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeWinsForms", "RecipeWinsForms\RecipeWinsForms.csproj", "{F3F386C2-27EB-4954-B1F3-49B9208F3F6A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CPUFramework", "..\..\CPUFramework\CPUFramework.csproj", "{50A0A756-F747-48CC-8C3A-C03799AA0189}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CPUWindowsFormsFramework", "..\..\CPUWindowsFormsFramework\CPUWindowsFormsFramework.csproj", "{4E9DFED1-AE4C-462E-BEBD-9FBF83FD541F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{50A0A756-F747-48CC-8C3A-C03799AA0189}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50A0A756-F747-48CC-8C3A-C03799AA0189}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50A0A756-F747-48CC-8C3A-C03799AA0189}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E9DFED1-AE4C-462E-BEBD-9FBF83FD541F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E9DFED1-AE4C-462E-BEBD-9FBF83FD541F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E9DFED1-AE4C-462E-BEBD-9FBF83FD541F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E9DFED1-AE4C-462E-BEBD-9FBF83FD541F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
