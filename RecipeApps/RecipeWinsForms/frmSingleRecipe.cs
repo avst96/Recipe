@@ -13,14 +13,8 @@ namespace RecipeWinsForms
             InitializeComponent();
             btnSave.Click += BtnSave_Click;
             btnDelete.Click += BtnDelete_Click;
-            dtpDateDrafted.LostFocus += DtpDateDrafted_LostFocus; ;
         }
 
-        private void DtpDateDrafted_LostFocus(object? sender, EventArgs e)
-        {
-            //Since its one line code I left it in the event handler
-            dtpDateDrafted.Format = DateTimePickerFormat.Short;
-        }
 
         public void ShowForm(int recipeid)
         {
@@ -90,5 +84,4 @@ namespace RecipeWinsForms
     }
 }
 
-//Delete buttons work
-//Optional format date picker to blank, and change format to short upon change
+//Make Delete buttons work
