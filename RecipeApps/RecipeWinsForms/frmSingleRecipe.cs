@@ -6,15 +6,34 @@ namespace RecipeWinsForms
 {
     public partial class frmSingleRecipe : Form
     {
+        int recipeid;
+        DataTable dtrecipe;
         public frmSingleRecipe()
         {
             InitializeComponent();
+            btnSave.Click += BtnSave_Click;
+            btnDelete.Click += BtnDelete_Click;
+            dtpDateDrafted.LostFocus += DtpDateDrafted_LostFocus; ;
+        }
+
+        private void DtpDateDrafted_LostFocus(object? sender, EventArgs e)
+        {
+            //Since its one line code I left it in the event handler
+            dtpDateDrafted.Format = DateTimePickerFormat.Short;
         }
 
         public void ShowForm(int recipeid)
         {
-            string sql = "select r.RecipeName, r.UsersID, r.CuisineID, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeStatus, r.RecipePic from Recipe r where RecipeID = " + recipeid;
-            DataTable dtrecipe = SQLUtility.GetDataTable(sql);
+
+
+            string sql = "select r.RecipeID, r.RecipeName, r.UsersID, r.CuisineID, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeStatus, r.RecipePic from Recipe r where RecipeID = " + recipeid;
+            dtrecipe = SQLUtility.GetDataTable(sql);
+            if (recipeid == 0)
+            {
+                dtrecipe.Rows.Add();
+            }
+            SQLUtility.DebugPrintDataTable(dtrecipe);
+
             DataTable dtusers = SQLUtility.GetDataTable("select UsersID, UserName from Users");
             DataTable dtcuisine = SQLUtility.GetDataTable("select CuisineID, CuisineName from Cuisine");
 
@@ -31,7 +50,45 @@ namespace RecipeWinsForms
 
             this.Show();
         }
+        private void Save()
+        {
+            SQLUtility.DebugPrintDataTable(dtrecipe);
+            DataRow row = dtrecipe.Rows[0];
+            string sql;
+
+            if (recipeid > 0)
+            {
+                sql = "update Recipe " +
+                    $"set UsersID = {row["UsersID"]}, CuisineID = {row["CuisineID"]}," +
+                    $"RecipeName = '{row["RecipeName"]}', Calories = {row["Calories"]}," +
+                    $"DateDrafted = '{row["DateDrafted"]}' " +
+                    //$"DatePublished = null, DateArchived = null ",
+
+                    $"where RecipeID = {row["RecipeID"]}";
+            }
+            else
+            {
+                sql = "insert Recipe (UsersID, CuisineID, RecipeName, Calories, DateDrafted)" +
+                    Environment.NewLine +
+                    $"select {row["UsersID"]}, {row["CuisineID"]}, '{row["RecipeName"]}', {row["Calories"]}, '{row["DateDrafted"]}'";
+            }
+            SQLUtility.ExecuteSQL(sql);
+
+            Close();
+        }
+      
+
+        private void BtnDelete_Click(object? sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void BtnSave_Click(object? sender, EventArgs e)
+        {
+            Save();
+        }
     }
 }
 
-//Make save and delete buttons work
+//Delete buttons work
+//Optional format date picker to blank, and change format to short upon change
