@@ -126,6 +126,7 @@
             gRecipes.RowTemplate.Height = 25;
             gRecipes.Size = new Size(863, 422);
             gRecipes.TabIndex = 1;
+            gRecipes.TabStop = false;
             // 
             // frmSearch
             // 

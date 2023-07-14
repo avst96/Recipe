@@ -1,6 +1,7 @@
 ﻿using CPUFramework;
 using CPUWindowsFormsFramework;
 using System.Data;
+using System.Diagnostics;
 
 namespace RecipeWinsForms
 {
@@ -8,18 +9,18 @@ namespace RecipeWinsForms
     {
         int recipeid;
         DataTable dtrecipe;
+        DataRow row;
         public frmSingleRecipe()
         {
             InitializeComponent();
             btnSave.Click += BtnSave_Click;
             btnDelete.Click += BtnDelete_Click;
+            dtpDateDrafted.Enter += DtpDateDrafted_Enter;
         }
 
 
         public void ShowForm(int recipeid)
         {
-
-
             string sql = "select r.RecipeID, r.RecipeName, r.UsersID, r.CuisineID, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeStatus, r.RecipePic from Recipe r where RecipeID = " + recipeid;
             dtrecipe = SQLUtility.GetDataTable(sql);
             if (recipeid == 0)
@@ -42,12 +43,12 @@ namespace RecipeWinsForms
             WindowsFormsUtiity.SetControlBinding(lblRecipeStatus, dtrecipe);
             WindowsFormsUtiity.SetControlBinding(lblRecipePic, dtrecipe);
 
+            row = dtrecipe.Rows[0];
             this.Show();
         }
         private void Save()
         {
             SQLUtility.DebugPrintDataTable(dtrecipe);
-            DataRow row = dtrecipe.Rows[0];
             string sql;
 
             if (recipeid > 0)
@@ -70,11 +71,26 @@ namespace RecipeWinsForms
 
             Close();
         }
-      
+
+        private void Delete()
+        {
+            string sql = $"delete r from Recipe r where r.RecipeID = {row["RecipeID"]}";
+            Debug.Print(sql);
+            SQLUtility.ExecuteSQL(sql);
+
+            Close();
+        }
+
+        private void DtpDateDrafted_Enter(object? sender, EventArgs e)
+        {
+            //Since its 2 line code, I left it in the event handler. The first line ensures that the date is changed it should be recorded in the DataTable
+            dtpDateDrafted.Value = DateTime.Now;
+            dtpDateDrafted.Format = DateTimePickerFormat.Short;
+        }
 
         private void BtnDelete_Click(object? sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            Delete();
         }
 
         private void BtnSave_Click(object? sender, EventArgs e)
@@ -85,3 +101,4 @@ namespace RecipeWinsForms
 }
 
 //Make Delete buttons work
+

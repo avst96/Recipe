@@ -105,7 +105,7 @@
             lblRecipePic.Margin = new Padding(6, 8, 6, 6);
             lblRecipePic.Name = "lblRecipePic";
             lblRecipePic.Size = new Size(410, 27);
-            lblRecipePic.TabIndex = 25;
+            lblRecipePic.TabIndex = 8;
             lblRecipePic.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // lstCuisineName
@@ -117,7 +117,7 @@
             lstCuisineName.Location = new Point(123, 88);
             lstCuisineName.Name = "lstCuisineName";
             lstCuisineName.Size = new Size(208, 29);
-            lstCuisineName.TabIndex = 22;
+            lstCuisineName.TabIndex = 2;
             // 
             // lblCaptionCalories
             // 
@@ -203,7 +203,7 @@
             txtRecipeName.Location = new Point(123, 7);
             txtRecipeName.Name = "txtRecipeName";
             txtRecipeName.Size = new Size(416, 31);
-            txtRecipeName.TabIndex = 7;
+            txtRecipeName.TabIndex = 0;
             // 
             // txtCalories
             // 
@@ -212,7 +212,7 @@
             txtCalories.Location = new Point(123, 130);
             txtCalories.Name = "txtCalories";
             txtCalories.Size = new Size(416, 31);
-            txtCalories.TabIndex = 8;
+            txtCalories.TabIndex = 3;
             // 
             // txtDatePublished
             // 
@@ -221,7 +221,7 @@
             txtDatePublished.Location = new Point(123, 212);
             txtDatePublished.Name = "txtDatePublished";
             txtDatePublished.Size = new Size(416, 31);
-            txtDatePublished.TabIndex = 10;
+            txtDatePublished.TabIndex = 5;
             // 
             // txtDateArchived
             // 
@@ -230,7 +230,7 @@
             txtDateArchived.Location = new Point(123, 253);
             txtDateArchived.Name = "txtDateArchived";
             txtDateArchived.Size = new Size(416, 31);
-            txtDateArchived.TabIndex = 11;
+            txtDateArchived.TabIndex = 6;
             // 
             // lblCaptionUser
             // 
@@ -280,7 +280,7 @@
             btnDelete.Location = new Point(447, 3);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(86, 34);
-            btnDelete.TabIndex = 0;
+            btnDelete.TabIndex = 1;
             btnDelete.Text = "&Delete";
             btnDelete.UseVisualStyleBackColor = false;
             // 
@@ -295,7 +295,7 @@
             btnSave.Location = new Point(355, 3);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(86, 34);
-            btnSave.TabIndex = 1;
+            btnSave.TabIndex = 0;
             btnSave.Text = "&Save";
             btnSave.UseVisualStyleBackColor = false;
             // 
@@ -308,7 +308,7 @@
             lstUserName.Location = new Point(123, 47);
             lstUserName.Name = "lstUserName";
             lstUserName.Size = new Size(208, 29);
-            lstUserName.TabIndex = 21;
+            lstUserName.TabIndex = 1;
             // 
             // dtpDateDrafted
             // 
@@ -321,8 +321,9 @@
             dtpDateDrafted.MinimumSize = new Size(120, 32);
             dtpDateDrafted.Name = "dtpDateDrafted";
             dtpDateDrafted.Size = new Size(132, 32);
-            dtpDateDrafted.TabIndex = 23;
+            dtpDateDrafted.TabIndex = 4;
             dtpDateDrafted.Tag = "0";
+            dtpDateDrafted.Value = new DateTime(1800, 7, 13, 0, 0, 0, 0);
             // 
             // lblRecipeStatus
             // 
@@ -333,7 +334,7 @@
             lblRecipeStatus.Margin = new Padding(6, 8, 6, 6);
             lblRecipeStatus.Name = "lblRecipeStatus";
             lblRecipeStatus.Size = new Size(410, 27);
-            lblRecipeStatus.TabIndex = 24;
+            lblRecipeStatus.TabIndex = 7;
             lblRecipeStatus.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // frmSingleRecipe

@@ -20,7 +20,7 @@ namespace RecipeWinsForms
         private void ShowRecipeForm(int rowindex)
         {
             int recipeid = 0;
-            if (rowindex > -1)
+            if (rowindex >= 0)
             {
                 recipeid = (int)gRecipes.Rows[rowindex].Cells["RecipeID"].Value;
             }
