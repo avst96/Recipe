@@ -43,6 +43,7 @@ namespace RecipeWinsForms
             WindowsFormsUtiity.SetControlBinding(lblRecipeStatus, dtrecipe);
             WindowsFormsUtiity.SetControlBinding(lblRecipePic, dtrecipe);
 
+            //Setting the row here so I shouldn't have to do it in 2 other places, so I am doing it here where it will run upon start and storing it in a variable for the entire form
             row = dtrecipe.Rows[0];
             this.Show();
         }
@@ -57,7 +58,6 @@ namespace RecipeWinsForms
                     $"set UsersID = {row["UsersID"]}, CuisineID = {row["CuisineID"]}," +
                     $"RecipeName = '{row["RecipeName"]}', Calories = {row["Calories"]}," +
                     $"DateDrafted = '{row["DateDrafted"]}' " +
-                    //$"DatePublished = null, DateArchived = null ",
 
                     $"where RecipeID = {row["RecipeID"]}";
             }
@@ -75,7 +75,6 @@ namespace RecipeWinsForms
         private void Delete()
         {
             string sql = $"delete r from Recipe r where r.RecipeID = {row["RecipeID"]}";
-            Debug.Print(sql);
             SQLUtility.ExecuteSQL(sql);
 
             Close();
@@ -83,7 +82,7 @@ namespace RecipeWinsForms
 
         private void DtpDateDrafted_Enter(object? sender, EventArgs e)
         {
-            //Since its 2 line code, I left it in the event handler. The first line ensures that the date is changed it should be recorded in the DataTable
+            //Since its 2 line code thats control specific, I left it in the event handler. The first line ensures that the date is changed in order it should be recorded in the DataTable
             dtpDateDrafted.Value = DateTime.Now;
             dtpDateDrafted.Format = DateTimePickerFormat.Short;
         }
@@ -100,5 +99,4 @@ namespace RecipeWinsForms
     }
 }
 
-//Make Delete buttons work
 
