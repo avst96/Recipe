@@ -7,7 +7,7 @@ namespace RecipeWinsForms
 {
     public partial class frmSingleRecipe : Form
     {
-        int recipeid;
+        int recipeid = 0;
         DataTable dtrecipe;
         DataRow row;
         public frmSingleRecipe()
@@ -23,6 +23,8 @@ namespace RecipeWinsForms
         {
             string sql = "select r.RecipeID, r.RecipeName, r.UsersID, r.CuisineID, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeStatus, r.RecipePic from Recipe r where RecipeID = " + recipeid;
             dtrecipe = SQLUtility.GetDataTable(sql);
+            this.recipeid = recipeid;
+
             if (recipeid == 0)
             {
                 dtrecipe.Rows.Add();
