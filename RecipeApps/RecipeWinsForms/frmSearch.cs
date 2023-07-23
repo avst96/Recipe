@@ -1,11 +1,9 @@
-﻿using CPUFramework;
-using CPUWindowsFormsFramework;
-using System.Data;
-
+﻿
 namespace RecipeWinsForms
 {
     public partial class frmSearch : Form
     {
+        DataTable recipetable;
         public frmSearch()
         {
             InitializeComponent();
@@ -19,11 +17,7 @@ namespace RecipeWinsForms
 
         private void ShowRecipeForm(int rowindex)
         {
-            int recipeid = 0;
-            if (rowindex >= 0)
-            {
-                recipeid = (int)gRecipes.Rows[rowindex].Cells["RecipeID"].Value;
-            }
+            int recipeid = RecipeSystem.SelectRecipe(recipetable, rowindex);
             frmSingleRecipe frm = new();
             frm.ShowForm(recipeid);
         }
@@ -35,9 +29,8 @@ namespace RecipeWinsForms
 
         private void SearchForRecipe(string recipename)
         {
-            string sql = "select RecipeID, RecipeName, Calories, DateDrafted, DatePublished, DateArchived, RecipeStatus, RecipePic from Recipe where RecipeName like '%" + recipename + "%'";
-            DataTable dt = SQLUtility.GetDataTable(sql);
-            gRecipes.DataSource = dt;
+            recipetable = RecipeSystem.SearchRecipe(recipename);
+            gRecipes.DataSource = recipetable;
             gRecipes.Columns["RecipeID"].Visible = false;
         }
 

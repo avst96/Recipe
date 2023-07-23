@@ -1,8 +1,4 @@
-﻿using CPUFramework;
-using CPUWindowsFormsFramework;
-using System.Data;
-using System.Diagnostics;
-
+﻿
 namespace RecipeWinsForms
 {
     public partial class frmSingleRecipe : Form
