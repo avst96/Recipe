@@ -1,5 +1,4 @@
-﻿
-namespace RecipeWinsForms
+﻿namespace RecipeWinsForms
 {
     public partial class frmSearch : Form
     {
@@ -17,7 +16,11 @@ namespace RecipeWinsForms
 
         private void ShowRecipeForm(int rowindex)
         {
-            int recipeid = RecipeSystem.SelectRecipe(recipetable, rowindex);
+            int recipeid = 0;
+            if (rowindex >= 0)
+            {
+                recipeid = (int)gRecipes.Rows[rowindex].Cells["RecipeID"].Value;
+            }
             frmSingleRecipe frm = new();
             frm.ShowForm(recipeid);
         }

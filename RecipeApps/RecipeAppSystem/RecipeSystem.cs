@@ -1,5 +1,5 @@
-﻿using System.Data;
-using CPUFramework;
+﻿using CPUFramework;
+using System.Data;
 
 namespace RecipeAppSystem
 {
@@ -9,10 +9,10 @@ namespace RecipeAppSystem
         public static DataTable SearchRecipe(string recipename)
         {
             string sql = "select RecipeID, RecipeName, Calories, DateDrafted, DatePublished, DateArchived, RecipeStatus, RecipePic from Recipe where RecipeName like '%" + recipename + "%'";
-            return  SQLUtility.GetDataTable(sql);
+            return SQLUtility.GetDataTable(sql);
         }
-
-        public static int SelectRecipe(DataTable dt , int rowindex)
+        
+        public static int SelectRecipe(DataTable dt, int rowindex)
         {
             int recipeid = 0;
             if (rowindex >= 0)
