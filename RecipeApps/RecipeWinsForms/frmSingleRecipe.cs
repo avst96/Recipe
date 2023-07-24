@@ -17,9 +17,7 @@ namespace RecipeWinsForms
 
         public void ShowForm(int recipeid)
         {
-            string sql = "select r.RecipeID, r.RecipeName, r.UsersID, r.CuisineID, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeStatus, r.RecipePic from Recipe r where RecipeID = " + recipeid;
-            dtrecipe = SQLUtility.GetDataTable(sql);
-            this.recipeid = recipeid;
+            dtrecipe = RecipeSystem.LoadRecipe(recipeid);
 
             if (recipeid == 0)
             {
@@ -27,8 +25,8 @@ namespace RecipeWinsForms
             }
             SQLUtility.DebugPrintDataTable(dtrecipe);
 
-            DataTable dtusers = SQLUtility.GetDataTable("select UsersID, UserName from Users");
-            DataTable dtcuisine = SQLUtility.GetDataTable("select CuisineID, CuisineName from Cuisine");
+            DataTable dtusers = RecipeSystem.GetUserList();
+            DataTable dtcuisine = RecipeSystem.GetCuisineList();
 
             WindowsFormsUtiity.SetListBinding(lstUserName, dtusers, dtrecipe, "Users");
             WindowsFormsUtiity.SetListBinding(lstCuisineName, dtcuisine, dtrecipe, "Cuisine");
@@ -43,38 +41,19 @@ namespace RecipeWinsForms
 
             //Setting the row here so I shouldn't have to do it in 2 other places, so I am doing it here where it will run upon start and storing it in a variable for the entire form
             row = dtrecipe.Rows[0];
-            this.Show();
+            this.recipeid = recipeid;
+
+            Show();
         }
         private void Save()
         {
-            SQLUtility.DebugPrintDataTable(dtrecipe);
-            string sql;
-
-            if (recipeid > 0)
-            {
-                sql = "update Recipe " +
-                    $"set UsersID = {row["UsersID"]}, CuisineID = {row["CuisineID"]}," +
-                    $"RecipeName = '{row["RecipeName"]}', Calories = {row["Calories"]}," +
-                    $"DateDrafted = '{row["DateDrafted"]}' " +
-
-                    $"where RecipeID = {row["RecipeID"]}";
-            }
-            else
-            {
-                sql = "insert Recipe (UsersID, CuisineID, RecipeName, Calories, DateDrafted)" +
-                    Environment.NewLine +
-                    $"select {row["UsersID"]}, {row["CuisineID"]}, '{row["RecipeName"]}', {row["Calories"]}, '{row["DateDrafted"]}'";
-            }
-            SQLUtility.ExecuteSQL(sql);
-
+            RecipeSystem.SaveRecipe(dtrecipe, row, recipeid);
             Close();
         }
 
         private void Delete()
         {
-            string sql = $"delete r from Recipe r where r.RecipeID = {row["RecipeID"]}";
-            SQLUtility.ExecuteSQL(sql);
-
+            RecipeSystem.DeleteRecipe(row);
             Close();
         }
 
