@@ -124,16 +124,13 @@ namespace RecipeAppsTest
                 Assert.IsTrue(newr["RecipeName"].ToString() == recipename && (int)newr["Calories"] == calories && (DateTime)newr["Datedrafted"] == newtime, "Not all values where updated.");
                 TestContext.WriteLine("Recipe with name " + oldrecipename + " was updated with following info : RecipeName = " + recipename + ", "
                     + "Calories = " + calories + ", DateDrafted = " + newtime);
-                //TODO check all values updated, and writeline
+               
             }
 
-            //When updating check all columns that can be updated and write new line with all updated values
         }
 
 
-        //insert userid, cuisineid, (recipename // add time, calories, datedrafted)
-        //Test both insert and Update
-
+        //TODO check tests
     }
 
 
