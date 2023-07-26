@@ -316,7 +316,7 @@
             dtpDateDrafted.CalendarFont = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
             dtpDateDrafted.CustomFormat = " ";
             dtpDateDrafted.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dtpDateDrafted.Format = DateTimePickerFormat.Custom;
+            dtpDateDrafted.Format = DateTimePickerFormat.Short;
             dtpDateDrafted.Location = new Point(123, 168);
             dtpDateDrafted.MinimumSize = new Size(120, 32);
             dtpDateDrafted.Name = "dtpDateDrafted";

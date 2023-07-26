@@ -59,7 +59,7 @@ create table dbo.Recipe(
     RecipeID int not null identity primary key,
     UsersID int not null constraint f_Users_Recipe foreign key references Users(UsersID),
     CuisineID int not null constraint f_Cuisine_Recipe foreign key references Cuisine(CuisineID),
-    RecipeName varchar(35) not null 
+    RecipeName varchar(50) not null 
         constraint ck_Recipe_RecipeName_cannot_be_blank check(RecipeName > '')
         constraint u_Recipe_RecipeName_must_be unique,
     Calories int not null constraint ck_Recipe_Calories_cannot_be_negative check (Calories >= 0), --Some candies are 0 calorie

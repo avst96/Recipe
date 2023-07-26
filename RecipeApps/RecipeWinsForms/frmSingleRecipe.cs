@@ -22,6 +22,7 @@ namespace RecipeWinsForms
             if (recipeid == 0)
             {
                 dtrecipe.Rows.Add();
+                dtpDateDrafted.Format = DateTimePickerFormat.Custom;
             }
             SQLUtility.DebugPrintDataTable(dtrecipe);
 
