@@ -94,7 +94,7 @@ namespace RecipeAppsTest
                 dt = SQLUtility.GetDataTable("select * from Recipe where recipeid = " + recipeid);
                 r = dt.Rows[0];
                 oldrecipename = r["recipename"].ToString()!;
-                //TODTO To remove any DateTime added in first update
+                //TODTO To remove any DateTime added in first update check if works
                 string dateTimePattern = @"\b\d{1,2}/\d{1,2}/\d{4} \d{1,2}:\d{2}:\d{2} (AM|PM)\b";
                 oldrecipename = Regex.Replace(oldrecipename, dateTimePattern, "");
                 recipename = (oldrecipename + " " + newtime);
