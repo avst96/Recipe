@@ -1,5 +1,7 @@
 using CPUFramework;
 using System.Data;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace RecipeAppsTest
 {
@@ -67,8 +69,8 @@ namespace RecipeAppsTest
         }
 
         [Test]
-        [TestCase(false, "Test New Recipe", 25)]
-        [TestCase(true, "", 15)]
+        [TestCase(false, "Test New Recipe", 25)] //Tests for insert
+        [TestCase(true, "", 20)] //Test for update
         public void SaveRecipeTest(bool isupdate, string recipename, int calories)
         {
             DataTable dt;
@@ -89,10 +91,14 @@ namespace RecipeAppsTest
             else
             {
                 recipeid = SQLUtility.GetFirstColumnFirstRowValue("select top 1 recipeid from recipe");
-                dt = SQLUtility.GetDataTable("select RecipeID, UsersID , CuisineID, RecipeName, Calories, DateDrafted from Recipe where recipeid = " + recipeid);
+                dt = SQLUtility.GetDataTable("select * from Recipe where recipeid = " + recipeid);
                 r = dt.Rows[0];
                 oldrecipename = r["recipename"].ToString()!;
-                recipename = oldrecipename + " " + newtime;
+                //TODTO To remove any DateTime added in first update
+                string dateTimePattern = @"\b\d{1,2}/\d{1,2}/\d{4} \d{1,2}:\d{2}:\d{2} (AM|PM)\b";
+                oldrecipename = Regex.Replace(oldrecipename, dateTimePattern, "");
+                recipename = (oldrecipename + " " + newtime);
+
                 TestContext.WriteLine("Ensure that Recipe " + oldrecipename
                     + " gets updated to the following: RecipeName = " + recipename + ", "
                     + "Calories = " + calories + ", DateDrafted = " + newtime);
@@ -110,9 +116,10 @@ namespace RecipeAppsTest
             r["Calories"] = calories;
             r["DateDrafted"] = newtime;
 
+
             RecipeSystem.SaveRecipe(dt, r, recipeid);
 
-            DataTable newdt = SQLUtility.GetDataTable("select recipename from recipe where recipename = '" + recipename + "'");
+            DataTable newdt = SQLUtility.GetDataTable("select RecipeName, Calories, DateDrafted from recipe where recipename = '" + recipename + "'");
             if (isupdate == false)
             {
                 Assert.IsTrue(newdt.Rows[0][0].ToString() == recipename, "No recipe with a name of " + recipename + " was found in DB");
@@ -121,7 +128,8 @@ namespace RecipeAppsTest
             else
             {
                 DataRow newr = newdt.Rows[0];
-                Assert.IsTrue(newr["RecipeName"].ToString() == recipename && (int)newr["Calories"] == calories && (DateTime)newr["Datedrafted"] == newtime, "Not all values where updated.");
+                //TODO something wrong with this code
+                Assert.IsTrue(newr["RecipeName"].ToString() == recipename && newr["Calories"].ToString() == calories.ToString() && newr["Datedrafted"].ToString() == newtime.ToString("yyyy-MM-dd HH:mm:ss.fff"), "Not all values where updated.");
                 TestContext.WriteLine("Recipe with name " + oldrecipename + " was updated with following info : RecipeName = " + recipename + ", "
                     + "Calories = " + calories + ", DateDrafted = " + newtime);
                
