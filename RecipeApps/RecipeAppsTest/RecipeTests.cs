@@ -72,12 +72,10 @@ namespace RecipeAppsTest
             DataTable dt;
             DataRow r;
             int recipeid = 0;
-            DateTime newtime = DateTime.Now;
 
             //I needed to remove the milisecond because the milisecond wasn't getting updated in the DB and was causing assert to fail
             string timeformat = "yyyy-MM-dd HH:mm:ss";
-            string formatedtime = newtime.ToString(timeformat);
-            newtime = DateTime.ParseExact(formatedtime, timeformat, null);
+            DateTime newtime = DateTime.ParseExact(DateTime.Now.ToString(timeformat),timeformat,null);
 
             string oldrecipename = "";
 
@@ -100,8 +98,8 @@ namespace RecipeAppsTest
                 string dateTimePattern = @"\b\d{1,2}/\d{1,2}/\d{4} \d{1,2}:\d{2}:\d{2} (AM|PM)\b";
                 recipename = Regex.Replace(oldrecipename, dateTimePattern, "").TrimEnd() + " " + newtime;
 
-                TestContext.WriteLine("Ensure that Recipe " + oldrecipename
-                    + " gets updated to the following: RecipeName = " + recipename + ", "
+                TestContext.WriteLine("Ensure that Recipe '" + oldrecipename
+                    + "' gets updated to the following: RecipeName = " + recipename + ", "
                     + "Calories = " + calories + ", DateDrafted = " + newtime);
             }
 
@@ -117,7 +115,6 @@ namespace RecipeAppsTest
             r["Calories"] = calories;
             r["DateDrafted"] = newtime;
 
-            //why is datatable and row required??
             RecipeSystem.SaveRecipe(dt, r, recipeid);
 
             DataTable newdt;
@@ -138,9 +135,22 @@ namespace RecipeAppsTest
             }
 
         }
+            [Test]
+            public void DeleteTest()
+        {
+            //I only checked for related record in the RecipeIngredient table with the assumption that if it doesn't have ingredients then it doesn't have any other foreign constraints.
+            DataTable dt = SQLUtility.GetDataTable("select top 1 r.RecipeID, r.RecipeName from Recipe r left join RecipeIngredient ri on  r.RecipeID = ri.RecipeID where ri.IngredientID is null ");
+            Assume.That(dt.Rows.Count == 1, "DB is empty, cannot run test");
+            DataRow r = dt.Rows[0];
+            int recipeid = (int)r["RecipeID"];
+
+            TestContext.WriteLine("Ensure that Recipe '" + r["RecipeName"] + "' with ID of " + recipeid + " is deleted from DB");
+
+            RecipeSystem.DeleteRecipe(r);
+
+            DataTable afterdelete = SQLUtility.GetDataTable("select * from recipe where recipeid = " + recipeid);
+            Assert.IsTrue(afterdelete.Rows.Count == 0, "Recipe with ID of " + recipeid + "has not deleted from DB");
+            TestContext.WriteLine("Recipe with ID of " + recipeid + " has been deleted from DB");
+        }
     }
-
-
-    //    DeleteRecipe(DataRow row)
-
 }
