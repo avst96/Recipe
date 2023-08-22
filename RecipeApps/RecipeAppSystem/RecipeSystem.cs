@@ -1,5 +1,6 @@
 ﻿using CPUFramework;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace RecipeAppSystem
 {
@@ -8,9 +9,36 @@ namespace RecipeAppSystem
     {
         public static DataTable SearchRecipe(string recipename)
         {
-            string sql = "select RecipeID, RecipeName, Calories, DateDrafted, DatePublished, DateArchived, RecipeStatus, RecipePic from Recipe where RecipeName like '%" + recipename + "%'";
-            return SQLUtility.GetDataTable(sql);
+            SqlCommand cmd = SQLUtility.GetSqlCommand("RecipeGet");
+            cmd.Parameters["@RecipeName"].Value = recipename;
+            if (recipename == "")
+            {
+                cmd.Parameters["@All"].Value = 1;
+            }
+            return SQLUtility.GetDataTable(cmd);
         }
+
+        public static DataTable LoadRecipe(int id)
+        {
+            SqlCommand cmd = SQLUtility.GetSqlCommand("RecipeGet");
+            cmd.Parameters["@RecipeId"].Value = id;
+            return SQLUtility.GetDataTable(cmd);
+        }
+
+        public static DataTable GetUserList()
+        {
+            SqlCommand cmd = SQLUtility.GetSqlCommand("UsersGet");
+            cmd.Parameters["@All"].Value = 1;
+            return SQLUtility.GetDataTable(cmd);
+        }
+
+        public static DataTable GetCuisineList()
+        {
+            SqlCommand cmd = SQLUtility.GetSqlCommand("CuisineGet");
+            cmd.Parameters["@All"].Value = 1;
+            return SQLUtility.GetDataTable(cmd);
+        }
+
 
         public static void DeleteRecipe(DataRow row)
         {
@@ -39,25 +67,6 @@ namespace RecipeAppSystem
                     $"select {row["UsersID"]}, {row["CuisineID"]}, '{row["RecipeName"]}', {row["Calories"]}, '{row["DateDrafted"]}'";
             }
             SQLUtility.ExecuteSQL(sql);
-
         }
-
-        public static DataTable LoadRecipe(int id)
-        {
-            string sql = "select r.RecipeID, r.RecipeName, r.UsersID, r.CuisineID, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeStatus, r.RecipePic from Recipe r where RecipeID = " + id;
-            return SQLUtility.GetDataTable(sql);
-        }
-
-        public static DataTable GetUserList()
-        {
-            return SQLUtility.GetDataTable("select UsersID, UserName from Users");
-        }
-
-        public static DataTable GetCuisineList()
-        {
-            return SQLUtility.GetDataTable("select CuisineID, CuisineName from Cuisine");
-        }
-        //TODO Continue to add middle tier code here
-
     }
 }

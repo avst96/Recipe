@@ -10,6 +10,26 @@ namespace RecipeAppsTest
         }
 
         [Test]
+        [TestCase("")]
+        [TestCase("a")]
+        public void SearchTest(string criteria)
+        {
+            int num = SQLUtility.GetFirstColumnFirstRowValue("select total = count(*) from recipe where RecipeName like '%" + criteria + "%'");
+            if (num == 0 && criteria != "")
+            {
+                criteria = "e";
+                num = SQLUtility.GetFirstColumnFirstRowValue("select total = count(*) from recipe where RecipeName like '%" + criteria + "%'");
+            }
+            Assume.That(num > 0, "No recipes match search provided");
+
+            TestContext.WriteLine("Assure that num of recipes returned by SearchRecipe match num of recipes with search parameters (" + criteria + "); num in DB that match (" + num + ")");
+            DataTable dt = RecipeSystem.SearchRecipe(criteria);
+
+            Assert.IsTrue(dt.Rows.Count == num, "Rows returned by SearchRecipe (" + dt.Rows.Count + ") don't match num of recipes with matching criteria in DB (" + num + ")");
+            TestContext.WriteLine("Num of rows returned by Search app (" + dt.Rows.Count + ") = rows matching in DB (" + num + ")");
+        }
+
+        [Test]
         public void GetUsersListTest()
         {
             int usercount = SQLUtility.GetFirstColumnFirstRowValue("select count(*) from Users");
@@ -75,7 +95,7 @@ namespace RecipeAppsTest
 
             //I needed to remove the milisecond because the milisecond wasn't getting updated in the DB and was causing assert to fail
             string timeformat = "yyyy-MM-dd HH:mm:ss";
-            DateTime newtime = DateTime.ParseExact(DateTime.Now.ToString(timeformat),timeformat,null);
+            DateTime newtime = DateTime.ParseExact(DateTime.Now.ToString(timeformat), timeformat, null);
 
             string oldrecipename = "";
 
@@ -135,8 +155,8 @@ namespace RecipeAppsTest
             }
 
         }
-            [Test]
-            public void DeleteTest()
+        [Test]
+        public void DeleteTest()
         {
             //I only checked for related record in the RecipeIngredient table with the assumption that if it doesn't have ingredients then it doesn't have any other foreign constraints.
             DataTable dt = SQLUtility.GetDataTable("select top 1 r.RecipeID, r.RecipeName from Recipe r left join RecipeIngredient ri on  r.RecipeID = ri.RecipeID where ri.IngredientID is null ");
