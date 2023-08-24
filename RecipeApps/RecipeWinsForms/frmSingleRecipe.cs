@@ -4,7 +4,7 @@ namespace RecipeWinsForms
     public partial class frmSingleRecipe : Form
     {
         int recipeid = 0;
-        DataTable dtrecipe;
+        DataTable dtrecipe = new();
         DataRow row;
         public frmSingleRecipe()
         {
@@ -48,14 +48,38 @@ namespace RecipeWinsForms
         }
         private void Save()
         {
-            RecipeSystem.SaveRecipe(dtrecipe, row, recipeid);
-            Close();
+            Application.UseWaitCursor = true;
+            try
+            {
+                RecipeSystem.SaveRecipe(dtrecipe, row, recipeid);
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Recipe App");
+            }
+            finally 
+            { 
+                Application.UseWaitCursor = false;
+            }
         }
 
         private void Delete()
         {
+            Application.UseWaitCursor = true;
+            try
+            {
             RecipeSystem.DeleteRecipe(row);
             Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Application.UseWaitCursor = false;
+            }
         }
 
         private void DtpDateDrafted_Enter(object? sender, EventArgs e)

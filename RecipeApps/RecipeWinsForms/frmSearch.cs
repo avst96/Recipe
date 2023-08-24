@@ -17,6 +17,7 @@
         private void ShowRecipeForm(int rowindex)
         {
             int recipeid = 0;
+
             if (rowindex != -1) //Clicking on the header returns a -1, in which case I don't wan't to do anything
             {
                 if (rowindex >= 0)
@@ -25,7 +26,6 @@
                 }
                 frmSingleRecipe frm = new();
                 frm.ShowForm(recipeid);
-
             }
         }
 

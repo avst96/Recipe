@@ -172,5 +172,60 @@ namespace RecipeAppsTest
             Assert.IsTrue(afterdelete.Rows.Count == 0, "Recipe with ID of " + recipeid + "has not deleted from DB");
             TestContext.WriteLine("Recipe with ID of " + recipeid + " has been deleted from DB");
         }
+
+        [Test]
+        public void InvalidDeleteTest()
+        {
+            DataTable dt = SQLUtility.GetDataTable("select top 1 r.RecipeID, r.RecipeName from Recipe r join RecipeIngredient ri on r.RecipeID = ri.RecipeID");
+            Assume.That(dt.Rows.Count == 1, "DB is empty, cannot run test");
+            DataRow r = dt.Rows[0];
+            int recipeid = (int)r["RecipeID"];
+
+            TestContext.WriteLine("Ensure that Recipe '" + r["RecipeName"] + "' with ID of " + recipeid + " throws exception when delete is attempted");
+
+            string msg = Assert.Throws<Exception>(()=> RecipeSystem.DeleteRecipe(r)).Message;
+
+            TestContext.WriteLine("Exception throw with message '" + msg+"'");
+        }
+
+        [Test]
+        public void InvalidSaveNotUnique()
+        {
+            DataTable dt = SQLUtility.GetDataTable("select top 1 UsersID, CuisineID, RecipeName, Calories, DateDrafted from recipe");
+            Assume.That(dt.Rows.Count > 0, "No recipe in DB, can't run test");
+            DataRow row = dt.Rows[0];
+
+            string msg = Assert.Throws<Exception>(()=> RecipeSystem.SaveRecipe(dt,row,0)).Message;
+            TestContext.WriteLine("Exception throw with message '" + msg + "'");
+        }
+
+        [Test]
+        public void InvalidSaveCheckConstraint()
+        {
+            DataTable dt = SQLUtility.GetDataTable("select top 1 RecipeID, UsersID, CuisineID, RecipeName, Calories, DateDrafted from recipe");
+            Assume.That(dt.Rows.Count > 0, "No recipe in DB, can't run test");
+            DataRow row = dt.Rows[0];
+
+            row["RecipeName"] = " ";
+
+            string msg = Assert.Throws<Exception>(() => RecipeSystem.SaveRecipe(dt, row, 0)).Message;
+            TestContext.WriteLine("Exception throw with message '" + msg + "'");
+        }
+
+
+        //Method, perhaps should be moved into SQLUtility
+        private string GetFirstColumnFirstRowValueAsString(string sql)
+        {
+            string value = string.Empty;
+            DataTable dt = SQLUtility.GetDataTable(sql);
+            if (dt.Rows.Count > 0 && dt.Columns.Count > 0)
+            {
+                if (dt.Rows[0][0] != DBNull.Value)
+                {
+                    value = dt.Rows[0][0].ToString()!;
+                }
+            }
+            return value;
+        }
     }
 }

@@ -48,7 +48,10 @@ namespace RecipeAppSystem
 
         public static void SaveRecipe(DataTable dt, DataRow row, int id)
         {
+#if DEBUG
             SQLUtility.DebugPrintDataTable(dt);
+#endif
+
             string sql;
 
             if (id > 0)
