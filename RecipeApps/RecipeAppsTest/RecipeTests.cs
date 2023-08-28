@@ -192,9 +192,9 @@ namespace RecipeAppsTest
         public void InvalidSaveNotUnique()
         {
             DataTable dt = SQLUtility.GetDataTable("select top 1 UsersID, CuisineID, RecipeName, Calories, DateDrafted from recipe");
-            Assume.That(dt.Rows.Count > 0, "No recipe in DB, can't run test");
+            Assume.That(dt.Rows.Count > 0, "No unrelated recipe in DB, can't run test");
             DataRow row = dt.Rows[0];
-
+            TestContext.WriteLine("Ensure an exception is thrown, with a formatted message");
             string msg = Assert.Throws<Exception>(()=> RecipeSystem.SaveRecipe(dt,row,0)).Message;
             TestContext.WriteLine("Exception throw with message '" + msg + "'");
         }
@@ -207,25 +207,9 @@ namespace RecipeAppsTest
             DataRow row = dt.Rows[0];
 
             row["RecipeName"] = " ";
-
+            TestContext.WriteLine("Ensure an exception is thrown, with a formatted message");
             string msg = Assert.Throws<Exception>(() => RecipeSystem.SaveRecipe(dt, row, 0)).Message;
             TestContext.WriteLine("Exception throw with message '" + msg + "'");
-        }
-
-
-        //Method, perhaps should be moved into SQLUtility
-        private string GetFirstColumnFirstRowValueAsString(string sql)
-        {
-            string value = string.Empty;
-            DataTable dt = SQLUtility.GetDataTable(sql);
-            if (dt.Rows.Count > 0 && dt.Columns.Count > 0)
-            {
-                if (dt.Rows[0][0] != DBNull.Value)
-                {
-                    value = dt.Rows[0][0].ToString()!;
-                }
-            }
-            return value;
         }
     }
 }
