@@ -160,7 +160,7 @@ namespace RecipeAppsTest
         {
             //I only checked for related record in the RecipeIngredient table with the assumption that if it doesn't have ingredients then it doesn't have any other foreign constraints.
             DataTable dt = SQLUtility.GetDataTable("select top 1 r.RecipeID, r.RecipeName from Recipe r left join RecipeIngredient ri on  r.RecipeID = ri.RecipeID where ri.IngredientID is null ");
-            Assume.That(dt.Rows.Count == 1, "DB is empty, cannot run test");
+            Assume.That(dt.Rows.Count == 1, "No unrelated recipe in DB, can't run test");
             DataRow r = dt.Rows[0];
             int recipeid = (int)r["RecipeID"];
 
@@ -177,7 +177,7 @@ namespace RecipeAppsTest
         public void InvalidDeleteTest()
         {
             DataTable dt = SQLUtility.GetDataTable("select top 1 r.RecipeID, r.RecipeName from Recipe r join RecipeIngredient ri on r.RecipeID = ri.RecipeID");
-            Assume.That(dt.Rows.Count == 1, "DB is empty, cannot run test");
+            Assume.That(dt.Rows.Count == 1, "No unrelated recipe in DB, can't run test");
             DataRow r = dt.Rows[0];
             int recipeid = (int)r["RecipeID"];
 
