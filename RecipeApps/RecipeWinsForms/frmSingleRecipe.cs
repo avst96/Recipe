@@ -58,19 +58,24 @@ namespace RecipeWinsForms
             {
                 MessageBox.Show(ex.Message, "Recipe App");
             }
-            finally 
-            { 
+            finally
+            {
                 Application.UseWaitCursor = false;
             }
         }
 
         private void Delete()
         {
+            DialogResult answer = MessageBox.Show("Are you sure you want to delete this recipe?", "Recipe App", MessageBoxButtons.YesNo);
+            if (answer == DialogResult.No)
+            {
+                return;
+            }
             Application.UseWaitCursor = true;
             try
             {
-            RecipeSystem.DeleteRecipe(row);
-            Close();
+                RecipeSystem.DeleteRecipe(row);
+                Close();
             }
             catch (Exception ex)
             {

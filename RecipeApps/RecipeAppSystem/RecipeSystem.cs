@@ -42,8 +42,10 @@ namespace RecipeAppSystem
 
         public static void DeleteRecipe(DataRow row)
         {
-            string sql = $"delete r from Recipe r where r.RecipeID = {row["RecipeID"]}";
-            SQLUtility.ExecuteSQL(sql);
+            int recipeid = (int)row["RecipeId"];
+            SqlCommand cmd = SQLUtility.GetSqlCommand("RecipeDelete");
+            SQLUtility.SetParamValue(cmd, "@RecipeId", recipeid);
+            SQLUtility.ExecuteSQL(cmd);
         }
 
         public static void SaveRecipe(DataTable dt, DataRow row, int id)

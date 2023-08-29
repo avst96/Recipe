@@ -159,7 +159,7 @@ namespace RecipeAppsTest
         public void DeleteTest()
         {
             //I only checked for related record in the RecipeIngredient table with the assumption that if it doesn't have ingredients then it doesn't have any other foreign constraints.
-            DataTable dt = SQLUtility.GetDataTable("select top 1 r.RecipeID, r.RecipeName from Recipe r left join RecipeIngredient ri on  r.RecipeID = ri.RecipeID where ri.IngredientID is null ");
+            DataTable dt = SQLUtility.GetDataTable("select top 1 r.RecipeID, r.RecipeName from Recipe r left join RecipeIngredient ri on r.RecipeID = ri.RecipeID where ri.IngredientID is null ");
             Assume.That(dt.Rows.Count == 1, "No unrelated recipe in DB, can't run test");
             DataRow r = dt.Rows[0];
             int recipeid = (int)r["RecipeID"];
@@ -172,6 +172,23 @@ namespace RecipeAppsTest
             Assert.IsTrue(afterdelete.Rows.Count == 0, "Recipe with ID of " + recipeid + "has not deleted from DB");
             TestContext.WriteLine("Recipe with ID of " + recipeid + " has been deleted from DB");
         }
+        [Test]
+        public void DeleteTestWithAllowedRelatedRecord()
+        {
+            DataTable dt = SQLUtility.GetDataTable("select top 1 r.RecipeID, r.RecipeName from Recipe r join RecipeIngredient ri on r.RecipeID = ri.RecipeID left join CookbookRecipe cr on r.RecipeID = cr.RecipeID where cr.CookbookRecipeID is null");
+            Assume.That(dt.Rows.Count == 1, "No recipe in DB that have only related records that can be deleted, can't run test");
+            DataRow r = dt.Rows[0];
+            int recipeid = (int)r["RecipeID"];
+
+            TestContext.WriteLine("Ensure that Recipe '" + r["RecipeName"] + "' with ID of " + recipeid + " with related records are deleted from DB" + Environment.NewLine);
+
+            RecipeSystem.DeleteRecipe(r);
+
+            DataTable afterdelete = SQLUtility.GetDataTable("select * from recipe where recipeid = " + recipeid);
+            DataTable relatedrecord = SQLUtility.GetDataTable("select * from RecipeIngredient where recipeid = " + recipeid);
+            Assert.IsTrue(afterdelete.Rows.Count == 0, "Recipe with ID of " + recipeid + "has not deleted from DB");
+            TestContext.WriteLine("Recipe with ID of " + recipeid + " and related records have been deleted from DB");
+        }
 
         [Test]
         public void InvalidDeleteTest()
@@ -183,9 +200,9 @@ namespace RecipeAppsTest
 
             TestContext.WriteLine("Ensure that Recipe '" + r["RecipeName"] + "' with ID of " + recipeid + " throws exception when delete is attempted");
 
-            string msg = Assert.Throws<Exception>(()=> RecipeSystem.DeleteRecipe(r)).Message;
+            string msg = Assert.Throws<Exception>(() => RecipeSystem.DeleteRecipe(r)).Message;
 
-            TestContext.WriteLine("Exception throw with message '" + msg+"'");
+            TestContext.WriteLine("Exception throw with message '" + msg + "'");
         }
 
         [Test]
@@ -195,7 +212,7 @@ namespace RecipeAppsTest
             Assume.That(dt.Rows.Count > 0, "No unrelated recipe in DB, can't run test");
             DataRow row = dt.Rows[0];
             TestContext.WriteLine("Ensure an exception is thrown, with a formatted message");
-            string msg = Assert.Throws<Exception>(()=> RecipeSystem.SaveRecipe(dt,row,0)).Message;
+            string msg = Assert.Throws<Exception>(() => RecipeSystem.SaveRecipe(dt, row, 0)).Message;
             TestContext.WriteLine("Exception throw with message '" + msg + "'");
         }
 
