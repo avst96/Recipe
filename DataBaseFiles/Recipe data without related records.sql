@@ -14,5 +14,21 @@ insert Recipe (UsersID, CuisineID, RecipeName, Calories, DateDrafted, DatePublis
     on u.UserName = x.UsersName
     join Cuisine c 
     on c.CuisineName = x.CuisineName
+go
 
 
+;with x as (
+    select 'Test Butter Muffins' as Recipe, 'Cup' as Unit, 'oil' as Ingredient, 2 as IngredientSeq, .5 as Amount
+    union select 'Test Butter Muffins', 'Cup', 'sugar', 1, 1
+     
+)    
+    insert RecipeIngredient(RecipeID,MeasuringUnitID,IngredientID,IngredientSeq,Amount)
+        select r.RecipeID, mu.MeasuringUnitID, i.IngredientID, x.IngredientSeq, x.Amount
+        from x 
+        join Recipe r
+        on x.Recipe = r.RecipeName
+        left join MeasuringUnit mu 
+        on x.Unit = mu.Unit
+        join Ingredient i 
+        on x.Ingredient = i.IngredientName
+        order by r.RecipeID, x.IngredientSeq
