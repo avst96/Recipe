@@ -1,9 +1,20 @@
 use HeartyHearthDB
 go
 
-create or alter procedure dbo.RecipeDelete (@RecipeId int)
+create or alter procedure dbo.RecipeDelete (@RecipeId int, @Message varchar(500) = '' output)
 as
 begin
+	declare @return int = 0
+
+	if exists (select * from Recipe r
+		where r.RecipeID = @RecipeId 
+		and r.RecipeStatus <> 'Draft'
+		and datediff(day,isnull(r.DateArchived,getdate()), getdate()) <= 30)
+		begin 
+		select @return = 1, @Message = 'Can only delete recipe that is still in draft or is already archived for more then 30 days'
+		goto finished
+		end
+
 	begin try
 		begin tran
 			delete RecipeIngredient where RecipeID = @RecipeId
@@ -15,5 +26,8 @@ begin
 			rollback;
 			throw
 		end catch
+
+		finished:
+		return @return
 end
 go

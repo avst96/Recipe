@@ -159,8 +159,12 @@ namespace RecipeAppsTest
         public void DeleteTest()
         {
             //I only checked for related record in the RecipeIngredient table with the assumption that if it doesn't have ingredients then it doesn't have any other foreign constraints.
-            DataTable dt = SQLUtility.GetDataTable("select top 1 r.RecipeID, r.RecipeName from Recipe r left join RecipeIngredient ri on r.RecipeID = ri.RecipeID where ri.IngredientID is null ");
-            Assume.That(dt.Rows.Count == 1, "No unrelated recipe in DB, can't run test");
+            DataTable dt = SQLUtility.GetDataTable(@"select top 1 r.RecipeID, r.RecipeName 
+from Recipe r 
+left join RecipeIngredient ri on r.RecipeID = ri.RecipeID
+where ri.IngredientID is null 
+and (r.RecipeStatus = 'draft' or datediff(day, r.DateArchived, getdate()) > 30) ");
+            Assume.That(dt.Rows.Count == 1, "No unrelated recipe in DB that doesn't violate business rule, can't run test");
             DataRow r = dt.Rows[0];
             int recipeid = (int)r["RecipeID"];
 
@@ -191,7 +195,7 @@ namespace RecipeAppsTest
         }
 
         [Test]
-        public void InvalidDeleteTest()
+        public void InvalidDeleteDueToRelatedRecordsTest()
         {
             DataTable dt = SQLUtility.GetDataTable("select top 1 r.RecipeID, r.RecipeName from Recipe r join RecipeIngredient ri on r.RecipeID = ri.RecipeID");
             Assume.That(dt.Rows.Count == 1, "No unrelated recipe in DB, can't run test");
@@ -205,6 +209,27 @@ namespace RecipeAppsTest
             TestContext.WriteLine("Exception throw with message '" + msg + "'");
         }
 
+        [Test]
+        public void InvalidDeleteDueToBusinessRule()
+        {
+            DataTable dt = SQLUtility.GetDataTable(@"select top 1 r.recipeid, r.recipename from Recipe r 
+left join CookbookRecipe cr on r.RecipeID = cr.RecipeID
+left join MealCourseRecipe mcr on r.RecipeID = mcr.RecipeID
+where mcr.MealCourseRecipeID is null
+and cr.CookbookRecipeID is null
+and r.RecipeStatus<> 'draft'
+and isnull(datediff(day, r.DateArchived, getdate()), 0) < 30
+");
+            Assume.That(dt.Rows.Count == 1, "No recipe without related cookbook or meals violates business rule when deleted");
+            int recipeid = (int)dt.Rows[0]["RecipeId"];
+            string recipename = dt.Rows[0]["RecipeName"].ToString()!
+                ;
+            TestContext.WriteLine("Ensure that Recipe '" + recipename + "' with ID of " + recipeid + " throws business rule exception when delete is attempted");
+            
+            string msg = Assert.Throws<Exception>(() => RecipeSystem.DeleteRecipe(dt.Rows[0])).Message;
+
+            TestContext.WriteLine("Exception throw with message '" + msg + "'");
+        }
         [Test]
         public void InvalidSaveNotUnique()
         {
