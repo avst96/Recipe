@@ -6,6 +6,7 @@ namespace RecipeWinsForms
         int recipeid = 0;
         DataTable dtrecipe = new();
         DataRow row;
+        BindingSource bindsource = new();
         public frmSingleRecipe()
         {
             InitializeComponent();
@@ -18,6 +19,7 @@ namespace RecipeWinsForms
         public void ShowForm(int recipeid)
         {
             dtrecipe = RecipeSystem.LoadRecipe(recipeid);
+            bindsource.DataSource = dtrecipe;
 
             if (recipeid == 0)
             {
@@ -32,13 +34,13 @@ namespace RecipeWinsForms
             WindowsFormsUtiity.SetListBinding(lstUserName, dtusers, dtrecipe, "Users");
             WindowsFormsUtiity.SetListBinding(lstCuisineName, dtcuisine, dtrecipe, "Cuisine");
 
-            WindowsFormsUtiity.SetControlBinding(txtRecipeName, dtrecipe);
-            WindowsFormsUtiity.SetControlBinding(txtCalories, dtrecipe);
-            WindowsFormsUtiity.SetControlBinding(dtpDateDrafted, dtrecipe);
-            WindowsFormsUtiity.SetControlBinding(txtDatePublished, dtrecipe);
-            WindowsFormsUtiity.SetControlBinding(txtDateArchived, dtrecipe);
-            WindowsFormsUtiity.SetControlBinding(lblRecipeStatus, dtrecipe);
-            WindowsFormsUtiity.SetControlBinding(lblRecipePic, dtrecipe);
+            WindowsFormsUtiity.SetControlBinding(txtRecipeName, bindsource);
+            WindowsFormsUtiity.SetControlBinding(txtCalories, bindsource);
+            WindowsFormsUtiity.SetControlBinding(dtpDateDrafted, bindsource);
+            WindowsFormsUtiity.SetControlBinding(txtDatePublished, bindsource);
+            WindowsFormsUtiity.SetControlBinding(txtDateArchived, bindsource);
+            WindowsFormsUtiity.SetControlBinding(lblRecipeStatus, bindsource);
+            WindowsFormsUtiity.SetControlBinding(lblRecipePic, bindsource);
 
             //Setting the row here so I shouldn't have to do it in 2 other places, so I am doing it here where it will run upon start and storing it in a variable for the entire form
             row = dtrecipe.Rows[0];
