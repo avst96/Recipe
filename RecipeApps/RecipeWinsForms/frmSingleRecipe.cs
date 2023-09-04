@@ -26,8 +26,9 @@ namespace RecipeWinsForms
                 dtrecipe.Rows.Add();
                 dtpDateDrafted.Format = DateTimePickerFormat.Custom;
             }
+#if DEBUG
             SQLUtility.DebugPrintDataTable(dtrecipe);
-
+#endif 
             DataTable dtusers = RecipeSystem.GetUserList();
             DataTable dtcuisine = RecipeSystem.GetCuisineList();
 
