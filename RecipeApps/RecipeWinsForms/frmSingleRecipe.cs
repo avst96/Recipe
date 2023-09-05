@@ -54,7 +54,7 @@ namespace RecipeWinsForms
             Application.UseWaitCursor = true;
             try
             {
-                RecipeSystem.SaveRecipe(dtrecipe, row, recipeid);
+                RecipeSystem.SaveRecipe(dtrecipe, row);
                 Close();
             }
             catch (Exception ex)

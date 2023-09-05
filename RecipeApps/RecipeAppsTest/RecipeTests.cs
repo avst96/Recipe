@@ -101,7 +101,7 @@ namespace RecipeAppsTest
 
             if (isinsert)
             {
-                dt = SQLUtility.GetDataTable("select UsersID , CuisineID, RecipeName, Calories, DateDrafted from Recipe where recipeid = " + recipeid);
+                dt = SQLUtility.GetDataTable("select RecipeId, UsersID , CuisineID, RecipeName, Calories, DateDrafted from Recipe where recipeid = " + recipeid);
                 Assume.That(dt.Rows.Count == 0);
                 r = dt.Rows.Add();
                 recipename += " " + newtime;
@@ -120,7 +120,7 @@ namespace RecipeAppsTest
 
                 TestContext.WriteLine("Ensure that Recipe '" + oldrecipename
                     + "' gets updated to the following: RecipeName = " + recipename + ", "
-                    + "Calories = " + calories + ", DateDrafted = " + newtime);
+                    + "Calories = " + calories);
             }
 
             int userid = SQLUtility.GetFirstColumnFirstRowValue("select top 1 usersid from users");
@@ -135,7 +135,7 @@ namespace RecipeAppsTest
             r["Calories"] = calories;
             r["DateDrafted"] = newtime;
 
-            RecipeSystem.SaveRecipe(dt, r, recipeid);
+            RecipeSystem.SaveRecipe(dt, r);
 
             DataTable newdt;
             if (isinsert)
@@ -149,9 +149,9 @@ namespace RecipeAppsTest
                 newdt = SQLUtility.GetDataTable("select RecipeName, Calories, DateDrafted from recipe where recipeid = " + recipeid);
                 DataRow newr = newdt.Rows[0];
 
-                Assert.IsTrue(newr["RecipeName"].ToString() == recipename && (int)newr["Calories"] == calories && (DateTime)newr["Datedrafted"] == newtime, "Not all values where updated.");
+                Assert.IsTrue(newr["RecipeName"].ToString() == recipename && (int)newr["Calories"] == calories, "Not all values where updated.");
                 TestContext.WriteLine("Recipe with name " + oldrecipename + " was updated with following info : RecipeName = " + recipename + ", "
-                    + "Calories = " + calories + ", DateDrafted = " + newtime);
+                    + "Calories = " + calories);
             }
 
         }
@@ -237,7 +237,7 @@ and isnull(datediff(day, r.DateArchived, getdate()), 0) < 30
             Assume.That(dt.Rows.Count > 0, "No unrelated recipe in DB, can't run test");
             DataRow row = dt.Rows[0];
             TestContext.WriteLine("Ensure an exception is thrown, with a formatted message");
-            string msg = Assert.Throws<Exception>(() => RecipeSystem.SaveRecipe(dt, row, 0)).Message;
+            string msg = Assert.Throws<Exception>(() => RecipeSystem.SaveRecipe(dt, row)).Message;
             TestContext.WriteLine("Exception throw with message '" + msg + "'");
         }
 
@@ -250,7 +250,7 @@ and isnull(datediff(day, r.DateArchived, getdate()), 0) < 30
 
             row["RecipeName"] = " ";
             TestContext.WriteLine("Ensure an exception is thrown, with a formatted message");
-            string msg = Assert.Throws<Exception>(() => RecipeSystem.SaveRecipe(dt, row, 0)).Message;
+            string msg = Assert.Throws<Exception>(() => RecipeSystem.SaveRecipe(dt, row)).Message;
             TestContext.WriteLine("Exception throw with message '" + msg + "'");
         }
     }

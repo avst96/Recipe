@@ -48,30 +48,31 @@ namespace RecipeAppSystem
             SQLUtility.ExecuteSQL(cmd);
         }
 
-        public static void SaveRecipe(DataTable dt, DataRow row, int id)
+        public static void SaveRecipe(DataTable dt, DataRow row)
         {
 #if DEBUG
             SQLUtility.DebugPrintDataTable(dt);
 #endif
 
-            string sql;
+            //string sql;
 
-            if (id > 0)
-            {
-                sql = "update Recipe " +
-                    $"set UsersID = {row["UsersID"]}, CuisineID = {row["CuisineID"]}," +
-                    $"RecipeName = '{row["RecipeName"]}', Calories = {row["Calories"]}," +
-                    $"DateDrafted = '{row["DateDrafted"]}' " +
+            //if (id > 0)
+            //{
+            //    sql = "update Recipe " +
+            //        $"set UsersID = {row["UsersID"]}, CuisineID = {row["CuisineID"]}," +
+            //        $"RecipeName = '{row["RecipeName"]}', Calories = {row["Calories"]}," +
+            //        $"DateDrafted = '{row["DateDrafted"]}' " +
 
-                    $"where RecipeID = {row["RecipeID"]}";
-            }
-            else
-            {
-                sql = "insert Recipe (UsersID, CuisineID, RecipeName, Calories, DateDrafted)" +
-                    Environment.NewLine +
-                    $"select {row["UsersID"]}, {row["CuisineID"]}, '{row["RecipeName"]}', {row["Calories"]}, '{row["DateDrafted"]}'";
-            }
-            SQLUtility.ExecuteSQL(sql);
+            //        $"where RecipeID = {row["RecipeID"]}";
+            //}
+            //else
+            //{
+            //    sql = "insert Recipe (UsersID, CuisineID, RecipeName, Calories, DateDrafted)" +
+            //        Environment.NewLine +
+            //        $"select {row["UsersID"]}, {row["CuisineID"]}, '{row["RecipeName"]}', {row["Calories"]}, '{row["DateDrafted"]}'";
+            //}
+            //SQLUtility.ExecuteSQL(sql);
+            SQLUtility.SaveDataRow(row, "RecipeUpdate");
         }
     }
 }

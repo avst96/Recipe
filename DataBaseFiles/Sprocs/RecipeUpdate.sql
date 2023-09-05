@@ -6,8 +6,8 @@ create or alter proc dbo.RecipeUpdate (
 	@UsersId int,
 	@CuisineId int,
 	@RecipeName varchar (50),
-	@Calories int,
-	--@Message varchar(500) = '' output
+	@Calories int --,
+	--@Message varchar(500) = '' output //not needed currently
 	)
 as
 begin
@@ -16,7 +16,7 @@ begin
 
 	if(@RecipeId = 0)
 	begin
-		insert UsersId, CuisineId, RecipeName, Calories
+		insert Recipe (UsersId, CuisineId, RecipeName, Calories )
 			values (@UsersId, @CuisineId, @RecipeName, @Calories)
 
 	select @RecipeId = scope_Identity()
@@ -29,8 +29,9 @@ begin
 	UsersId = @UsersId, 
 	CuisineId = @CuisineId, 
 	RecipeName = @RecipeName, 
-	Calories = @Calories, 
+	Calories = @Calories 
 	from recipe r
 	where r.RecipeId = @RecipeId
+	end
 end
 go 
