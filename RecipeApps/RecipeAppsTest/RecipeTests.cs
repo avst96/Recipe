@@ -142,7 +142,7 @@ namespace RecipeAppsTest
             {
                 newdt = SQLUtility.GetDataTable("select RecipeName, Calories, DateDrafted from recipe where recipename = '" + recipename + "'");
                 Assert.IsTrue(newdt.Rows[0][0].ToString() == recipename, "No recipe with a name of " + recipename + " was found in DB");
-                TestContext.WriteLine("New recipe with name of " + recipename + " was inserted in the DB");
+                TestContext.WriteLine("New recipe with name of " + recipename + " and RecipeId of "+ r["RecipeId"] +" was inserted in the DB");
             }
             else
             {
