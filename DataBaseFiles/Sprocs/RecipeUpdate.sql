@@ -7,11 +7,11 @@ create or alter proc dbo.RecipeUpdate (
 	@CuisineId int,
 	@RecipeName varchar (50),
 	@Calories int --,
-	--@Message varchar(500) = '' output //not needed currently
+	--@Message varchar(500) = '' output --/not needed currently
 	)
 as
 begin
-	--declare @return = int 0
+	declare @return int = 0
 	select @RecipeId = isnull(@RecipeId,0)
 
 	if(@RecipeId = 0)
@@ -33,5 +33,7 @@ begin
 	from recipe r
 	where r.RecipeId = @RecipeId
 	end
+
+	return @return
 end
 go 
