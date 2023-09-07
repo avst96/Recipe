@@ -55,7 +55,7 @@ namespace RecipeWinsForms
             try
             {
                 RecipeSystem.SaveRecipe(dtrecipe, row);
-                Close();
+                //Close();
             }
             catch (Exception ex)
             {
