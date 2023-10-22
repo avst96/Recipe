@@ -15,11 +15,11 @@ begin
 		goto finished
 		end
 
-	begin try
-		begin tran
-			delete RecipeIngredient where RecipeID = @RecipeId
-			delete Directions where RecipeID = @RecipeId
-			delete Recipe where RecipeID = @recipeid
+		begin try
+			begin tran
+				delete RecipeIngredient where RecipeID = @RecipeId
+				delete Directions where RecipeID = @RecipeId
+				delete Recipe where RecipeID = @recipeid
 			commit
 		end try
 		begin catch
