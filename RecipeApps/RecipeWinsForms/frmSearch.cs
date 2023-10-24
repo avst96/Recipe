@@ -6,7 +6,7 @@
         public frmSearch()
         {
             InitializeComponent();
-            WindowsFormsUtiity.FormatGridForSearchResults(gRecipes);
+            WindowsFormsUtility.FormatGridForSearchResults(gRecipes, "Recipe");
             btnSearch.Click += BtnSearch_Click;
             btnNew.Click += BtnNew_Click;
             gRecipes.CellDoubleClick += GRecipes_CellDoubleClick;

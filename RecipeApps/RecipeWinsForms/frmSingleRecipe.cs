@@ -32,16 +32,16 @@ namespace RecipeWinsForms
             DataTable dtusers = RecipeSystem.GetUserList();
             DataTable dtcuisine = RecipeSystem.GetCuisineList();
 
-            WindowsFormsUtiity.SetListBinding(lstUserName, dtusers, dtrecipe, "Users");
-            WindowsFormsUtiity.SetListBinding(lstCuisineName, dtcuisine, dtrecipe, "Cuisine");
+            WindowsFormsUtility.SetListBinding(lstUserName, dtusers, dtrecipe, "Users");
+            WindowsFormsUtility.SetListBinding(lstCuisineName, dtcuisine, dtrecipe, "Cuisine");
 
-            WindowsFormsUtiity.SetControlBinding(txtRecipeName, bindsource);
-            WindowsFormsUtiity.SetControlBinding(txtCalories, bindsource);
-            WindowsFormsUtiity.SetControlBinding(dtpDateDrafted, bindsource);
-            WindowsFormsUtiity.SetControlBinding(txtDatePublished, bindsource);
-            WindowsFormsUtiity.SetControlBinding(txtDateArchived, bindsource);
-            WindowsFormsUtiity.SetControlBinding(lblRecipeStatus, bindsource);
-            WindowsFormsUtiity.SetControlBinding(lblRecipePic, bindsource);
+            WindowsFormsUtility.SetControlBinding(txtRecipeName, bindsource);
+            WindowsFormsUtility.SetControlBinding(txtCalories, bindsource);
+            WindowsFormsUtility.SetControlBinding(dtpDateDrafted, bindsource);
+            WindowsFormsUtility.SetControlBinding(txtDatePublished, bindsource);
+            WindowsFormsUtility.SetControlBinding(txtDateArchived, bindsource);
+            WindowsFormsUtility.SetControlBinding(lblRecipeStatus, bindsource);
+            WindowsFormsUtility.SetControlBinding(lblRecipePic, bindsource);
 
             //Setting the row here so I shouldn't have to do it in 2 other places, so I am doing it here where it will run upon start and storing it in a variable for the entire form
             row = dtrecipe.Rows[0];
