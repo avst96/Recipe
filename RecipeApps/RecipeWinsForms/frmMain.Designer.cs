@@ -31,7 +31,6 @@
             mnuMain = new MenuStrip();
             mnuFile = new ToolStripMenuItem();
             MnuDashboard = new ToolStripMenuItem();
-            toolStrip1 = new ToolStrip();
             mnuRecipe = new ToolStripMenuItem();
             mnuListRecipe = new ToolStripMenuItem();
             mnuNewRecipe = new ToolStripMenuItem();
@@ -47,6 +46,7 @@
             mnuWindows = new ToolStripMenuItem();
             mnuCascadeWindow = new ToolStripMenuItem();
             mnuTileWindow = new ToolStripMenuItem();
+            tsMain = new ToolStrip();
             mnuMain.SuspendLayout();
             SuspendLayout();
             // 
@@ -71,16 +71,8 @@
             // MnuDashboard
             // 
             MnuDashboard.Name = "MnuDashboard";
-            MnuDashboard.Size = new Size(180, 22);
+            MnuDashboard.Size = new Size(133, 22);
             MnuDashboard.Text = "&Dashboard";
-            // 
-            // toolStrip1
-            // 
-            toolStrip1.Location = new Point(0, 25);
-            toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(1029, 25);
-            toolStrip1.TabIndex = 2;
-            toolStrip1.Text = "toolStrip1";
             // 
             // mnuRecipe
             // 
@@ -93,19 +85,19 @@
             // mnuListRecipe
             // 
             mnuListRecipe.Name = "mnuListRecipe";
-            mnuListRecipe.Size = new Size(180, 22);
+            mnuListRecipe.Size = new Size(146, 22);
             mnuListRecipe.Text = "&List";
             // 
             // mnuNewRecipe
             // 
             mnuNewRecipe.Name = "mnuNewRecipe";
-            mnuNewRecipe.Size = new Size(180, 22);
+            mnuNewRecipe.Size = new Size(146, 22);
             mnuNewRecipe.Text = "&New Recipe";
             // 
             // mnuCloneRecipe
             // 
             mnuCloneRecipe.Name = "mnuCloneRecipe";
-            mnuCloneRecipe.Size = new Size(180, 22);
+            mnuCloneRecipe.Size = new Size(146, 22);
             mnuCloneRecipe.Text = "&Clone Recipe";
             // 
             // mnuMeals
@@ -118,7 +110,7 @@
             // mnuListMeals
             // 
             mnuListMeals.Name = "mnuListMeals";
-            mnuListMeals.Size = new Size(180, 22);
+            mnuListMeals.Size = new Size(93, 22);
             mnuListMeals.Text = "&List";
             // 
             // mnuCookbooks
@@ -131,19 +123,19 @@
             // mnuListCookbooks
             // 
             mnuListCookbooks.Name = "mnuListCookbooks";
-            mnuListCookbooks.Size = new Size(180, 22);
+            mnuListCookbooks.Size = new Size(159, 22);
             mnuListCookbooks.Text = "&List";
             // 
             // mnuNewCookbook
             // 
             mnuNewCookbook.Name = "mnuNewCookbook";
-            mnuNewCookbook.Size = new Size(180, 22);
+            mnuNewCookbook.Size = new Size(159, 22);
             mnuNewCookbook.Text = "&New Cookbook";
             // 
             // mnuAutoCreateCookbook
             // 
             mnuAutoCreateCookbook.Name = "mnuAutoCreateCookbook";
-            mnuAutoCreateCookbook.Size = new Size(180, 22);
+            mnuAutoCreateCookbook.Size = new Size(159, 22);
             mnuAutoCreateCookbook.Text = "&Auto-Create";
             // 
             // mnuData
@@ -156,7 +148,7 @@
             // mnuEditData
             // 
             mnuEditData.Name = "mnuEditData";
-            mnuEditData.Size = new Size(180, 22);
+            mnuEditData.Size = new Size(124, 22);
             mnuEditData.Text = "&Edit Data";
             // 
             // mnuWindows
@@ -169,29 +161,38 @@
             // mnuCascadeWindow
             // 
             mnuCascadeWindow.Name = "mnuCascadeWindow";
-            mnuCascadeWindow.Size = new Size(180, 22);
+            mnuCascadeWindow.Size = new Size(118, 22);
             mnuCascadeWindow.Text = "&Cascade";
             // 
             // mnuTileWindow
             // 
             mnuTileWindow.Name = "mnuTileWindow";
-            mnuTileWindow.Size = new Size(180, 22);
+            mnuTileWindow.Size = new Size(118, 22);
             mnuTileWindow.Text = "&Tile";
+            // 
+            // tsMain
+            // 
+            tsMain.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            tsMain.Location = new Point(0, 25);
+            tsMain.Name = "tsMain";
+            tsMain.Size = new Size(1029, 25);
+            tsMain.TabIndex = 2;
+            tsMain.Text = "toolStrip1";
             // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1029, 630);
-            Controls.Add(toolStrip1);
+            Controls.Add(tsMain);
             Controls.Add(mnuMain);
             Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             IsMdiContainer = true;
             MainMenuStrip = mnuMain;
             Margin = new Padding(4);
             Name = "frmMain";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Recipe";
-            WindowState = FormWindowState.Maximized;
             mnuMain.ResumeLayout(false);
             mnuMain.PerformLayout();
             ResumeLayout(false);
@@ -201,7 +202,7 @@
         #endregion
 
         private MenuStrip mnuMain;
-        private ToolStrip toolStrip1;
+        private ToolStrip tsMain;
         private ToolStripMenuItem mnuFile;
         private ToolStripMenuItem MnuDashboard;
         private ToolStripMenuItem mnuRecipe;

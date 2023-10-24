@@ -47,7 +47,7 @@ namespace RecipeWinsForms
             row = dtrecipe.Rows[0];
             this.recipeid = recipeid;
 
-            Show();
+            ((frmMain)MdiParent).OpenForm(typeof(frmSingleRecipe));
         }
         private void Save()
         {
