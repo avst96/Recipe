@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -15,11 +16,17 @@ namespace RecipeWinsForms
         public frmDashboard()
         {
             InitializeComponent();
+            BindData();
         }
 
         private void BindData()
         {
+            //Move out some to other method class
+            SqlCommand cmd = SQLUtility.GetSqlCommand("DashboardGet");
+            DataTable dt = SQLUtility.GetDataTable(cmd);
+            gData.DataSource = dt;
             
+            WindowsFormsUtility.FormatGridForSearchResults(gData);
         }
     }
 }
