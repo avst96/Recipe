@@ -35,10 +35,18 @@
             btnRecipeList = new Button();
             btnMealList = new Button();
             btnCookbookList = new Button();
-            gData = new DataGridView();
+            tblDashboardResults = new TableLayoutPanel();
+            btnCookbooksCount = new Button();
+            btnCookbooks = new Button();
+            btnMealsCount = new Button();
+            btnMeals = new Button();
+            btnRecipesCount = new Button();
+            btnRecipes = new Button();
+            btnNumberHeader = new Button();
+            btnTypeHeader = new Button();
             tblMain.SuspendLayout();
             tblButtons.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)gData).BeginInit();
+            tblDashboardResults.SuspendLayout();
             SuspendLayout();
             // 
             // tblMain
@@ -48,7 +56,7 @@
             tblMain.Controls.Add(lblHeader, 0, 1);
             tblMain.Controls.Add(lblDescription, 0, 2);
             tblMain.Controls.Add(tblButtons, 0, 4);
-            tblMain.Controls.Add(gData, 0, 3);
+            tblMain.Controls.Add(tblDashboardResults, 0, 3);
             tblMain.Dock = DockStyle.Fill;
             tblMain.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             tblMain.Location = new Point(0, 0);
@@ -142,18 +150,158 @@
             btnCookbookList.Text = "Cookbook List";
             btnCookbookList.UseVisualStyleBackColor = true;
             // 
-            // gData
+            // tblDashboardResults
             // 
-            gData.AllowUserToAddRows = false;
-            gData.AllowUserToDeleteRows = false;
-            gData.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
-            gData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            gData.Location = new Point(238, 199);
-            gData.Name = "gData";
-            gData.ReadOnly = true;
-            gData.RowTemplate.Height = 25;
-            gData.Size = new Size(323, 198);
-            gData.TabIndex = 2;
+            tblDashboardResults.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            tblDashboardResults.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+            tblDashboardResults.ColumnCount = 2;
+            tblDashboardResults.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tblDashboardResults.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tblDashboardResults.Controls.Add(btnCookbooksCount, 1, 3);
+            tblDashboardResults.Controls.Add(btnCookbooks, 0, 3);
+            tblDashboardResults.Controls.Add(btnMealsCount, 1, 2);
+            tblDashboardResults.Controls.Add(btnMeals, 0, 2);
+            tblDashboardResults.Controls.Add(btnRecipesCount, 1, 1);
+            tblDashboardResults.Controls.Add(btnRecipes, 0, 1);
+            tblDashboardResults.Controls.Add(btnNumberHeader, 1, 0);
+            tblDashboardResults.Controls.Add(btnTypeHeader, 0, 0);
+            tblDashboardResults.Location = new Point(280, 196);
+            tblDashboardResults.Margin = new Padding(0);
+            tblDashboardResults.Name = "tblDashboardResults";
+            tblDashboardResults.RowCount = 4;
+            tblDashboardResults.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+            tblDashboardResults.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+            tblDashboardResults.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+            tblDashboardResults.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+            tblDashboardResults.Size = new Size(240, 204);
+            tblDashboardResults.TabIndex = 4;
+            // 
+            // btnCookbooksCount
+            // 
+            btnCookbooksCount.Dock = DockStyle.Fill;
+            btnCookbooksCount.FlatAppearance.MouseDownBackColor = SystemColors.Control;
+            btnCookbooksCount.FlatAppearance.MouseOverBackColor = SystemColors.Control;
+            btnCookbooksCount.FlatStyle = FlatStyle.Flat;
+            btnCookbooksCount.Location = new Point(120, 151);
+            btnCookbooksCount.Margin = new Padding(0);
+            btnCookbooksCount.Name = "btnCookbooksCount";
+            btnCookbooksCount.Size = new Size(119, 52);
+            btnCookbooksCount.TabIndex = 7;
+            btnCookbooksCount.TabStop = false;
+            btnCookbooksCount.Text = " ";
+            btnCookbooksCount.UseVisualStyleBackColor = true;
+            // 
+            // btnCookbooks
+            // 
+            btnCookbooks.Dock = DockStyle.Fill;
+            btnCookbooks.FlatAppearance.MouseDownBackColor = SystemColors.Control;
+            btnCookbooks.FlatAppearance.MouseOverBackColor = SystemColors.Control;
+            btnCookbooks.FlatStyle = FlatStyle.Flat;
+            btnCookbooks.ForeColor = Color.Black;
+            btnCookbooks.Location = new Point(1, 151);
+            btnCookbooks.Margin = new Padding(0);
+            btnCookbooks.Name = "btnCookbooks";
+            btnCookbooks.Size = new Size(118, 52);
+            btnCookbooks.TabIndex = 6;
+            btnCookbooks.TabStop = false;
+            btnCookbooks.Text = "Cookbooks";
+            btnCookbooks.UseVisualStyleBackColor = true;
+            // 
+            // btnMealsCount
+            // 
+            btnMealsCount.Dock = DockStyle.Fill;
+            btnMealsCount.FlatAppearance.MouseDownBackColor = SystemColors.Control;
+            btnMealsCount.FlatAppearance.MouseOverBackColor = SystemColors.Control;
+            btnMealsCount.FlatStyle = FlatStyle.Flat;
+            btnMealsCount.Location = new Point(120, 101);
+            btnMealsCount.Margin = new Padding(0);
+            btnMealsCount.Name = "btnMealsCount";
+            btnMealsCount.Size = new Size(119, 49);
+            btnMealsCount.TabIndex = 5;
+            btnMealsCount.TabStop = false;
+            btnMealsCount.Text = " ";
+            btnMealsCount.UseVisualStyleBackColor = true;
+            // 
+            // btnMeals
+            // 
+            btnMeals.Dock = DockStyle.Fill;
+            btnMeals.FlatAppearance.MouseDownBackColor = SystemColors.Control;
+            btnMeals.FlatAppearance.MouseOverBackColor = SystemColors.Control;
+            btnMeals.FlatStyle = FlatStyle.Flat;
+            btnMeals.ForeColor = Color.Black;
+            btnMeals.Location = new Point(1, 101);
+            btnMeals.Margin = new Padding(0);
+            btnMeals.Name = "btnMeals";
+            btnMeals.Size = new Size(118, 49);
+            btnMeals.TabIndex = 4;
+            btnMeals.TabStop = false;
+            btnMeals.Text = "Meals";
+            btnMeals.UseVisualStyleBackColor = true;
+            // 
+            // btnRecipesCount
+            // 
+            btnRecipesCount.Dock = DockStyle.Fill;
+            btnRecipesCount.FlatAppearance.MouseDownBackColor = SystemColors.Control;
+            btnRecipesCount.FlatAppearance.MouseOverBackColor = SystemColors.Control;
+            btnRecipesCount.FlatStyle = FlatStyle.Flat;
+            btnRecipesCount.Location = new Point(120, 51);
+            btnRecipesCount.Margin = new Padding(0);
+            btnRecipesCount.Name = "btnRecipesCount";
+            btnRecipesCount.Size = new Size(119, 49);
+            btnRecipesCount.TabIndex = 3;
+            btnRecipesCount.TabStop = false;
+            btnRecipesCount.Text = " ";
+            btnRecipesCount.UseVisualStyleBackColor = true;
+            // 
+            // btnRecipes
+            // 
+            btnRecipes.Dock = DockStyle.Fill;
+            btnRecipes.FlatAppearance.MouseDownBackColor = SystemColors.Control;
+            btnRecipes.FlatAppearance.MouseOverBackColor = SystemColors.Control;
+            btnRecipes.FlatStyle = FlatStyle.Flat;
+            btnRecipes.ForeColor = Color.Black;
+            btnRecipes.Location = new Point(1, 51);
+            btnRecipes.Margin = new Padding(0);
+            btnRecipes.Name = "btnRecipes";
+            btnRecipes.Size = new Size(118, 49);
+            btnRecipes.TabIndex = 2;
+            btnRecipes.TabStop = false;
+            btnRecipes.Text = "Recipes";
+            btnRecipes.UseVisualStyleBackColor = true;
+            // 
+            // btnNumberHeader
+            // 
+            btnNumberHeader.BackColor = SystemColors.ActiveBorder;
+            btnNumberHeader.Dock = DockStyle.Fill;
+            btnNumberHeader.FlatAppearance.MouseDownBackColor = SystemColors.ActiveBorder;
+            btnNumberHeader.FlatAppearance.MouseOverBackColor = SystemColors.ActiveBorder;
+            btnNumberHeader.FlatStyle = FlatStyle.Flat;
+            btnNumberHeader.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnNumberHeader.Location = new Point(120, 1);
+            btnNumberHeader.Margin = new Padding(0);
+            btnNumberHeader.Name = "btnNumberHeader";
+            btnNumberHeader.Size = new Size(119, 49);
+            btnNumberHeader.TabIndex = 1;
+            btnNumberHeader.TabStop = false;
+            btnNumberHeader.Text = "Number";
+            btnNumberHeader.UseVisualStyleBackColor = false;
+            // 
+            // btnTypeHeader
+            // 
+            btnTypeHeader.BackColor = SystemColors.ActiveBorder;
+            btnTypeHeader.Dock = DockStyle.Fill;
+            btnTypeHeader.FlatAppearance.MouseDownBackColor = SystemColors.ActiveBorder;
+            btnTypeHeader.FlatAppearance.MouseOverBackColor = SystemColors.ActiveBorder;
+            btnTypeHeader.FlatStyle = FlatStyle.Flat;
+            btnTypeHeader.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnTypeHeader.Location = new Point(1, 1);
+            btnTypeHeader.Margin = new Padding(0);
+            btnTypeHeader.Name = "btnTypeHeader";
+            btnTypeHeader.Size = new Size(118, 49);
+            btnTypeHeader.TabIndex = 0;
+            btnTypeHeader.TabStop = false;
+            btnTypeHeader.Text = "Type";
+            btnTypeHeader.UseVisualStyleBackColor = false;
             // 
             // frmDashboard
             // 
@@ -168,7 +316,7 @@
             tblMain.PerformLayout();
             tblButtons.ResumeLayout(false);
             tblButtons.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)gData).EndInit();
+            tblDashboardResults.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -177,10 +325,18 @@
         private TableLayoutPanel tblMain;
         private Label lblHeader;
         private Label lblDescription;
-        private DataGridView gData;
         private TableLayoutPanel tblButtons;
         private Button btnRecipeList;
         private Button btnMealList;
         private Button btnCookbookList;
+        private TableLayoutPanel tblDashboardResults;
+        private Button btnCookbooksCount;
+        private Button btnCookbooks;
+        private Button btnMealsCount;
+        private Button btnMeals;
+        private Button btnRecipesCount;
+        private Button btnRecipes;
+        private Button btnNumberHeader;
+        private Button btnTypeHeader;
     }
 }

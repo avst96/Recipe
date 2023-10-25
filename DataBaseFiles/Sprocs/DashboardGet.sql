@@ -8,7 +8,7 @@ as
 begin 
 	declare @return int = 0
 
-	select DashboardType = 'Recipe', DashboardText = count(*)  
+	select DashboardType = 'Recipes', DashboardText = count(*)  
 	from Recipe r 
 	union select DashboardType = 'Meals', DashboardText = count(*) 
 	from Meal m 

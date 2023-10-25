@@ -25,7 +25,9 @@
                     recipeid = (int)gRecipes.Rows[rowindex].Cells["RecipeID"].Value;
                 }
                 frmSingleRecipe frm = new();
-                frm.ShowForm(recipeid);
+
+                //!!!!  The following won't work because it was changed and will not show the form. If using this form, change.
+                frm.LoadForm(recipeid);
             }
         }
 

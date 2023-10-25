@@ -7,9 +7,14 @@
             InitializeComponent();
             this.Shown += FrmMain_Shown;
             MnuDashboard.Click += MnuDashboard_Click;
+            mnuListRecipe.Click += MnuListRecipe_Click;
+            mnuNewRecipe.Click += MnuNewRecipe_Click;
+        
         }
 
-        public void OpenForm(Type frmtype)
+      
+
+        public void OpenForm(Type frmtype, int pkvalue = 0)
         {
             bool isopen = WindowsFormsUtility.IsFormOpen(frmtype);
             if (isopen == false)
@@ -22,7 +27,13 @@
                 }
                 else if (frmtype == typeof(frmSingleRecipe))
                 {
-                    newfrm = new frmSingleRecipe();
+                    frmSingleRecipe f = new();
+                    f.LoadForm(pkvalue); 
+                    newfrm = f;
+                }
+                else if (frmtype == typeof(frmRecipeList))
+                {
+                    newfrm = new frmRecipeList();
                 }
                 if (newfrm != null)
                 {
@@ -31,6 +42,7 @@
                     newfrm.FormClosed += Newfrm_FormClosed;
                     newfrm.Show();
                 }
+                WindowsFormsUtility.SetUpNav(tsMain);
             }
         }
 
@@ -42,12 +54,20 @@
         private void FrmMain_Shown(object? sender, EventArgs e)
         {
             OpenForm(typeof(frmDashboard));
-            WindowsFormsUtility.SetUpNav(tsMain);
+            
         }
 
         private void MnuDashboard_Click(object? sender, EventArgs e)
         {
             OpenForm(typeof(frmDashboard));
+        }
+        private void MnuListRecipe_Click(object? sender, EventArgs e)
+        {
+            OpenForm(typeof(frmRecipeList));
+        }
+        private void MnuNewRecipe_Click(object? sender, EventArgs e)
+        {
+            OpenForm(typeof(frmSingleRecipe));
         }
     }
 }
