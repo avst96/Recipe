@@ -6,9 +6,13 @@ create or alter proc dbo.RecipeUpdate (
 	@UsersId int,
 	@CuisineId int,
 	@RecipeName varchar (50),
-	@Calories int --,
-	--@Message varchar(500) = '' output --/not needed currently
-	)
+	@Calories int ,
+	@RecipeStatus varchar(9) = '' output,
+	@DateDrafted datetime output,
+	@DatePublished date output,
+	@DateArchived date output,
+	@Message varchar(500) = '' output
+)
 as
 begin
 	declare @return int = 0
@@ -20,6 +24,8 @@ begin
 			values (@UsersId, @CuisineId, @RecipeName, @Calories)
 
 	select @RecipeId = scope_Identity()
+
+	
 	end
 
 	else
@@ -33,6 +39,16 @@ begin
 	from recipe r
 	where r.RecipeId = @RecipeId
 	end
+
+
+	select 
+		@DateDrafted = r.DateDrafted,
+		@DatePublished = r.DatePublished,
+		@DateArchived = r.DateArchived,
+		@RecipeStatus = r.RecipeStatus
+	from Recipe r
+	where r.RecipeID = @RecipeId
+
 
 	return @return
 end

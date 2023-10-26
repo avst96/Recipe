@@ -1,7 +1,4 @@
-﻿using System.Data.SqlClient;
-using System.Windows.Forms.VisualStyles;
-
-namespace RecipeWinsForms
+﻿namespace RecipeWinsForms
 {
     public partial class frmDashboard : Form
     {

@@ -16,7 +16,7 @@
 
         public void OpenForm(Type frmtype, int pkvalue = 0)
         {
-            bool isopen = WindowsFormsUtility.IsFormOpen(frmtype);
+            bool isopen = WindowsFormsUtility.IsFormOpen(frmtype, pkvalue);
             if (isopen == false)
             {
                 Form? newfrm = new();
@@ -40,10 +40,16 @@
                     newfrm.MdiParent = this;
                     newfrm.WindowState = FormWindowState.Maximized;
                     newfrm.FormClosed += Newfrm_FormClosed;
+                    newfrm.TextChanged += Newfrm_TextChanged;
                     newfrm.Show();
                 }
                 WindowsFormsUtility.SetUpNav(tsMain);
             }
+        }
+
+        private void Newfrm_TextChanged(object? sender, EventArgs e)
+        {
+            WindowsFormsUtility.SetUpNav(tsMain);
         }
 
         private void Newfrm_FormClosed(object? sender, FormClosedEventArgs e)
