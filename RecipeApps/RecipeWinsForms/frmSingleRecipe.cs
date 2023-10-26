@@ -48,7 +48,7 @@ namespace RecipeWinsForms
             try
             {
                 RecipeSystem.SaveRecipe(dtrecipe, row);
-                //Close();
+                Close();
             }
             catch (Exception ex)
             {
@@ -62,7 +62,7 @@ namespace RecipeWinsForms
 
         private void Delete()
         {
-            DialogResult answer = MessageBox.Show("Are you sure you want to delete this recipe?", "Recipe App", MessageBoxButtons.YesNo);
+            DialogResult answer = MessageBox.Show("Are you sure you want to delete this recipe and all related records?", "Recipe App", MessageBoxButtons.YesNo);
             if (answer == DialogResult.No)
             {
                 return;
