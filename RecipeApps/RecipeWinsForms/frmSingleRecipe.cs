@@ -6,6 +6,7 @@ namespace RecipeWinsForms
         int recipeid = 0;
         DataTable dtrecipe = new();
         DataTable dtrecipeingredients = new();
+        DataTable dtdirections = new();
         DataRow? row;
         BindingSource bindsource = new();
         public frmSingleRecipe()
@@ -44,21 +45,31 @@ namespace RecipeWinsForms
             this.recipeid = recipeid;
 
             LoadRecipeIngredients();
-
-            //Setting the row here so I shouldn't have to do it in 2 other places, so I am doing it here where it will run upon start and storing it in a variable for the entire form
+            LoadDirections();
 
             SetEnabledButtons();
             this.Tag = recipeid;
             this.Text = GetRecipeName(row);
         }
 
+        private void LoadDirections()
+        {
+            dtdirections = RecipeChildrenRecords.LoadChildById(recipeid, "DirectionsGet", "RecipeID");
+            gSteps.Columns.Clear();
+            gSteps.DataSource = dtdirections;
+            WindowsFormsUtility.AddDeleteButtonToGrid(gSteps, "Delete");
+            WindowsFormsUtility.FormatGridForEdit(gSteps);
+        }
+
         private void LoadRecipeIngredients()
         {
             dtrecipeingredients = RecipeChildrenRecords.LoadChildById(recipeid, "RecipeIngredientGet", "RecipeId");
+            gIngredients.Columns.Clear();
+            WindowsFormsUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("MeasuringUnit", true, false), "MeasuringUnit", "Unit");
+            WindowsFormsUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("Ingredient", true, false), "Ingredient", "IngredientName");
             gIngredients.DataSource = dtrecipeingredients;
-            WindowsFormsUtility.AddDeleteButtonToGrid(gIngredients, "Delete Column");
+            WindowsFormsUtility.AddDeleteButtonToGrid(gIngredients, "Delete");
             WindowsFormsUtility.FormatGridForEdit(gIngredients);
-            WindowsFormsUtility.AddComboBoxToGrid()
         }
 
         private void Save()

@@ -11,13 +11,15 @@ begin
 
     select @IncludeBlank = isnull(@IncludeBlank,0)
 
-    select i.IngredientID, i.IngredientName
+    select i.IngredientID, i.IngredientName, 1 as OrderBy
     from Ingredient i 
-    union select 0, ' '
+    union select 0, ' ', 0
+    where @IncludeBlank = 1
+    order by OrderBy, i.IngredientName
 
     return @return
 end 
 go 
 
 
-exec IngredientGet
+exec IngredientGet @IncludeBlank = 1

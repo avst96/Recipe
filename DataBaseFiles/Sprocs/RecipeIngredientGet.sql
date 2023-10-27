@@ -23,3 +23,4 @@ select top 1 @ID = r.RecipeID from Recipe r where r.DatePublished is not null
 
 exec RecipeIngredientGet @RecipeId = @ID
 */
+

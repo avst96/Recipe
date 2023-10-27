@@ -12,10 +12,13 @@ namespace RecipeAppSystem
             return SQLUtility.GetDataTable(cmd);
         }
 
-        public static DataTable GetDataList(string tablename, bool includeblank = false)
+        public static DataTable GetDataList(string tablename, bool includeblank = false, bool usesallparam = true)
         {
             SqlCommand cmd = SQLUtility.GetSqlCommand(tablename + "Get");
+            if (usesallparam)
+            {
             SQLUtility.SetParamValue(cmd, "@All", 1);
+            }
             if (includeblank)
             {
                 SQLUtility.SetParamValue(cmd, "@IncludeBlank", 1);
