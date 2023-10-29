@@ -8,7 +8,7 @@ create or alter proc dbo.RecipeIngredientGet(
 as 
 begin
     declare @return int = 0
-        select ri.IngredientID, ri.MeasuringUnitID, ri.Amount, ri.IngredientSeq
+        select ri.RecipeIngredientID, ri.IngredientID, ri.MeasuringUnitID, ri.Amount, ri.IngredientSeq
         from RecipeIngredient ri 
         where ri.RecipeID = @RecipeId
         order by ri.IngredientSeq

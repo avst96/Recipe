@@ -1,16 +1,12 @@
 ﻿using CPUFramework;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RecipeAppSystem
 {
     public class RecipeChildrenRecords
     {
+        public enum ChildRecordEnum { Ingredient, Steps }
         public static DataTable LoadChildById(int primarykey, string sprocname, string idcolumnname)
         {
             SqlCommand cmd = SQLUtility.GetSqlCommand(sprocname);
@@ -18,6 +14,15 @@ namespace RecipeAppSystem
             return SQLUtility.GetDataTable(cmd);
         }
 
+        public static void DeleteChildRecord(ChildRecordEnum recordtodelete, int recordid)
+        {
+            //Need to make sure that the params and sproc are like in sproc
+            string sprocname = recordtodelete == ChildRecordEnum.Ingredient ? "RecipeIngredientDelete" : "DirectionsDelete";
+            string param = recordtodelete == ChildRecordEnum.Ingredient ? "@RecipeIngredientId" : "@DirectionsId";
 
+            SqlCommand cmd = SQLUtility.GetSqlCommand(sprocname);
+            cmd.Parameters[param].Value = recordid;
+            SQLUtility.ExecuteSQL(cmd);
+        }
     }
 }
