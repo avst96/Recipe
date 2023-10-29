@@ -16,7 +16,6 @@ namespace RecipeAppSystem
 
         public static void DeleteChildRecord(ChildRecordEnum recordtodelete, int recordid)
         {
-            //Need to make sure that the params and sproc are like in sproc
             string sprocname = recordtodelete == ChildRecordEnum.Ingredient ? "RecipeIngredientDelete" : "DirectionsDelete";
             string param = recordtodelete == ChildRecordEnum.Ingredient ? "@RecipeIngredientId" : "@DirectionsId";
 
