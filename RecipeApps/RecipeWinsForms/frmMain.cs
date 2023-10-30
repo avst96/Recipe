@@ -9,10 +9,10 @@
             MnuDashboard.Click += MnuDashboard_Click;
             mnuListRecipe.Click += MnuListRecipe_Click;
             mnuNewRecipe.Click += MnuNewRecipe_Click;
-        
+
         }
 
-      
+
 
         public void OpenForm(Type frmtype, int pkvalue = 0)
         {
@@ -28,7 +28,6 @@
                 else if (frmtype == typeof(frmSingleRecipe))
                 {
                     frmSingleRecipe f = new();
-                    f.LoadForm(pkvalue); 
                     newfrm = f;
                 }
                 else if (frmtype == typeof(frmRecipeList))
@@ -42,7 +41,15 @@
                     newfrm.FormClosed += Newfrm_FormClosed;
                     newfrm.TextChanged += Newfrm_TextChanged;
                     newfrm.Show();
+
+                    //The following is placed here because putting it in else if caused the columns to display in wrong order 
+                    if (frmtype == typeof(frmSingleRecipe))
+                    {
+                        ((frmSingleRecipe)newfrm).LoadForm(pkvalue);
+                    }
                 }
+
+
                 WindowsFormsUtility.SetUpNav(tsMain);
             }
         }
@@ -60,7 +67,7 @@
         private void FrmMain_Shown(object? sender, EventArgs e)
         {
             OpenForm(typeof(frmDashboard));
-            
+
         }
 
         private void MnuDashboard_Click(object? sender, EventArgs e)

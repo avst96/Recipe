@@ -17,6 +17,7 @@ namespace RecipeWinsForms
             btnDelete.Click += BtnDelete_Click;
             gIngredients.CellContentClick += GIngredients_CellContentClick;
             gSteps.CellContentClick += GSteps_CellContentClick;
+            btnSaveIngredients.Click += BtnSaveIngredients_Click;
         }
 
 
@@ -218,6 +219,11 @@ namespace RecipeWinsForms
         private void BtnSave_Click(object? sender, EventArgs e)
         {
             Save();
+        }
+        private void BtnSaveIngredients_Click(object? sender, EventArgs e)
+        {
+            //!ADD Sproc name
+            SQLUtility.SaveDataTable(dtrecipeingredients, " ");
         }
     }
 }
