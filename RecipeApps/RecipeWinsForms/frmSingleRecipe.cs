@@ -25,18 +25,34 @@ namespace RecipeWinsForms
         private void FrmSingleRecipe_FormClosing(object? sender, FormClosingEventArgs e)
         {
             bindsource.EndEdit();
-            bool recipechange = SQLUtility.TableHasChanges(dtrecipe);
-            bool ingredientchange = SQLUtility.TableHasChanges(dtrecipeingredients);
-            bool stepschange = SQLUtility.TableHasChanges(dtdirections);
-            string changedtables = " ";
-            string msg = $"You have unsaved changes in the following form(s) ({changedtables}). Do you want to save changes before closing?";
+            bool change = CheckSaveForAllRecipeTables(out string changedtables);
+
+            string msg = $"You have unsaved changes in the following table(s) - {changedtables}. Do you want to save changes before closing?";
             //! ToDo , set up changedtables, set up save events to unsaved tables
 
-            if (recipechange || ingredientchange || stepschange)
+            if (change)
             {
                 DialogResult ans = MessageBox.Show(msg, Application.ProductName, MessageBoxButtons.YesNoCancel);
+                if (ans == DialogResult.Yes)
+                {
+                    bool recipesave = Save();
+                    bool ingredientsave = IngredientsSave();
+                    bool stepssave = StepsSave();
+
+                    if (recipesave == false || ingredientsave == false || stepssave == false)
+                    {
+                        e.Cancel = true;
+                        Activate();
+                    }
+                }
+                else if (ans == DialogResult.Cancel)
+                {
+                    e.Cancel = true;
+                    Activate();
+                }
             }
         }
+
 
         public void LoadForm(int recipeid)
         {
@@ -109,9 +125,10 @@ namespace RecipeWinsForms
             WindowsFormsUtility.AddDeleteButtonToGrid(gIngredients, deletecolumnname);
         }
 
-        private void Save()
+        private bool Save()
         {
             Application.UseWaitCursor = true;
+            bool savedrecipe = false;
             try
             {
                 RecipeSystem.SaveRecipe(dtrecipe, row);
@@ -120,6 +137,7 @@ namespace RecipeWinsForms
                 this.Text = GetRecipeName(row);
                 bindsource.ResetBindings(false);
                 SetEnabledButtons();
+                savedrecipe = true;
             }
             catch (Exception ex)
             {
@@ -129,6 +147,7 @@ namespace RecipeWinsForms
             {
                 Application.UseWaitCursor = false;
             }
+            return savedrecipe;
         }
         private string GetRecipeName(DataRow row)
         {
@@ -154,7 +173,6 @@ namespace RecipeWinsForms
             try
             {
                 RecipeSystem.DeleteRecipe(row);
-
                 Close();
             }
             catch (Exception ex)
@@ -171,38 +189,43 @@ namespace RecipeWinsForms
             int recordid;
             DataGridView currentgrid = recordenum == RecipeChildrenRecords.ChildRecordEnum.Ingredient ? gIngredients : gSteps;
             string currentcolumn = recordenum == RecipeChildrenRecords.ChildRecordEnum.Ingredient ? "RecipeIngredientID" : "DirectionsID";
+            string table = recordenum == RecipeChildrenRecords.ChildRecordEnum.Ingredient ? "Ingredients" : "Steps";
 
-            recordid = WindowsFormsUtility.GetIdFromGrid(currentgrid, rowindex, currentcolumn);
+            var ans = MessageBox.Show($"Are you sure you want to delete this record from {table} table?", Application.ProductName, MessageBoxButtons.YesNo);
 
-
-            Cursor = Cursors.WaitCursor;
-            try
+            if (ans == DialogResult.Yes)
             {
-                if (recordid > 0)
-                {
-                    RecipeChildrenRecords.DeleteChildRecord(recordenum, recordid);
+                recordid = WindowsFormsUtility.GetIdFromGrid(currentgrid, rowindex, currentcolumn);
 
-                    if (recordenum == RecipeChildrenRecords.ChildRecordEnum.Ingredient)
+
+                Cursor = Cursors.WaitCursor;
+                try
+                {
+                    if (recordid > 0)
                     {
-                        LoadRecipeIngredients();
+                        RecipeChildrenRecords.DeleteChildRecord(recordenum, recordid);
+
+                        if (recordenum == RecipeChildrenRecords.ChildRecordEnum.Ingredient)
+                        {
+                            LoadRecipeIngredients();
+                        }
+                        else
+                        {
+                            LoadDirections();
+                        }
                     }
-                    else
+                    else if (recordid == 0 && rowindex < currentgrid.Rows.Count)
                     {
-                        LoadDirections();
+                        currentgrid.Rows.Remove(currentgrid.Rows[rowindex]);
                     }
                 }
-                else if (recordid == 0 && rowindex < currentgrid.Rows.Count)
+                catch (Exception ex)
                 {
-                    currentgrid.Rows.Remove(currentgrid.Rows[rowindex]);
+                    MessageBox.Show(ex.Message, Application.ProductName);
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, Application.ProductName);
-            }
-            finally { Cursor = Cursors.Default; }
+                finally { Cursor = Cursors.Default; }
 
-
+            }
         }
 
         private void SetEnabledButtons()
@@ -213,18 +236,52 @@ namespace RecipeWinsForms
             btnSaveSteps.Enabled = b;
             btnSaveIngredients.Enabled = b;
         }
+        private bool IngredientsSave()
+        {
+            bool b = false;
+            try
+            {
+                RecipeChildrenRecords.SaveChildTable(dtrecipeingredients, recipeid, RecipeChildrenRecords.ChildRecordEnum.Ingredient);
+                b = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, Application.ProductName);
+            }
+            return b;
+        }
+        private bool StepsSave()
+        {
+            bool b = false;
+            try
+            {
+                RecipeChildrenRecords.SaveChildTable(dtdirections, recipeid, RecipeChildrenRecords.ChildRecordEnum.Steps);
+                b = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, Application.ProductName);
+            }
+            return b;
+        }
+        private bool CheckSaveForAllRecipeTables(out string changedtables)
+        {
+            bool recipechange = SQLUtility.TableHasChanges(dtrecipe);
+            bool ingredientchange = SQLUtility.TableHasChanges(dtrecipeingredients);
+            bool stepschange = SQLUtility.TableHasChanges(dtdirections);
+            changedtables = recipechange ? "Recipe, " : "";
+            changedtables += ingredientchange ? "Ingredients, " : "";
+            changedtables += stepschange ? "Steps" : "";
+            changedtables = changedtables.TrimEnd().TrimEnd(',');
+
+            return recipechange || ingredientchange || stepschange;
+        }
         private void GIngredients_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
             if (gIngredients.Columns[e.ColumnIndex].Name == deletecolumnname)
             {
-                try
-                {
-                    DeleteChildRecord(RecipeChildrenRecords.ChildRecordEnum.Ingredient, e.RowIndex);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, Application.ProductName);
-                }
+                DeleteChildRecord(RecipeChildrenRecords.ChildRecordEnum.Ingredient, e.RowIndex);
+
             }
         }
 
@@ -232,64 +289,29 @@ namespace RecipeWinsForms
         {
             if (gSteps.Columns[e.ColumnIndex].Name == deletecolumnname)
             {
-                try
-                {
-                    DeleteChildRecord(RecipeChildrenRecords.ChildRecordEnum.Steps, e.RowIndex);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, Application.ProductName);
-                }
-            }
-        }
-        private void BtnSaveIngredients_Click(object? sender, EventArgs e)
-        {
-            try
-            {
-                RecipeChildrenRecords.SaveChildTable(dtrecipeingredients, recipeid, RecipeChildrenRecords.ChildRecordEnum.Ingredient);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, Application.ProductName);
-            }
-        }
-        private void BtnSaveSteps_Click(object? sender, EventArgs e)
-        {
-            try
-            {
-                RecipeChildrenRecords.SaveChildTable(dtdirections, recipeid, RecipeChildrenRecords.ChildRecordEnum.Steps);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, Application.ProductName);
+                DeleteChildRecord(RecipeChildrenRecords.ChildRecordEnum.Steps, e.RowIndex);
             }
         }
         private void BtnDelete_Click(object? sender, EventArgs e)
         {
-            try
-            {
-                RecipeDelete();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, Application.ProductName);
-            }
+
+            RecipeDelete();
+        }
+
+        private void BtnSaveIngredients_Click(object? sender, EventArgs e)
+        {
+            IngredientsSave();
+        }
+
+        private void BtnSaveSteps_Click(object? sender, EventArgs e)
+        {
+            StepsSave();
         }
 
         private void BtnSave_Click(object? sender, EventArgs e)
         {
-            try
-            {
-                Save();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, Application.ProductName);
-            }
-
+            Save();
         }
-
-
     }
 }
 
