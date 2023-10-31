@@ -10,44 +10,35 @@ create or alter proc dbo.RecipeIngredientUpdate (
 	@IngredientSeq int,
 	@Message varchar(500) = '' output
 )
---fix from here
 as
 begin
 	declare @return int = 0
-	select @RecipeIngredientId = isnull(@RecipeIngredientId,0), @RecipeId = isnull(@RecipeId,0), @IngredientId = (@IngredientId,0), @me
+	select @RecipeIngredientId = isnull(@RecipeIngredientId,0), @MeasuringUnitId = nullif(@MeasuringUnitId,0)
 
-	if(@RecipeId = 0)
-	begin
-		insert Recipe (UsersId, CuisineId, RecipeName, Calories )
-			values (@UsersId, @CuisineId, @RecipeName, @Calories)
+	if(@RecipeIngredientId = 0)
+		begin
+			insert RecipeIngredient (RecipeID,IngredientID,MeasuringUnitID,Amount,IngredientSeq)
+				values (@RecipeId, @IngredientId, @MeasuringUnitId, @Amount, @IngredientSeq)
 
-	select @RecipeId = scope_Identity()
+		select @RecipeIngredientId = scope_Identity()
 
-	
 	end
 
-	else
-	begin
-	update r 
-	set 
-	UsersId = @UsersId, 
-	CuisineId = @CuisineId, 
-	RecipeName = @RecipeName, 
-	Calories = @Calories 
-	from recipe r
-	where r.RecipeId = @RecipeId
+	else 
+		begin
+		update ri 
+		set 
+		IngredientID = @IngredientId, 
+		MeasuringUnitID = @MeasuringUnitId, 
+		Amount = @Amount,
+		IngredientSeq = @IngredientSeq
+		from RecipeIngredient ri
+		where ri.RecipeIngredientID = @RecipeIngredientId
 	end
-
-
-	select 
-		@DateDrafted = r.DateDrafted,
-		@DatePublished = r.DatePublished,
-		@DateArchived = r.DateArchived,
-		@RecipeStatus = r.RecipeStatus
-	from Recipe r
-	where r.RecipeID = @RecipeId
 
 
 	return @return
 end
 go 
+
+

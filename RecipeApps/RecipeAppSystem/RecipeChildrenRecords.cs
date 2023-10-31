@@ -23,5 +23,17 @@ namespace RecipeAppSystem
             cmd.Parameters[param].Value = recordid;
             SQLUtility.ExecuteSQL(cmd);
         }
+
+        public static void SaveChildTable(DataTable dt, int primarykey, ChildRecordEnum recordenum)
+        {
+            string sproc = recordenum == ChildRecordEnum.Ingredient ? "RecipeIngredientUpdate" : "";
+
+            foreach (DataRow dr in dt.Select("","",DataViewRowState.Added))
+            {
+                dr["RecipeId"] = primarykey;
+            }
+
+            SQLUtility.SaveDataTable(dt, sproc);
+        }
     }
 }

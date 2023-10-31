@@ -222,8 +222,8 @@ namespace RecipeWinsForms
         }
         private void BtnSaveIngredients_Click(object? sender, EventArgs e)
         {
-            //!ADD Sproc name
-            SQLUtility.SaveDataTable(dtrecipeingredients, " ");
+            //!Review if can be done without enum
+            RecipeChildrenRecords.SaveChildTable(dtrecipeingredients, recipeid, RecipeChildrenRecords.ChildRecordEnum.Ingredient);
         }
     }
 }
