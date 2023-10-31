@@ -27,7 +27,9 @@
                 }
                 else if (frmtype == typeof(frmSingleRecipe))
                 {
-                    frmSingleRecipe f = new();
+                    frmSingleRecipe f = new frmSingleRecipe();
+                    f.MdiParent = this;
+                    f.LoadForm(pkvalue); //LoadForm must be after MidParent setting to avoid issues with column ordering in DataGrid
                     newfrm = f;
                 }
                 else if (frmtype == typeof(frmRecipeList))
@@ -40,15 +42,12 @@
                     newfrm.WindowState = FormWindowState.Maximized;
                     newfrm.FormClosed += Newfrm_FormClosed;
                     newfrm.TextChanged += Newfrm_TextChanged;
-                    newfrm.Show();
 
-                    //The following is placed here because putting it in else if caused the columns to display in wrong order 
-                    if (frmtype == typeof(frmSingleRecipe))
+                    if (newfrm.GetType() != typeof(frmSingleRecipe)) //frmSingleRecipe already has a Show() in the LoadForm() method
                     {
-                        ((frmSingleRecipe)newfrm).LoadForm(pkvalue);
+                        newfrm.Show();
                     }
                 }
-
 
                 WindowsFormsUtility.SetUpNav(tsMain);
             }

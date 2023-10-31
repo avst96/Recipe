@@ -12,7 +12,7 @@ begin
 
     select @RecipeId = isnull(@RecipeId,0), @All = isnull(@All,0)
 
-    select d.DirectionsID, d.Steps, d.StepsSeq
+    select d.RecipeID, d.DirectionsID, d.Steps, d.StepsSeq
     from Directions d 
     where d.RecipeID = @RecipeId
     or @All = 1

@@ -1,8 +1,4 @@
-﻿using CPUFramework;
-using System.Data;
-using System.Data.SqlClient;
-
-namespace RecipeAppSystem
+﻿namespace RecipeAppSystem
 {
     public class RecipeChildrenRecords
     {
@@ -26,8 +22,8 @@ namespace RecipeAppSystem
 
         public static void SaveChildTable(DataTable dt, int primarykey, ChildRecordEnum recordenum)
         {
-            string sproc = recordenum == ChildRecordEnum.Ingredient ? "RecipeIngredientUpdate" : "";
-
+            string sproc = recordenum == ChildRecordEnum.Ingredient ? "RecipeIngredientUpdate" : "DirectionsUpdate";
+            
             foreach (DataRow dr in dt.Select("","",DataViewRowState.Added))
             {
                 dr["RecipeId"] = primarykey;
