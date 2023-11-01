@@ -6,10 +6,19 @@
         {
             InitializeComponent();
             BindData();
+            Activated += FrmDashboard_Activated;
             btnRecipeList.Click += BtnRecipeList_Click;
         }
 
-       
+        private void FrmDashboard_Activated(object? sender, EventArgs e)
+        {
+            if (GlobalVariables.reloaddashboard)
+            {
+                BindData();
+                GlobalVariables.reloaddashboard = false;
+            }
+        }
+
 
         private void BindData()
         {

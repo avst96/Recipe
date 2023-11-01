@@ -1,5 +1,4 @@
-﻿
-namespace RecipeWinsForms
+﻿namespace RecipeWinsForms
 {
     public partial class frmSingleRecipe : Form
     {
@@ -7,7 +6,7 @@ namespace RecipeWinsForms
         DataTable dtrecipe = new();
         DataTable dtrecipeingredients = new();
         DataTable dtdirections = new();
-        DataRow? row;
+        DataRow row;
         BindingSource bindsource = new();
         string deletecolumnname = "Delete";
         public frmSingleRecipe()
@@ -20,37 +19,6 @@ namespace RecipeWinsForms
             btnSaveIngredients.Click += BtnSaveIngredients_Click;
             btnSaveSteps.Click += BtnSaveSteps_Click;
             FormClosing += FrmSingleRecipe_FormClosing;
-        }
-
-        private void FrmSingleRecipe_FormClosing(object? sender, FormClosingEventArgs e)
-        {
-            bindsource.EndEdit();
-            bool change = CheckSaveForAllRecipeTables(out string changedtables);
-
-            string msg = $"You have unsaved changes in the following table(s) - {changedtables}. Do you want to save changes before closing?";
-            //! ToDo , set up changedtables, set up save events to unsaved tables
-
-            if (change)
-            {
-                DialogResult ans = MessageBox.Show(msg, Application.ProductName, MessageBoxButtons.YesNoCancel);
-                if (ans == DialogResult.Yes)
-                {
-                    bool recipesave = Save();
-                    bool ingredientsave = IngredientsSave();
-                    bool stepssave = StepsSave();
-
-                    if (recipesave == false || ingredientsave == false || stepssave == false)
-                    {
-                        e.Cancel = true;
-                        Activate();
-                    }
-                }
-                else if (ans == DialogResult.Cancel)
-                {
-                    e.Cancel = true;
-                    Activate();
-                }
-            }
         }
 
 
@@ -128,7 +96,7 @@ namespace RecipeWinsForms
         private bool Save()
         {
             Application.UseWaitCursor = true;
-            bool savedrecipe = false;
+            bool recipesaved = false;
             try
             {
                 RecipeSystem.SaveRecipe(dtrecipe, row);
@@ -137,7 +105,9 @@ namespace RecipeWinsForms
                 this.Text = GetRecipeName(row);
                 bindsource.ResetBindings(false);
                 SetEnabledButtons();
-                savedrecipe = true;
+                recipesaved = true;
+                GlobalVariables.reloadrecipelist = true;
+                GlobalVariables.reloaddashboard = true;
             }
             catch (Exception ex)
             {
@@ -147,41 +117,31 @@ namespace RecipeWinsForms
             {
                 Application.UseWaitCursor = false;
             }
-            return savedrecipe;
+            return recipesaved;
         }
-        private string GetRecipeName(DataRow row)
-        {
-            string recipename = "New Recipe";
-            if (row["RecipeName"].ToString() != null)
-            {
-                recipename = row["RecipeName"].ToString();
-                if (recipename.Length > 16)
-                {
-                    recipename = recipename.Substring(0, 16);
-                }
-            }
-            return recipename;
-        }
+
         private void RecipeDelete()
         {
             DialogResult answer = MessageBox.Show("Are you sure you want to delete this recipe and all related records?", "Recipe App", MessageBoxButtons.YesNo);
-            if (answer == DialogResult.No)
+            if (answer == DialogResult.Yes)
             {
-                return;
-            }
-            Application.UseWaitCursor = true;
-            try
-            {
-                RecipeSystem.DeleteRecipe(row);
-                Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                Application.UseWaitCursor = false;
+
+                Application.UseWaitCursor = true;
+                try
+                {
+                    RecipeSystem.DeleteRecipe(row);
+                    GlobalVariables.reloadrecipelist = true;
+                    GlobalVariables.reloaddashboard = true;
+                    Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Application.UseWaitCursor = false;
+                }
             }
         }
         private void DeleteChildRecord(RecipeChildrenRecords.ChildRecordEnum recordenum, int rowindex)
@@ -228,14 +188,7 @@ namespace RecipeWinsForms
             }
         }
 
-        private void SetEnabledButtons()
-        {
-            bool b = recipeid == 0 ? false : true;
-            btnDelete.Enabled = b;
-            btnChangeStatus.Enabled = b;
-            btnSaveSteps.Enabled = b;
-            btnSaveIngredients.Enabled = b;
-        }
+
         private bool IngredientsSave()
         {
             bool b = false;
@@ -264,11 +217,73 @@ namespace RecipeWinsForms
             }
             return b;
         }
-        private bool CheckSaveForAllRecipeTables(out string changedtables)
+        private void FrmSingleRecipe_FormClosing(object? sender, FormClosingEventArgs e)
         {
-            bool recipechange = SQLUtility.TableHasChanges(dtrecipe);
-            bool ingredientchange = SQLUtility.TableHasChanges(dtrecipeingredients);
-            bool stepschange = SQLUtility.TableHasChanges(dtdirections);
+            bool recipesave = true;
+            bool ingredientsave = true;
+            bool stepssave = true;
+            bindsource.EndEdit();
+            bool change = CheckSaveForAllRecipeTables(out string changedtables, out bool recipechange, out bool ingredientchange, out bool stepschange);
+
+            string msg = $"You have unsaved changes in the following table(s) - {changedtables}. Do you want to save changes before closing?";
+
+            if (change)
+            {
+                DialogResult ans = MessageBox.Show(msg, Application.ProductName, MessageBoxButtons.YesNoCancel);
+                if (ans == DialogResult.Yes)
+                {
+                    if (recipechange)
+                    {
+                        recipesave = Save();
+                    }
+                    if (ingredientchange)
+                    {
+                        ingredientsave = IngredientsSave();
+                    }
+                    if (stepschange)
+                    {
+                        stepssave = StepsSave();
+                    }
+
+                    if (recipesave == false || ingredientsave == false || stepssave == false)
+                    {
+                        e.Cancel = true;
+                        Activate();
+                    }
+                }
+                else if (ans == DialogResult.Cancel)
+                {
+                    e.Cancel = true;
+                    Activate();
+                }
+            }
+        }
+        private void SetEnabledButtons()
+        {
+            bool b = recipeid == 0 ? false : true;
+            btnDelete.Enabled = b;
+            btnChangeStatus.Enabled = b;
+            btnSaveSteps.Enabled = b;
+            btnSaveIngredients.Enabled = b;
+        }
+        private string GetRecipeName(DataRow row)
+        {
+            string recipename = "New Recipe";
+            if (row["RecipeName"] != DBNull.Value)
+            {
+                recipename = row["RecipeName"].ToString();
+                if (recipename.Length > 16)
+                {
+                    recipename = recipename.Substring(0, 14) + "...";
+                }
+            }
+            return recipename;
+        }
+        private bool CheckSaveForAllRecipeTables(out string changedtables, out bool recipechange, out bool ingredientchange, out bool stepschange)
+        {
+            recipechange = SQLUtility.TableHasChanges(dtrecipe);
+            ingredientchange = SQLUtility.TableHasChanges(dtrecipeingredients);
+            stepschange = SQLUtility.TableHasChanges(dtdirections);
             changedtables = recipechange ? "Recipe, " : "";
             changedtables += ingredientchange ? "Ingredients, " : "";
             changedtables += stepschange ? "Steps" : "";

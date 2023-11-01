@@ -6,16 +6,24 @@
         {
             InitializeComponent();
             BindData();
+            Activated += FrmRecipeList_Activated;
             btnNewRecipe.Click += BtnNewRecipe_Click;
             gData.CellDoubleClick += GData_CellDoubleClick;
             gData.KeyDown += GData_KeyDown;
         }
 
-
         private void BindData()
         {
             gData.DataSource = RecipeList.GetRecipeSummary();
             WindowsFormsUtility.FormatGridForSearchResults(gData);
+        }
+        private void FrmRecipeList_Activated(object? sender, EventArgs e)
+        {
+            if (GlobalVariables.reloadrecipelist)
+            {
+                BindData();
+                GlobalVariables.reloadrecipelist = false;
+            }
         }
 
         private void ShowRecipeForm(int rowindex)
@@ -51,6 +59,6 @@
             ((frmMain)MdiParent).OpenForm(typeof(frmSingleRecipe));
         }
 
-       
+
     }
 }
