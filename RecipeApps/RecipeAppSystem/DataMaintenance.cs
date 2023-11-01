@@ -1,8 +1,4 @@
-﻿using CPUFramework;
-using System.Data;
-using System.Data.SqlClient;
-
-namespace RecipeAppSystem
+﻿namespace RecipeAppSystem
 {
     public class DataMaintenance
     {

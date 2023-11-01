@@ -261,8 +261,8 @@
         private void SetEnabledButtons()
         {
             bool b = recipeid == 0 ? false : true;
-            btnDelete.Enabled = b;
             btnChangeStatus.Enabled = b;
+            btnDelete.Enabled = b;
             btnSaveSteps.Enabled = b;
             btnSaveIngredients.Enabled = b;
         }

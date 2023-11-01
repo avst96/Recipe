@@ -12,16 +12,19 @@
             gData.KeyDown += GData_KeyDown;
         }
 
-        private void BindData()
+        private void BindData(bool formatgrid = true)
         {
             gData.DataSource = RecipeList.GetRecipeSummary();
+            if (formatgrid)
+            {
             WindowsFormsUtility.FormatGridForSearchResults(gData);
+            }
         }
         private void FrmRecipeList_Activated(object? sender, EventArgs e)
         {
             if (GlobalVariables.reloadrecipelist)
             {
-                BindData();
+                BindData(false);
                 GlobalVariables.reloadrecipelist = false;
             }
         }
