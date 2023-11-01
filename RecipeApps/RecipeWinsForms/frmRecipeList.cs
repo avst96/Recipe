@@ -17,7 +17,7 @@
             gData.DataSource = RecipeList.GetRecipeSummary();
             if (formatgrid)
             {
-            WindowsFormsUtility.FormatGridForSearchResults(gData);
+                WindowsFormsUtility.FormatGridForSearchResults(gData);
             }
         }
         private void FrmRecipeList_Activated(object? sender, EventArgs e)
@@ -53,7 +53,10 @@
 
         private void GData_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
         {
-            ShowRecipeForm(e.RowIndex);
+            if (e.RowIndex > -1)
+            {
+                ShowRecipeForm(e.RowIndex);
+            }
 
         }
 

@@ -64,7 +64,7 @@ create table dbo.Recipe(
         constraint u_Recipe_RecipeName_must_be unique,
     Calories int not null constraint ck_Recipe_Calories_cannot_be_negative check (Calories >= 0), --Some candies are 0 calorie
     DateDrafted datetime not null default(getdate()) --I used datetime in order to get a accurate amount of hours in draft needed in the Maintenance Tasks email
-        constraint ck_Recipe_DateDrafted_cannot_be_in_future check (DateDrafted <= getdate()),
+        constraint ck_Recipe_DateDrafted_cannot_be_in_future check (DateDrafted  <=  dateadd(minute, 3, getdate())), -- to of exact number caused issues
     DatePublished date null,
     DateArchived date null,
     RecipeStatus as case 

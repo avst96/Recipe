@@ -36,6 +36,12 @@
                 {
                     newfrm = new frmRecipeList();
                 }
+                else if (frmtype == typeof(frmChangeStatus))
+                {
+                    frmChangeStatus f = new frmChangeStatus();
+                    f.LoadForm(pkvalue);
+                    newfrm = f;
+                }
                 if (newfrm != null)
                 {
                     newfrm.MdiParent = this;

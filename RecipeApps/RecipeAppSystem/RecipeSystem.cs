@@ -50,25 +50,21 @@
             SQLUtility.DebugPrintDataTable(dt);
 #endif
 
-            //string sql;
-
-            //if (id > 0)
-            //{
-            //    sql = "update Recipe " +
-            //        $"set UsersID = {row["UsersID"]}, CuisineID = {row["CuisineID"]}," +
-            //        $"RecipeName = '{row["RecipeName"]}', Calories = {row["Calories"]}," +
-            //        $"DateDrafted = '{row["DateDrafted"]}' " +
-
-            //        $"where RecipeID = {row["RecipeID"]}";
-            //}
-            //else
-            //{
-            //    sql = "insert Recipe (UsersID, CuisineID, RecipeName, Calories, DateDrafted)" +
-            //        Environment.NewLine +
-            //        $"select {row["UsersID"]}, {row["CuisineID"]}, '{row["RecipeName"]}', {row["Calories"]}, '{row["DateDrafted"]}'";
-            //}
-            //SQLUtility.ExecuteSQL(sql);
             SQLUtility.SaveDataRow(row, "RecipeUpdate");
+        }
+
+        public static string GetRecipeName(DataRow row)
+        {
+            string recipename = "New Recipe";
+            if (row["RecipeName"] != DBNull.Value)
+            {
+                recipename = row["RecipeName"].ToString();
+                if (recipename.Length > 16)
+                {
+                    recipename = recipename.Substring(0, 13) + "...";
+                }
+            }
+            return recipename;
         }
     }
 }

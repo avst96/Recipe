@@ -35,7 +35,10 @@ begin
 	UsersId = @UsersId, 
 	CuisineId = @CuisineId, 
 	RecipeName = @RecipeName, 
-	Calories = @Calories 
+	Calories = @Calories ,
+	DateDrafted = @DateDrafted,
+	DatePublished = @DatePublished,
+	DateArchived = @DateArchived	
 	from recipe r
 	where r.RecipeId = @RecipeId
 	end

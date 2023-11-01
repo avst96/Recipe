@@ -18,8 +18,10 @@
             gSteps.CellContentClick += GSteps_CellContentClick;
             btnSaveIngredients.Click += BtnSaveIngredients_Click;
             btnSaveSteps.Click += BtnSaveSteps_Click;
+            btnChangeStatus.Click += BtnChangeStatus_Click;
             FormClosing += FrmSingleRecipe_FormClosing;
         }
+
 
 
         public void LoadForm(int recipeid)
@@ -60,7 +62,7 @@
 
                 SetEnabledButtons();
                 this.Tag = recipeid;
-                this.Text = GetRecipeName(row);
+                this.Text = RecipeSystem.GetRecipeName(row);
 
             }
             catch (Exception ex)
@@ -102,7 +104,7 @@
                 RecipeSystem.SaveRecipe(dtrecipe, row);
                 recipeid = SQLUtility.GetValueFromFirstRowAsInt(dtrecipe, "RecipeID");
                 this.Tag = recipeid;
-                this.Text = GetRecipeName(row);
+                this.Text = RecipeSystem.GetRecipeName(row);
                 bindsource.ResetBindings(false);
                 SetEnabledButtons();
                 recipesaved = true;
@@ -266,19 +268,7 @@
             btnSaveSteps.Enabled = b;
             btnSaveIngredients.Enabled = b;
         }
-        private string GetRecipeName(DataRow row)
-        {
-            string recipename = "New Recipe";
-            if (row["RecipeName"] != DBNull.Value)
-            {
-                recipename = row["RecipeName"].ToString();
-                if (recipename.Length > 16)
-                {
-                    recipename = recipename.Substring(0, 14) + "...";
-                }
-            }
-            return recipename;
-        }
+      
         private bool CheckSaveForAllRecipeTables(out string changedtables, out bool recipechange, out bool ingredientchange, out bool stepschange)
         {
             recipechange = SQLUtility.TableHasChanges(dtrecipe);
@@ -326,6 +316,10 @@
         private void BtnSave_Click(object? sender, EventArgs e)
         {
             Save();
+        }
+        private void BtnChangeStatus_Click(object? sender, EventArgs e)
+        {
+            ((frmMain)MdiParent).OpenForm(typeof(frmChangeStatus),recipeid);
         }
     }
 }
