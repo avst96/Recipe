@@ -4,6 +4,9 @@
     {
         BindingSource bindsource = new();
         DataTable dt = new();
+        RecipeSystem.StatusEnum newstatusenum = new();
+        string msg = "Are you sure you want to change to status of this recipe to ";
+
         public frmChangeStatus()
         {
             InitializeComponent();
@@ -11,31 +14,6 @@
             btnPublish.Click += BtnPublish_Click;
             btnArchive.Click += BtnArchive_Click;
         }
-        //! Add try catch, move out of btn click and make reusable
-        //! Prompt before changing
-
-        private void BtnArchive_Click(object? sender, EventArgs e)
-        {
-            dt.Rows[0]["DateArchived"] = DateTime.Now;
-            RecipeSystem.SaveRecipe(dt, dt.Rows[0]);
-        }
-
-            private void BtnPublish_Click(object? sender, EventArgs e)
-        {
-            dt.Rows[0]["DateArchived"] = DBNull.Value;
-            dt.Rows[0]["DatePublished"] = DateTime.Now;
-            RecipeSystem.SaveRecipe(dt, dt.Rows[0]);
-        }
-
-        private void BtnDraft_Click(object? sender, EventArgs e)
-        {
-            dt.Rows[0]["DatePublished"] = DBNull.Value;
-            dt.Rows[0]["DateArchived"] = DBNull.Value;
-            dt.Rows[0]["DateDrafted"] = DateTime.Now;
-
-            RecipeSystem.SaveRecipe(dt, dt.Rows[0]);
-        }
-
         public void LoadForm(int pkvalue)
         {
             string recipename = "";
@@ -53,8 +31,59 @@
 
                 recipename = RecipeSystem.GetRecipeName(dt.Rows[0]);
                 Text = recipename + Text;
+                SetEnabledButtons(dt.Rows[0]);
             }
         }
 
+        private void ChangeRecipeStatus(RecipeSystem.StatusEnum newstatusenum)
+        {
+            var ans = MessageBox.Show(msg + newstatusenum + "?", Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (ans == DialogResult.Yes)
+            {
+                Cursor = Cursors.WaitCursor;
+                try
+                {
+                    RecipeSystem.SetAndSaveRecipeStatus(dt, newstatusenum);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, Application.ProductName);
+                }
+                finally
+                {
+                    Cursor = Cursors.Default;
+                    SetEnabledButtons(dt.Rows[0]);
+                }
+            }
+        }
+
+        private void SetEnabledButtons(DataRow row)
+        {
+            string status = "";
+            if (row != null && row.Table.Columns.Contains("RecipeStatus"))
+            {
+                status = row["RecipeStatus"].ToString();
+            }
+            btnDraft.Enabled = status == "Draft" ? false : true;
+            btnPublish.Enabled = status == "Published" ? false : true;
+            btnArchive.Enabled = status == "Archived" ? false : true;
+        }
+        private void BtnArchive_Click(object? sender, EventArgs e)
+        {
+            newstatusenum = RecipeSystem.StatusEnum.Archived;
+            ChangeRecipeStatus(newstatusenum);
+        }
+
+        private void BtnPublish_Click(object? sender, EventArgs e)
+        {
+            newstatusenum = RecipeSystem.StatusEnum.Published;
+            ChangeRecipeStatus(newstatusenum);
+        }
+
+        private void BtnDraft_Click(object? sender, EventArgs e)
+        {
+            newstatusenum = RecipeSystem.StatusEnum.Drafted;
+            ChangeRecipeStatus(newstatusenum);
+        }
     }
 }

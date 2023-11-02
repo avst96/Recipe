@@ -3,6 +3,7 @@
     public class RecipeSystem
 
     {
+        public enum StatusEnum { Drafted, Published, Archived }
         public static DataTable SearchRecipe(string recipename)
         {
             SqlCommand cmd = SQLUtility.GetSqlCommand("RecipeGet");
@@ -52,7 +53,28 @@
 
             SQLUtility.SaveDataRow(row, "RecipeUpdate");
         }
-
+        public static void SetAndSaveRecipeStatus(DataTable table, StatusEnum status)
+        {
+            if (table.Rows.Count == 1)
+            {
+                switch (status)
+                {
+                    case StatusEnum.Drafted:
+                        table.Rows[0]["DateDrafted"] = DateTime.Now;
+                        table.Rows[0]["DatePublished"] = DBNull.Value;
+                        table.Rows[0]["DateArchived"] = DBNull.Value;
+                        break;
+                    case StatusEnum.Published:
+                        table.Rows[0]["DateArchived"] = DBNull.Value;
+                        table.Rows[0]["DatePublished"] = DateTime.Now;
+                        break;
+                    case StatusEnum.Archived:
+                        table.Rows[0]["DateArchived"] = DateTime.Now;
+                        break;
+                }
+                SaveRecipe(table, table.Rows[0]);
+            }
+        }
         public static string GetRecipeName(DataRow row)
         {
             string recipename = "New Recipe";

@@ -2,7 +2,7 @@
 {
     public partial class frmSingleRecipe : Form
     {
-        int recipeid = 0;
+        int recipepk = 0;
         DataTable dtrecipe = new();
         DataTable dtrecipeingredients = new();
         DataTable dtdirections = new();
@@ -20,18 +20,18 @@
             btnSaveSteps.Click += BtnSaveSteps_Click;
             btnChangeStatus.Click += BtnChangeStatus_Click;
             FormClosing += FrmSingleRecipe_FormClosing;
+            Activated += FrmSingleRecipe_Activated;
         }
-
 
 
         public void LoadForm(int recipeid)
         {
+            recipepk = recipeid;
             Cursor = Cursors.WaitCursor;
 
             try
             {
-                dtrecipe = RecipeSystem.LoadRecipe(recipeid);
-                bindsource.DataSource = dtrecipe;
+                SetOrResetRecipeInfoBindsource();
 
                 if (recipeid == 0)
                 {
@@ -53,8 +53,7 @@
                 WindowsFormsUtility.SetControlBinding(txtDatePublished, bindsource);
                 WindowsFormsUtility.SetControlBinding(txtDateArchived, bindsource);
                 row = dtrecipe.Rows[0];
-                this.recipeid = recipeid;
-                Show(); //Show must be before the next to Load() to avoid a mix up in DataGrid Columns
+                Show(); //Show must be before the next 2 Load() to avoid a mix up in DataGrid Columns
 
 
                 LoadRecipeIngredients();
@@ -75,9 +74,21 @@
             }
         }
 
+        private void SetOrResetRecipeInfoBindsource()
+        {
+            try
+            {
+                dtrecipe = RecipeSystem.LoadRecipe(recipepk);
+                bindsource.DataSource = dtrecipe;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, Application.ProductName);
+            }
+        }
         private void LoadDirections()
         {
-            dtdirections = RecipeChildrenRecords.LoadChildById(recipeid, "DirectionsGet", "RecipeID");
+            dtdirections = RecipeChildrenRecords.LoadChildById(recipepk, "DirectionsGet", "RecipeID");
             gSteps.Columns.Clear();
             gSteps.DataSource = dtdirections;
             WindowsFormsUtility.FormatGridForEdit(gSteps);
@@ -86,7 +97,7 @@
 
         private void LoadRecipeIngredients()
         {
-            dtrecipeingredients = RecipeChildrenRecords.LoadChildById(recipeid, "RecipeIngredientGet", "RecipeId");
+            dtrecipeingredients = RecipeChildrenRecords.LoadChildById(recipepk, "RecipeIngredientGet", "RecipeId");
             gIngredients.Columns.Clear();
             gIngredients.DataSource = dtrecipeingredients;
             WindowsFormsUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("MeasuringUnit", true, false), "MeasuringUnit", "Unit");
@@ -94,7 +105,10 @@
             WindowsFormsUtility.FormatGridForEdit(gIngredients);
             WindowsFormsUtility.AddDeleteButtonToGrid(gIngredients, deletecolumnname);
         }
-
+        private void FrmSingleRecipe_Activated(object? sender, EventArgs e)
+        {
+            SetOrResetRecipeInfoBindsource();
+        }
         private bool Save()
         {
             Application.UseWaitCursor = true;
@@ -102,8 +116,8 @@
             try
             {
                 RecipeSystem.SaveRecipe(dtrecipe, row);
-                recipeid = SQLUtility.GetValueFromFirstRowAsInt(dtrecipe, "RecipeID");
-                this.Tag = recipeid;
+                recipepk = SQLUtility.GetValueFromFirstRowAsInt(dtrecipe, "RecipeID");
+                this.Tag = recipepk;
                 this.Text = RecipeSystem.GetRecipeName(row);
                 bindsource.ResetBindings(false);
                 SetEnabledButtons();
@@ -196,7 +210,7 @@
             bool b = false;
             try
             {
-                RecipeChildrenRecords.SaveChildTable(dtrecipeingredients, recipeid, RecipeChildrenRecords.ChildRecordEnum.Ingredient);
+                RecipeChildrenRecords.SaveChildTable(dtrecipeingredients, recipepk, RecipeChildrenRecords.ChildRecordEnum.Ingredient);
                 b = true;
             }
             catch (Exception ex)
@@ -210,7 +224,7 @@
             bool b = false;
             try
             {
-                RecipeChildrenRecords.SaveChildTable(dtdirections, recipeid, RecipeChildrenRecords.ChildRecordEnum.Steps);
+                RecipeChildrenRecords.SaveChildTable(dtdirections, recipepk, RecipeChildrenRecords.ChildRecordEnum.Steps);
                 b = true;
             }
             catch (Exception ex)
@@ -262,13 +276,13 @@
         }
         private void SetEnabledButtons()
         {
-            bool b = recipeid == 0 ? false : true;
+            bool b = recipepk == 0 ? false : true;
             btnChangeStatus.Enabled = b;
             btnDelete.Enabled = b;
             btnSaveSteps.Enabled = b;
             btnSaveIngredients.Enabled = b;
         }
-      
+
         private bool CheckSaveForAllRecipeTables(out string changedtables, out bool recipechange, out bool ingredientchange, out bool stepschange)
         {
             recipechange = SQLUtility.TableHasChanges(dtrecipe);
@@ -319,7 +333,7 @@
         }
         private void BtnChangeStatus_Click(object? sender, EventArgs e)
         {
-            ((frmMain)MdiParent).OpenForm(typeof(frmChangeStatus),recipeid);
+            ((frmMain)MdiParent).OpenForm(typeof(frmChangeStatus), recipepk);
         }
     }
 }
