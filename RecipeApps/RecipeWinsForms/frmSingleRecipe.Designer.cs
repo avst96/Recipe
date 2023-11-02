@@ -536,7 +536,7 @@
             ClientSize = new Size(499, 486);
             Controls.Add(tblMain);
             Name = "frmSingleRecipe";
-            Text = "Recipe";
+            Text = "Recipe - ";
             tblMain.ResumeLayout(false);
             tblMain.PerformLayout();
             tblButtons.ResumeLayout(false);

@@ -1,4 +1,6 @@
-﻿namespace RecipeWinsForms
+﻿using System.Runtime.Serialization.Formatters;
+
+namespace RecipeWinsForms
 {
     public partial class frmDashboard : Form
     {
@@ -8,7 +10,10 @@
             BindData();
             Activated += FrmDashboard_Activated;
             btnRecipeList.Click += BtnRecipeList_Click;
+            btnCookbookList.Click += BtnCookbookList_Click;
         }
+
+
 
         private void FrmDashboard_Activated(object? sender, EventArgs e)
         {
@@ -35,9 +40,14 @@
                 btn.Text = rows[0]["DashboardText"].ToString();
             }
         }
+       
         private void BtnRecipeList_Click(object? sender, EventArgs e)
         {
             ((frmMain)MdiParent).OpenForm(typeof(frmRecipeList));
+        }
+        private void BtnCookbookList_Click(object? sender, EventArgs e)
+        {
+            ((frmMain)MdiParent).OpenForm(typeof(frmCookbookList));
         }
     }
 }

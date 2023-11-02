@@ -20,7 +20,6 @@
             btnSaveSteps.Click += BtnSaveSteps_Click;
             btnChangeStatus.Click += BtnChangeStatus_Click;
             FormClosing += FrmSingleRecipe_FormClosing;
-            Activated += FrmSingleRecipe_Activated;
         }
 
 
@@ -31,12 +30,12 @@
 
             try
             {
-                SetOrResetRecipeInfoBindsource();
 
+                dtrecipe = RecipeSystem.LoadRecipe(recipepk);
+                bindsource.DataSource = dtrecipe;
                 if (recipeid == 0)
                 {
                     dtrecipe.Rows.Add();
-
                 }
 #if DEBUG
                 SQLUtility.DebugPrintDataTable(dtrecipe);
@@ -61,8 +60,7 @@
 
                 SetEnabledButtons();
                 this.Tag = recipeid;
-                this.Text = RecipeSystem.GetRecipeName(row);
-
+                this.Text += RecipeSystem.GetRecipeName(row);
             }
             catch (Exception ex)
             {
@@ -74,18 +72,7 @@
             }
         }
 
-        private void SetOrResetRecipeInfoBindsource()
-        {
-            try
-            {
-                dtrecipe = RecipeSystem.LoadRecipe(recipepk);
-                bindsource.DataSource = dtrecipe;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, Application.ProductName);
-            }
-        }
+
         private void LoadDirections()
         {
             dtdirections = RecipeChildrenRecords.LoadChildById(recipepk, "DirectionsGet", "RecipeID");
@@ -105,20 +92,17 @@
             WindowsFormsUtility.FormatGridForEdit(gIngredients);
             WindowsFormsUtility.AddDeleteButtonToGrid(gIngredients, deletecolumnname);
         }
-        private void FrmSingleRecipe_Activated(object? sender, EventArgs e)
-        {
-            SetOrResetRecipeInfoBindsource();
-        }
+
         private bool Save()
         {
             Application.UseWaitCursor = true;
             bool recipesaved = false;
             try
             {
-                RecipeSystem.SaveRecipe(dtrecipe, row);
+                RecipeSystem.SaveRecipe(dtrecipe, dtrecipe.Rows[0]);
                 recipepk = SQLUtility.GetValueFromFirstRowAsInt(dtrecipe, "RecipeID");
                 this.Tag = recipepk;
-                this.Text = RecipeSystem.GetRecipeName(row);
+                this.Text += RecipeSystem.GetRecipeName(row);
                 bindsource.ResetBindings(false);
                 SetEnabledButtons();
                 recipesaved = true;
