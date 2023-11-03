@@ -12,7 +12,7 @@
             mnuListCookbooks.Click += MnuListCookbooks_Click;
         }
 
-       
+
 
         public void OpenForm(Type frmtype, int pkvalue = 0)
         {
@@ -42,9 +42,13 @@
                     f.LoadForm(pkvalue);
                     newfrm = f;
                 }
-                else if (frmtype  == typeof(frmCookbookList))
+                else if (frmtype == typeof(frmCookbookList))
                 {
                     newfrm = new frmCookbookList();
+                }
+                else if (frmtype == typeof(frmSingleCookbook))
+                {
+                    newfrm = new frmSingleCookbook();
                 }
                 if (newfrm != null)
                 {

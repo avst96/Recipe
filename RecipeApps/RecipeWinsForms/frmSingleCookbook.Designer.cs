@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             tblMain = new TableLayoutPanel();
-            btnSave = new Button();
             btnDelete = new Button();
+            btnSave = new Button();
             lblName = new Label();
             lblUser = new Label();
             lblPrice = new Label();
@@ -41,20 +41,19 @@
             txtPrice = new TextBox();
             txtDateCreated = new TextBox();
             chkActive = new CheckBox();
-            groupBox1 = new GroupBox();
-            button1 = new Button();
-            dataGridView1 = new DataGridView();
+            label1 = new Label();
+            btnSaveRecipe = new Button();
+            gDataRecipe = new DataGridView();
             tblMain.SuspendLayout();
-            groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)gDataRecipe).BeginInit();
             SuspendLayout();
             // 
             // tblMain
             // 
             tblMain.ColumnCount = 3;
-            tblMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
-            tblMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
-            tblMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+            tblMain.ColumnStyles.Add(new ColumnStyle());
+            tblMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tblMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tblMain.Controls.Add(btnDelete, 1, 0);
             tblMain.Controls.Add(btnSave, 0, 0);
             tblMain.Controls.Add(lblName, 0, 1);
@@ -67,20 +66,35 @@
             tblMain.Controls.Add(txtPrice, 1, 4);
             tblMain.Controls.Add(txtDateCreated, 2, 4);
             tblMain.Controls.Add(chkActive, 1, 5);
-            tblMain.Controls.Add(groupBox1, 0, 6);
+            tblMain.Controls.Add(label1, 0, 6);
+            tblMain.Controls.Add(btnSaveRecipe, 0, 7);
+            tblMain.Controls.Add(gDataRecipe, 0, 8);
             tblMain.Dock = DockStyle.Fill;
             tblMain.Location = new Point(0, 0);
             tblMain.Name = "tblMain";
-            tblMain.RowCount = 7;
+            tblMain.RowCount = 9;
             tblMain.RowStyles.Add(new RowStyle());
             tblMain.RowStyles.Add(new RowStyle());
             tblMain.RowStyles.Add(new RowStyle());
             tblMain.RowStyles.Add(new RowStyle());
             tblMain.RowStyles.Add(new RowStyle());
             tblMain.RowStyles.Add(new RowStyle());
-            tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 14.2857141F));
+            tblMain.RowStyles.Add(new RowStyle());
+            tblMain.RowStyles.Add(new RowStyle());
+            tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tblMain.Size = new Size(522, 493);
             tblMain.TabIndex = 0;
+            // 
+            // btnDelete
+            // 
+            btnDelete.Anchor = AnchorStyles.Left;
+            btnDelete.AutoSize = true;
+            btnDelete.Location = new Point(160, 10);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(100, 31);
+            btnDelete.TabIndex = 1;
+            btnDelete.Text = "Delete";
+            btnDelete.UseVisualStyleBackColor = true;
             // 
             // btnSave
             // 
@@ -92,17 +106,6 @@
             btnSave.TabIndex = 0;
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = true;
-            // 
-            // btnDelete
-            // 
-            btnDelete.Anchor = AnchorStyles.Left;
-            btnDelete.AutoSize = true;
-            btnDelete.Location = new Point(177, 10);
-            btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(100, 31);
-            btnDelete.TabIndex = 1;
-            btnDelete.Text = "Delete";
-            btnDelete.UseVisualStyleBackColor = true;
             // 
             // lblName
             // 
@@ -152,7 +155,7 @@
             // 
             lblDate.Anchor = AnchorStyles.Bottom;
             lblDate.AutoSize = true;
-            lblDate.Location = new Point(390, 178);
+            lblDate.Location = new Point(385, 178);
             lblDate.Margin = new Padding(20, 10, 10, 10);
             lblDate.Name = "lblDate";
             lblDate.Size = new Size(100, 21);
@@ -164,7 +167,7 @@
             // 
             txtBookName.Anchor = AnchorStyles.Left;
             tblMain.SetColumnSpan(txtBookName, 2);
-            txtBookName.Location = new Point(177, 59);
+            txtBookName.Location = new Point(160, 59);
             txtBookName.Margin = new Padding(3, 8, 3, 8);
             txtBookName.Name = "txtBookName";
             txtBookName.Size = new Size(310, 29);
@@ -175,7 +178,7 @@
             lstUserName.Anchor = AnchorStyles.Left;
             tblMain.SetColumnSpan(lstUserName, 2);
             lstUserName.FormattingEnabled = true;
-            lstUserName.Location = new Point(177, 107);
+            lstUserName.Location = new Point(160, 107);
             lstUserName.Margin = new Padding(3, 11, 3, 32);
             lstUserName.MaxDropDownItems = 20;
             lstUserName.Name = "lstUserName";
@@ -185,7 +188,7 @@
             // txtPrice
             // 
             txtPrice.Anchor = AnchorStyles.Left;
-            txtPrice.Location = new Point(177, 217);
+            txtPrice.Location = new Point(160, 217);
             txtPrice.Margin = new Padding(3, 8, 3, 8);
             txtPrice.MaxLength = 11;
             txtPrice.Name = "txtPrice";
@@ -196,7 +199,7 @@
             // 
             txtDateCreated.Anchor = AnchorStyles.Top;
             txtDateCreated.BackColor = SystemColors.ActiveBorder;
-            txtDateCreated.Location = new Point(375, 217);
+            txtDateCreated.Location = new Point(370, 217);
             txtDateCreated.Margin = new Padding(3, 8, 3, 8);
             txtDateCreated.MaxLength = 11;
             txtDateCreated.Name = "txtDateCreated";
@@ -211,43 +214,44 @@
             chkActive.BackColor = SystemColors.Control;
             chkActive.CheckAlign = ContentAlignment.BottomLeft;
             chkActive.Font = new Font("Segoe UI", 25F, FontStyle.Regular, GraphicsUnit.Point);
-            chkActive.Location = new Point(177, 267);
+            chkActive.Location = new Point(160, 267);
             chkActive.Name = "chkActive";
             chkActive.Size = new Size(15, 14);
             chkActive.TabIndex = 11;
             chkActive.UseVisualStyleBackColor = false;
             // 
-            // groupBox1
+            // label1
             // 
-            tblMain.SetColumnSpan(groupBox1, 3);
-            groupBox1.Controls.Add(dataGridView1);
-            groupBox1.Controls.Add(button1);
-            groupBox1.Dock = DockStyle.Fill;
-            groupBox1.Location = new Point(3, 298);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(516, 192);
-            groupBox1.TabIndex = 12;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "groupBox1";
+            label1.BorderStyle = BorderStyle.FixedSingle;
+            tblMain.SetColumnSpan(label1, 3);
+            label1.Dock = DockStyle.Top;
+            label1.Location = new Point(3, 295);
+            label1.Name = "label1";
+            label1.Size = new Size(516, 2);
+            label1.TabIndex = 12;
+            label1.TextAlign = ContentAlignment.TopCenter;
             // 
-            // button1
+            // btnSaveRecipe
             // 
-            button1.Location = new Point(3, 0);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 0;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
+            btnSaveRecipe.AutoSize = true;
+            btnSaveRecipe.Location = new Point(20, 307);
+            btnSaveRecipe.Margin = new Padding(20, 10, 10, 10);
+            btnSaveRecipe.Name = "btnSaveRecipe";
+            btnSaveRecipe.Size = new Size(100, 31);
+            btnSaveRecipe.TabIndex = 13;
+            btnSaveRecipe.Text = "Save";
+            btnSaveRecipe.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // gDataRecipe
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Dock = DockStyle.Fill;
-            dataGridView1.Location = new Point(3, 25);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(510, 164);
-            dataGridView1.TabIndex = 1;
+            gDataRecipe.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tblMain.SetColumnSpan(gDataRecipe, 3);
+            gDataRecipe.Dock = DockStyle.Fill;
+            gDataRecipe.Location = new Point(3, 351);
+            gDataRecipe.Name = "gDataRecipe";
+            gDataRecipe.RowTemplate.Height = 25;
+            gDataRecipe.Size = new Size(516, 139);
+            gDataRecipe.TabIndex = 14;
             // 
             // frmSingleCookbook
             // 
@@ -256,13 +260,12 @@
             ClientSize = new Size(522, 493);
             Controls.Add(tblMain);
             Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "frmSingleCookbook";
             Text = "Cookbook - ";
             tblMain.ResumeLayout(false);
             tblMain.PerformLayout();
-            groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)gDataRecipe).EndInit();
             ResumeLayout(false);
         }
 
@@ -281,8 +284,8 @@
         private TextBox txtPrice;
         private TextBox txtDateCreated;
         private CheckBox chkActive;
-        private GroupBox groupBox1;
-        private DataGridView dataGridView1;
-        private Button button1;
+        private Label label1;
+        private Button btnSaveRecipe;
+        private DataGridView gDataRecipe;
     }
 }

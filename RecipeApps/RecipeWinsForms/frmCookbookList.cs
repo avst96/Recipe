@@ -21,7 +21,7 @@
 
         private void BtnNewCookbook_Click(object? sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            ((frmMain)MdiParent).OpenForm(typeof(frmSingleCookbook));
         }
         private void GData_KeyDown(object? sender, KeyEventArgs e)
         {

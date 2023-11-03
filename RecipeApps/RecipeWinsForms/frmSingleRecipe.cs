@@ -9,6 +9,7 @@
         DataRow row;
         BindingSource bindsource = new();
         string deletecolumnname = "Delete";
+        bool notfirstactivation = false;
         public frmSingleRecipe()
         {
             InitializeComponent();
@@ -20,10 +21,11 @@
             btnSaveSteps.Click += BtnSaveSteps_Click;
             btnChangeStatus.Click += BtnChangeStatus_Click;
             FormClosing += FrmSingleRecipe_FormClosing;
+            Activated += FrmSingleRecipe_Activated;
         }
 
 
-        public void LoadForm(int recipeid)
+        public void LoadForm(int recipeid, bool fullreload = true)
         {
             recipepk = recipeid;
             Cursor = Cursors.WaitCursor;
@@ -37,30 +39,31 @@
                 {
                     dtrecipe.Rows.Add();
                 }
+                row = dtrecipe.Rows[0];
+
 #if DEBUG
                 SQLUtility.DebugPrintDataTable(dtrecipe);
 #endif
-                DataTable dtusers = RecipeSystem.GetUserList();
-                DataTable dtcuisine = RecipeSystem.GetCuisineList();
-
-                WindowsFormsUtility.SetListBinding(lstCuisineName, dtcuisine, dtrecipe, "Cuisine");
-                WindowsFormsUtility.SetListBinding(lstUserName, dtusers, dtrecipe, "Users");
-                WindowsFormsUtility.SetControlBinding(txtRecipeName, bindsource);
-                WindowsFormsUtility.SetControlBinding(txtCalories, bindsource);
-                WindowsFormsUtility.SetControlBinding(lblRecipeStatus, bindsource);
-                WindowsFormsUtility.SetControlBinding(txtDateDrafted, bindsource);
-                WindowsFormsUtility.SetControlBinding(txtDatePublished, bindsource);
-                WindowsFormsUtility.SetControlBinding(txtDateArchived, bindsource);
-                row = dtrecipe.Rows[0];
-                Show(); //Show must be before the next 2 Load() to avoid a mix up in DataGrid Columns
-
-
-                LoadRecipeIngredients();
-                LoadDirections();
+                if (fullreload)
+                {
+                    DataTable dtusers = RecipeSystem.GetUserList();
+                    DataTable dtcuisine = RecipeSystem.GetCuisineList();
+                    WindowsFormsUtility.SetListBinding(lstCuisineName, dtcuisine, dtrecipe, "Cuisine");
+                    WindowsFormsUtility.SetListBinding(lstUserName, dtusers, dtrecipe, "Users");
+                    WindowsFormsUtility.SetControlBinding(txtRecipeName, bindsource);
+                    WindowsFormsUtility.SetControlBinding(txtCalories, bindsource);
+                    WindowsFormsUtility.SetControlBinding(lblRecipeStatus, bindsource);
+                    WindowsFormsUtility.SetControlBinding(txtDateDrafted, bindsource);
+                    WindowsFormsUtility.SetControlBinding(txtDatePublished, bindsource);
+                    WindowsFormsUtility.SetControlBinding(txtDateArchived, bindsource);
+                    Show(); //Show must be before the next 2 Load() to avoid a mix up in DataGrid Columns
+                    LoadRecipeIngredients();
+                    LoadDirections();
+                    this.Tag = recipeid;
+                    this.Text += RecipeSystem.GetRecipeName(row);
+                }
 
                 SetEnabledButtons();
-                this.Tag = recipeid;
-                this.Text += RecipeSystem.GetRecipeName(row);
             }
             catch (Exception ex)
             {
@@ -278,6 +281,14 @@
             changedtables = changedtables.TrimEnd().TrimEnd(',');
 
             return recipechange || ingredientchange || stepschange;
+        }
+        private void FrmSingleRecipe_Activated(object? sender, EventArgs e)
+        {
+            if (notfirstactivation)
+            {
+                LoadForm(recipepk, false);
+            }
+            notfirstactivation = true;
         }
         private void GIngredients_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
