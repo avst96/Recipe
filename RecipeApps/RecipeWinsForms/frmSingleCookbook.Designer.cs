@@ -207,6 +207,7 @@
             txtDateCreated.ReadOnly = true;
             txtDateCreated.Size = new Size(120, 29);
             txtDateCreated.TabIndex = 10;
+            txtDateCreated.TabStop = false;
             // 
             // chkIsActive
             // 

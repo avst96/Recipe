@@ -29,7 +29,7 @@
                 WindowsFormsUtility.SetControlBinding(txtDatePublished, bindsource);
                 WindowsFormsUtility.SetControlBinding(txtDateArchived, bindsource);
 
-                recipename = RecipeSystem.GetRecipeName(dt.Rows[0]);
+                recipename = RecipeSystem.GetMainColumnNameValue(dt.Rows[0], "Recipe");
                 Text = recipename + Text;
                 SetEnabledButtons(dt.Rows[0]);
             }

@@ -9,9 +9,10 @@
             btnNewCookbook.Click += BtnNewCookbook_Click;
             gData.CellDoubleClick += GData_CellDoubleClick;
             gData.KeyDown += GData_KeyDown;
+            Activated += FrmCookbookList_Activated;
         }
 
-      
+       
 
         private void BindData()
         {
@@ -45,6 +46,14 @@
         private void GData_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
         {
             ShowCookbookForm(e.RowIndex);
+        }
+        private void FrmCookbookList_Activated(object? sender, EventArgs e)
+        {
+            if (GlobalVariables.reloadcookbooklist)
+            {
+                BindData();
+                GlobalVariables.reloadcookbooklist = false;
+            }
         }
     }
 }

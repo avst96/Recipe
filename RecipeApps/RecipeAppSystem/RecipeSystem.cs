@@ -75,18 +75,20 @@
                 SaveRecipe(table, table.Rows[0]);
             }
         }
-        public static string GetRecipeName(DataRow row)
+        public static string GetMainColumnNameValue(DataRow row, string tablename)
         {
-            string recipename = "New Recipe";
-            if (row["RecipeName"] != DBNull.Value)
+            string name = "New " + tablename;
+            string columnname = tablename + "Name";
+
+            if (row[columnname] != DBNull.Value)
             {
-                recipename = row["RecipeName"].ToString();
-                if (recipename.Length > 16)
+                name = row[columnname].ToString();
+                if (name.Length > 16)
                 {
-                    recipename = recipename.Substring(0, 13) + "...";
+                    name = name.Substring(0, 13) + "...";
                 }
             }
-            return recipename;
+            return name;
         }
     }
 }

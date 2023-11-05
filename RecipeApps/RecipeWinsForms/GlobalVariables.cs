@@ -4,5 +4,6 @@
     {
         public static bool reloadrecipelist = false;
         public static bool reloaddashboard = false;
+        public static bool reloadcookbooklist = false;
     }
 }

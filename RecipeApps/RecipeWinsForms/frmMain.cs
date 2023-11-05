@@ -49,6 +49,7 @@
                 else if (frmtype == typeof(frmSingleCookbook))
                 {
                    frmSingleCookbook f = new frmSingleCookbook();
+                    f.MdiParent = this;
                     f.LoadCookbook(pkvalue);
                     newfrm = f;
                 }

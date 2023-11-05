@@ -10,6 +10,7 @@
         BindingSource bindsource = new();
         string deletecolumnname = "Delete";
         bool notfirstactivation = false;
+        string orgfrmtext = "Recipe - ";
         public frmSingleRecipe()
         {
             InitializeComponent();
@@ -27,6 +28,7 @@
 
         public void LoadForm(int recipeid, bool fullload = true)
         {
+
             recipepk = recipeid;
             Cursor = Cursors.WaitCursor;
 
@@ -60,7 +62,7 @@
                     LoadRecipeIngredients();
                     LoadDirections();
                     this.Tag = recipeid;
-                    this.Text += RecipeSystem.GetRecipeName(row);
+                    this.Text = orgfrmtext + RecipeSystem.GetMainColumnNameValue(row, "Recipe");
                 }
 
                 SetEnabledButtons();
@@ -105,7 +107,7 @@
                 RecipeSystem.SaveRecipe(dtrecipe, dtrecipe.Rows[0]);
                 recipepk = SQLUtility.GetValueFromFirstRowAsInt(dtrecipe, "RecipeID");
                 this.Tag = recipepk;
-                this.Text += RecipeSystem.GetRecipeName(row);
+                this.Text = orgfrmtext + RecipeSystem.GetMainColumnNameValue(row, "Recipe");
                 bindsource.ResetBindings(false);
                 SetEnabledButtons();
                 recipesaved = true;
