@@ -14,7 +14,7 @@ as
 begin
     declare @return int = 0
 
-    select @CookbookId = isnull(@CookbookId,0), @Price = isnull(@Price,0)
+    select @CookbookId = isnull(@CookbookId,0), @Price = isnull(@Price,0), @IsActive = isnull(@IsActive, 0)
 
     if(@CookbookId = 0)
         begin

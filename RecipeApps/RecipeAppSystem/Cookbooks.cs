@@ -23,5 +23,13 @@
 #endif
             SQLUtility.SaveDataRow(dt.Rows[rowindex], "CookbookUpdate");
         }
+        //!Need to make sproc for delete
+        public static void DeleteCookbook(DataRow row)
+        {
+            int cookbookid = (int)row["CookbookId"];
+            SqlCommand cmd = SQLUtility.GetSqlCommand("CookbookDelete");
+            SQLUtility.SetParamValue(cmd, "@CookbookId", cookbookid);
+            SQLUtility.ExecuteSQL(cmd);
+        }
     }
 }

@@ -9,11 +9,13 @@
         DataRow row;
         string deletecolname = "Delete";
         string orgfrmtext = "Cookbook - ";
+        string cookbookname = string.Empty;
         int cookbookid = 0;
         public frmSingleCookbook()
         {
             InitializeComponent();
             btnSave.Click += BtnSave_Click;
+            btnDelete.Click += BtnDelete_Click;
         }
 
 
@@ -43,8 +45,9 @@
 
                 Show(); //Show should be before LoadCookbookRecipes() to avoid mix up in columns in grid
                 LoadCookbookRecipes();
+                cookbookname = RecipeSystem.GetMainColumnNameValue(row, "Book");
                 this.Tag = cookbookid;
-                this.Text = orgfrmtext + RecipeSystem.GetMainColumnNameValue(dtcookbook.Rows[0], "Book");
+                this.Text = orgfrmtext + cookbookname;
             }
             catch (Exception ex)
             {
@@ -73,7 +76,8 @@
                 Cookbooks.SaveCookbook(dtcookbook);
                 cookbookid = SQLUtility.GetValueFromFirstRowAsInt(dtcookbook, "CookbookID");
                 this.Tag = cookbookid;
-                this.Text = orgfrmtext + RecipeSystem.GetMainColumnNameValue(row, "Book");
+                cookbookname = RecipeSystem.GetMainColumnNameValue(row, "Book");
+                this.Text = orgfrmtext + cookbookname;
                 bindsource.ResetBindings(false);
                 SetEnabledButtons();
                 GlobalVariables.reloadcookbooklist = true;
@@ -85,6 +89,30 @@
             }
             finally { Cursor = Cursors.Default; }
         }
+        private void Delete()
+        {
+            DialogResult answer = MessageBox.Show($"Are you sure you want to delete this cookbook '{cookbookname}'?", "Recipe App", MessageBoxButtons.YesNo);
+            if (answer == DialogResult.Yes)
+            {
+
+                Application.UseWaitCursor = true;
+                try
+                {
+                    Cookbooks.DeleteCookbook(row);
+                    GlobalVariables.reloadcookbooklist = true;
+                    GlobalVariables.reloaddashboard = true;
+                    Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Application.UseWaitCursor = false;
+                }
+            }
+        }
 
         private void SetEnabledButtons()
         {
@@ -94,6 +122,10 @@
         private void BtnSave_Click(object? sender, EventArgs e)
         {
             Save();
+        }
+        private void BtnDelete_Click(object? sender, EventArgs e)
+        {
+            Delete();
         }
     }
 }
