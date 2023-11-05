@@ -25,7 +25,7 @@
         }
 
 
-        public void LoadForm(int recipeid, bool fullreload = true)
+        public void LoadForm(int recipeid, bool fullload = true)
         {
             recipepk = recipeid;
             Cursor = Cursors.WaitCursor;
@@ -44,7 +44,7 @@
 #if DEBUG
                 SQLUtility.DebugPrintDataTable(dtrecipe);
 #endif
-                if (fullreload)
+                if (fullload)
                 {
                     DataTable dtusers = RecipeSystem.GetUserList();
                     DataTable dtcuisine = RecipeSystem.GetCuisineList();

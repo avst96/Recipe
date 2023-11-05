@@ -7,16 +7,26 @@
             InitializeComponent();
             BindData();
             btnNewCookbook.Click += BtnNewCookbook_Click;
-            gData.CellContentClick += GData_CellContentClick;
+            gData.CellDoubleClick += GData_CellDoubleClick;
             gData.KeyDown += GData_KeyDown;
         }
 
-       
+      
 
         private void BindData()
         {
             gData.DataSource = Cookbooks.CookbookSummaryGet();
             WindowsFormsUtility.FormatGridForSearchResults(gData);
+        }
+        private void ShowCookbookForm(int rowIndex)
+        {
+            int id = 0;
+
+            if(rowIndex >= 0) 
+            { 
+                id = (int)gData.Rows[rowIndex].Cells["CookbookID"].Value;
+                ((frmMain)MdiParent).OpenForm(typeof(frmSingleCookbook), id);
+            }
         }
 
         private void BtnNewCookbook_Click(object? sender, EventArgs e)
@@ -25,12 +35,16 @@
         }
         private void GData_KeyDown(object? sender, KeyEventArgs e)
         {
-            throw new NotImplementedException();
+            if(e.KeyCode == Keys.Enter)
+            {
+                ShowCookbookForm(gData.SelectedRows[0].Index);
+            }
         }
 
-        private void GData_CellContentClick(object? sender, DataGridViewCellEventArgs e)
+
+        private void GData_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
         {
-            throw new NotImplementedException();
+            ShowCookbookForm(e.RowIndex);
         }
     }
 }

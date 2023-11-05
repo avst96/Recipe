@@ -48,7 +48,9 @@
                 }
                 else if (frmtype == typeof(frmSingleCookbook))
                 {
-                    newfrm = new frmSingleCookbook();
+                   frmSingleCookbook f = new frmSingleCookbook();
+                    f.LoadCookbook(pkvalue);
+                    newfrm = f;
                 }
                 if (newfrm != null)
                 {

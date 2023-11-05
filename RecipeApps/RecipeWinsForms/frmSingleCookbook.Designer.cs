@@ -40,7 +40,7 @@
             lstUserName = new ComboBox();
             txtPrice = new TextBox();
             txtDateCreated = new TextBox();
-            chkActive = new CheckBox();
+            chkIsActive = new CheckBox();
             label1 = new Label();
             btnSaveRecipe = new Button();
             gDataRecipe = new DataGridView();
@@ -65,7 +65,7 @@
             tblMain.Controls.Add(lstUserName, 1, 2);
             tblMain.Controls.Add(txtPrice, 1, 4);
             tblMain.Controls.Add(txtDateCreated, 2, 4);
-            tblMain.Controls.Add(chkActive, 1, 5);
+            tblMain.Controls.Add(chkIsActive, 1, 5);
             tblMain.Controls.Add(label1, 0, 6);
             tblMain.Controls.Add(btnSaveRecipe, 0, 7);
             tblMain.Controls.Add(gDataRecipe, 0, 8);
@@ -177,6 +177,7 @@
             // 
             lstUserName.Anchor = AnchorStyles.Left;
             tblMain.SetColumnSpan(lstUserName, 2);
+            lstUserName.DropDownStyle = ComboBoxStyle.DropDownList;
             lstUserName.FormattingEnabled = true;
             lstUserName.Location = new Point(160, 107);
             lstUserName.Margin = new Padding(3, 11, 3, 32);
@@ -207,18 +208,18 @@
             txtDateCreated.Size = new Size(120, 29);
             txtDateCreated.TabIndex = 10;
             // 
-            // chkActive
+            // chkIsActive
             // 
-            chkActive.Anchor = AnchorStyles.Left;
-            chkActive.AutoSize = true;
-            chkActive.BackColor = SystemColors.Control;
-            chkActive.CheckAlign = ContentAlignment.BottomLeft;
-            chkActive.Font = new Font("Segoe UI", 25F, FontStyle.Regular, GraphicsUnit.Point);
-            chkActive.Location = new Point(160, 267);
-            chkActive.Name = "chkActive";
-            chkActive.Size = new Size(15, 14);
-            chkActive.TabIndex = 11;
-            chkActive.UseVisualStyleBackColor = false;
+            chkIsActive.Anchor = AnchorStyles.Left;
+            chkIsActive.AutoSize = true;
+            chkIsActive.BackColor = SystemColors.Control;
+            chkIsActive.CheckAlign = ContentAlignment.BottomLeft;
+            chkIsActive.Font = new Font("Segoe UI", 25F, FontStyle.Regular, GraphicsUnit.Point);
+            chkIsActive.Location = new Point(160, 267);
+            chkIsActive.Name = "chkIsActive";
+            chkIsActive.Size = new Size(15, 14);
+            chkIsActive.TabIndex = 11;
+            chkIsActive.UseVisualStyleBackColor = false;
             // 
             // label1
             // 
@@ -283,7 +284,7 @@
         private ComboBox lstUserName;
         private TextBox txtPrice;
         private TextBox txtDateCreated;
-        private CheckBox chkActive;
+        private CheckBox chkIsActive;
         private Label label1;
         private Button btnSaveRecipe;
         private DataGridView gDataRecipe;

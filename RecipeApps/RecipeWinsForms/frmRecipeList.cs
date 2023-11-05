@@ -33,14 +33,12 @@
         {
             int recipeid = 0;
 
-            if (rowindex != -1) //Clicking on the header returns a -1, in which case I don't wan't to do anything
+            if (rowindex >= 0)
             {
-                if (rowindex >= 0)
-                {
-                    recipeid = (int)gData.Rows[rowindex].Cells["RecipeID"].Value;
-                }
+                recipeid = (int)gData.Rows[rowindex].Cells["RecipeID"].Value;
+                ((frmMain)MdiParent).OpenForm(typeof(frmSingleRecipe), recipeid);
             }
-            ((frmMain)MdiParent).OpenForm(typeof(frmSingleRecipe), recipeid);
+
         }
 
         private void GData_KeyDown(object? sender, KeyEventArgs e)
@@ -53,11 +51,7 @@
 
         private void GData_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex > -1)
-            {
-                ShowRecipeForm(e.RowIndex);
-            }
-
+            ShowRecipeForm(e.RowIndex);
         }
 
         private void BtnNewRecipe_Click(object? sender, EventArgs e)

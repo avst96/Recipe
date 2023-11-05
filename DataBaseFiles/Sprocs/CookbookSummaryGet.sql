@@ -10,13 +10,13 @@ as
 begin
     declare @return int = 0
 
-    select c.BookName as Cookbook_Name, concat(u.FirstName, ' ', u.LastName) as Author, count(cr.RecipeID)as Num_Recipes, c.Price
+    select c.CookbookID, c.BookName as Cookbook_Name, concat(u.FirstName, ' ', u.LastName) as Author, count(cr.RecipeID)as Num_Recipes, c.Price
     from Cookbook c 
     join Users u
     on c.UsersID = u.UsersID
     left join CookbookRecipe cr 
     on c.CookbookID = cr.CookbookID
-    group by c.BookName, u.FirstName, u.LastName, c.Price
+    group by c.CookbookID, c.BookName, u.FirstName, u.LastName, c.Price
     order by c.BookName
 
 
