@@ -443,7 +443,7 @@
             btnSaveIngredients.Name = "btnSaveIngredients";
             btnSaveIngredients.Size = new Size(75, 31);
             btnSaveIngredients.TabIndex = 0;
-            btnSaveIngredients.Text = "Save";
+            btnSaveIngredients.Text = "S&ave";
             btnSaveIngredients.UseVisualStyleBackColor = false;
             // 
             // gIngredients

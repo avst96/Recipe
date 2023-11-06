@@ -11,7 +11,7 @@ begin
 
     select @CookbookId = isnull(@CookbookId,0)
 
-    select cr.RecipeID, cr.RecipeSeq
+    select cr.CookbookRecipeID, cr.CookbookID, cr.RecipeID, cr.RecipeSeq
     from CookbookRecipe cr 
     where cr.CookbookId = @CookbookId
     order by cr.RecipeSeq

@@ -4,7 +4,7 @@
     public partial class frmSingleCookbook : Form
     {
         DataTable dtcookbook = new();
-        DataTable dtrecipe = new();
+        DataTable dtcookbookrecipe = new();
         BindingSource bindsource = new();
         DataRow row;
         string deletecolname = "Delete";
@@ -16,9 +16,13 @@
             InitializeComponent();
             btnSave.Click += BtnSave_Click;
             btnDelete.Click += BtnDelete_Click;
+            btnSaveRecipe.Click += BtnSaveRecipe_Click;
+            gDataRecipe.CellContentClick += GDataRecipe_CellContentClick;
         }
 
+      
 
+       
 
         public void LoadCookbook(int bookid = 0)
         {
@@ -33,6 +37,7 @@
                 if (bookid == 0)
                 {
                     dtcookbook.Rows.Add();
+                    dtcookbook.AcceptChanges();
                 }
                 row = dtcookbook.Rows[0];
 
@@ -59,12 +64,13 @@
 
         private void LoadCookbookRecipes()
         {
-            dtrecipe = RecipeChildrenRecords.LoadChildById(cookbookid, "CookbookRecipeGet", "CookbookID");
+            dtcookbookrecipe = Cookbooks.LoadRecipeByCookbookId(cookbookid);
             gDataRecipe.Columns.Clear();
-            gDataRecipe.DataSource = dtrecipe;
+            gDataRecipe.DataSource = dtcookbookrecipe;
             WindowsFormsUtility.AddComboBoxToGrid(gDataRecipe, DataMaintenance.GetDataList("Recipe", true), "Recipe", "RecipeName");
             WindowsFormsUtility.AddDeleteButtonToGrid(gDataRecipe, deletecolname);
             WindowsFormsUtility.FormatGridForEdit(gDataRecipe);
+
         }
 
 
@@ -113,7 +119,45 @@
                 }
             }
         }
+        private void SaveCookbookRecipe()
+        {
+            Cursor = Cursors.WaitCursor;
+            try
+            {
+                Cookbooks.SaveCookbookRecipe(dtcookbookrecipe, cookbookid);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, Application.ProductName);
+                LoadCookbookRecipes();
+            }
+            finally { Cursor = Cursors.Default; }
+        }
+        private void DeleteRecipeFromCookbook(int rowindex)
+        {
+            var ans = MessageBox.Show("Are you sure you want to delete this recipe from the cookbook?", Application.ProductName, MessageBoxButtons.YesNo);
+            if (ans == DialogResult.Yes)
+            {
+                int recordid = WindowsFormsUtility.GetIdFromGrid(gDataRecipe, rowindex, "CookbookRecipeID");
 
+                if (recordid > 0)
+                {
+                    try
+                    {
+                        Cookbooks.DeleteCookbookRecipe(recordid);
+                        LoadCookbookRecipes();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, Application.ProductName);
+                    }
+                }
+                else if (recordid == 0 && rowindex < gDataRecipe.Rows.Count)
+                {
+                    gDataRecipe.Rows.RemoveAt(rowindex);
+                }
+            }
+        }
         private void SetEnabledButtons()
         {
             btnDelete.Enabled = cookbookid == 0 ? false : true;
@@ -127,5 +171,17 @@
         {
             Delete();
         }
-    }
+        private void BtnSaveRecipe_Click(object? sender, EventArgs e)
+        {
+            SaveCookbookRecipe();
+        }
+        private void GDataRecipe_CellContentClick(object? sender, DataGridViewCellEventArgs e)
+        {
+
+            if (gDataRecipe.Columns[e.ColumnIndex].Name == deletecolname)
+            {
+                DeleteRecipeFromCookbook(e.RowIndex);
+            }
+        }
+            }
 }

@@ -23,12 +23,32 @@
 #endif
             SQLUtility.SaveDataRow(dt.Rows[rowindex], "CookbookUpdate");
         }
-        //!Need to make sproc for delete
         public static void DeleteCookbook(DataRow row)
         {
             int cookbookid = (int)row["CookbookId"];
             SqlCommand cmd = SQLUtility.GetSqlCommand("CookbookDelete");
             SQLUtility.SetParamValue(cmd, "@CookbookId", cookbookid);
+            SQLUtility.ExecuteSQL(cmd);
+        }
+        public static DataTable LoadRecipeByCookbookId(int cookbookid)
+        {
+            SqlCommand cmd = SQLUtility.GetSqlCommand("CookbookRecipeGet");
+            SQLUtility.SetParamValue(cmd, "@CookbookID", cookbookid);
+            return SQLUtility.GetDataTable(cmd);
+        }
+        public static void SaveCookbookRecipe(DataTable dt, int primarykey)
+        {
+            foreach (DataRow r in dt.Select("", "", DataViewRowState.Added))
+            {
+                r["CookbookID"] = primarykey;
+            }
+            SQLUtility.SaveDataTable(dt, "CookbookRecipeUpdate");
+        }
+
+        public static void DeleteCookbookRecipe(int recordid)
+        {
+            SqlCommand cmd = SQLUtility.GetSqlCommand("CookbookRecipeDelete");
+            cmd.Parameters["@CookbookRecipeId"].Value = recordid;
             SQLUtility.ExecuteSQL(cmd);
         }
     }

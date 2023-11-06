@@ -11,6 +11,7 @@
         string deletecolumnname = "Delete";
         bool notfirstactivation = false;
         string orgfrmtext = "Recipe - ";
+        string recipename = string.Empty;
         public frmSingleRecipe()
         {
             InitializeComponent();
@@ -40,6 +41,7 @@
                 if (recipeid == 0)
                 {
                     dtrecipe.Rows.Add();
+                    dtrecipe.AcceptChanges();
                 }
                 row = dtrecipe.Rows[0];
 
@@ -62,7 +64,8 @@
                     LoadRecipeIngredients();
                     LoadDirections();
                     this.Tag = recipeid;
-                    this.Text = orgfrmtext + RecipeSystem.GetMainColumnNameValue(row, "Recipe");
+                    recipename = RecipeSystem.GetMainColumnNameValue(row, "Recipe");
+                    this.Text = orgfrmtext + recipename;
                 }
 
                 SetEnabledButtons();
@@ -107,7 +110,8 @@
                 RecipeSystem.SaveRecipe(dtrecipe, dtrecipe.Rows[0]);
                 recipepk = SQLUtility.GetValueFromFirstRowAsInt(dtrecipe, "RecipeID");
                 this.Tag = recipepk;
-                this.Text = orgfrmtext + RecipeSystem.GetMainColumnNameValue(row, "Recipe");
+                recipename = RecipeSystem.GetMainColumnNameValue(row, "Recipe");
+                this.Text = orgfrmtext + recipename;
                 bindsource.ResetBindings(false);
                 SetEnabledButtons();
                 recipesaved = true;
@@ -127,7 +131,7 @@
 
         private void RecipeDelete()
         {
-            DialogResult answer = MessageBox.Show("Are you sure you want to delete this recipe and all related records?", "Recipe App", MessageBoxButtons.YesNo);
+            DialogResult answer = MessageBox.Show($"Are you sure you want to delete this recipe '{recipename}' and all related records?", "Recipe App", MessageBoxButtons.YesNo);
             if (answer == DialogResult.Yes)
             {
 
@@ -205,6 +209,7 @@
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, Application.ProductName);
+                LoadRecipeIngredients();
             }
             return b;
         }
@@ -219,6 +224,7 @@
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, Application.ProductName);
+                LoadDirections();
             }
             return b;
         }

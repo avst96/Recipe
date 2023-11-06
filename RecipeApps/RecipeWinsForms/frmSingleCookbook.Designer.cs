@@ -89,23 +89,25 @@
             // 
             btnDelete.Anchor = AnchorStyles.Left;
             btnDelete.AutoSize = true;
+            btnDelete.BackColor = Color.Red;
             btnDelete.Location = new Point(160, 10);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(100, 31);
             btnDelete.TabIndex = 1;
-            btnDelete.Text = "Delete";
-            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Text = "&Delete";
+            btnDelete.UseVisualStyleBackColor = false;
             // 
             // btnSave
             // 
             btnSave.AutoSize = true;
+            btnSave.BackColor = Color.LimeGreen;
             btnSave.Location = new Point(20, 10);
             btnSave.Margin = new Padding(20, 10, 10, 10);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(100, 31);
             btnSave.TabIndex = 0;
-            btnSave.Text = "Save";
-            btnSave.UseVisualStyleBackColor = true;
+            btnSave.Text = "&Save";
+            btnSave.UseVisualStyleBackColor = false;
             // 
             // lblName
             // 
@@ -236,13 +238,14 @@
             // btnSaveRecipe
             // 
             btnSaveRecipe.AutoSize = true;
+            btnSaveRecipe.BackColor = Color.LimeGreen;
             btnSaveRecipe.Location = new Point(20, 307);
             btnSaveRecipe.Margin = new Padding(20, 10, 10, 10);
             btnSaveRecipe.Name = "btnSaveRecipe";
             btnSaveRecipe.Size = new Size(100, 31);
             btnSaveRecipe.TabIndex = 13;
-            btnSaveRecipe.Text = "Save";
-            btnSaveRecipe.UseVisualStyleBackColor = true;
+            btnSaveRecipe.Text = "S&ave";
+            btnSaveRecipe.UseVisualStyleBackColor = false;
             // 
             // gDataRecipe
             // 
