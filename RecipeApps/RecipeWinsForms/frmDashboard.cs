@@ -9,10 +9,10 @@
             Activated += FrmDashboard_Activated;
             btnRecipeList.Click += BtnRecipeList_Click;
             btnCookbookList.Click += BtnCookbookList_Click;
+            btnMealList.Click += BtnMealList_Click;
         }
 
-
-
+      
         private void FrmDashboard_Activated(object? sender, EventArgs e)
         {
             if (GlobalVariables.reloaddashboard)
@@ -47,5 +47,10 @@
         {
             ((frmMain)MdiParent).OpenForm(typeof(frmCookbookList));
         }
+        private void BtnMealList_Click(object? sender, EventArgs e)
+        {
+            ((frmMain)MdiParent).OpenForm(typeof(frmMealList));
+        }
+
     }
 }

@@ -23,7 +23,7 @@
             Activated += FrmSingleCookbook_Activated;
         }
 
-       
+
         public void LoadCookbook(int bookid = 0)
         {
             DataTable dtusers = new();
@@ -221,13 +221,10 @@
         }
         private void FrmSingleCookbook_Activated(object? sender, EventArgs e)
         {
-            if (firstactivation == false)
+            if (firstactivation == false && GlobalVariables.reloadcookbookrecipe)
             {
-                if (GlobalVariables.reloadcookbookrecipe)
-                {
-                    LoadCookbookRecipes();
-                    GlobalVariables.reloadcookbookrecipe = false;
-                }
+                LoadCookbookRecipes();
+                GlobalVariables.reloadcookbookrecipe = false;
             }
             firstactivation = false;
         }

@@ -28,26 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            tblMain = new TableLayoutPanel();
             gData = new DataGridView();
-            tblMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gData).BeginInit();
             SuspendLayout();
-            // 
-            // tblMain
-            // 
-            tblMain.ColumnCount = 1;
-            tblMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tblMain.Controls.Add(gData, 0, 0);
-            tblMain.Dock = DockStyle.Fill;
-            tblMain.Location = new Point(0, 0);
-            tblMain.Margin = new Padding(50);
-            tblMain.Name = "tblMain";
-            tblMain.Padding = new Padding(12);
-            tblMain.RowCount = 1;
-            tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tblMain.Size = new Size(619, 406);
-            tblMain.TabIndex = 0;
             // 
             // gData
             // 
@@ -67,19 +50,17 @@
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(619, 406);
-            Controls.Add(tblMain);
+            Controls.Add(gData);
             Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "frmMealList";
+            Padding = new Padding(15);
             Text = "Meal List";
-            tblMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)gData).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
-
-        private TableLayoutPanel tblMain;
         private DataGridView gData;
     }
 }

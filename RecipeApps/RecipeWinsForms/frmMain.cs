@@ -10,6 +10,7 @@
             mnuListRecipe.Click += MnuListRecipe_Click;
             mnuNewRecipe.Click += MnuNewRecipe_Click;
             mnuListCookbooks.Click += MnuListCookbooks_Click;
+            mnuListMeals.Click += MnuListMeals_Click;
         }
 
 
@@ -21,10 +22,7 @@
             {
                 Form? newfrm = new();
 
-                if (frmtype == typeof(frmDashboard))
-                {
-                    newfrm = new frmDashboard();
-                }
+                if (frmtype == typeof(frmDashboard)) { newfrm = new frmDashboard(); }
                 else if (frmtype == typeof(frmSingleRecipe))
                 {
                     frmSingleRecipe f = new frmSingleRecipe();
@@ -32,27 +30,22 @@
                     f.LoadForm(pkvalue); //LoadForm must be after MidParent setting to avoid issues with column ordering in DataGrid
                     newfrm = f;
                 }
-                else if (frmtype == typeof(frmRecipeList))
-                {
-                    newfrm = new frmRecipeList();
-                }
+                else if (frmtype == typeof(frmRecipeList)) { newfrm = new frmRecipeList(); }
                 else if (frmtype == typeof(frmChangeStatus))
                 {
                     frmChangeStatus f = new frmChangeStatus();
                     f.LoadForm(pkvalue);
                     newfrm = f;
                 }
-                else if (frmtype == typeof(frmCookbookList))
-                {
-                    newfrm = new frmCookbookList();
-                }
+                else if (frmtype == typeof(frmCookbookList)) { newfrm = new frmCookbookList(); }
                 else if (frmtype == typeof(frmSingleCookbook))
                 {
-                   frmSingleCookbook f = new frmSingleCookbook();
+                    frmSingleCookbook f = new frmSingleCookbook();
                     f.MdiParent = this;
                     f.LoadCookbook(pkvalue);
                     newfrm = f;
                 }
+                else if (frmtype == typeof(frmMealList)) { newfrm = new frmMealList(); }
                 if (newfrm != null)
                 {
                     newfrm.MdiParent = this;
@@ -101,6 +94,10 @@
         private void MnuListCookbooks_Click(object? sender, EventArgs e)
         {
             OpenForm(typeof(frmCookbookList));
+        }
+        private void MnuListMeals_Click(object? sender, EventArgs e)
+        {
+            OpenForm(typeof(frmMealList));
         }
     }
 }
