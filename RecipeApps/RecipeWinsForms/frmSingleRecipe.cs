@@ -141,6 +141,7 @@
                     RecipeSystem.DeleteRecipe(row);
                     GlobalVariables.reloadrecipelist = true;
                     GlobalVariables.reloaddashboard = true;
+                    GlobalVariables.reloadcookbookrecipe = true;
                     Close();
                 }
                 catch (Exception ex)
@@ -269,15 +270,6 @@
                 }
             }
         }
-        private void SetEnabledButtons()
-        {
-            bool b = recipepk == 0 ? false : true;
-            btnChangeStatus.Enabled = b;
-            btnDelete.Enabled = b;
-            btnSaveSteps.Enabled = b;
-            btnSaveIngredients.Enabled = b;
-        }
-
         private bool CheckSaveForAllRecipeTables(out string changedtables, out bool recipechange, out bool ingredientchange, out bool stepschange)
         {
             recipechange = SQLUtility.TableHasChanges(dtrecipe);
@@ -290,6 +282,15 @@
 
             return recipechange || ingredientchange || stepschange;
         }
+        private void SetEnabledButtons()
+        {
+            bool b = recipepk == 0 ? false : true;
+            btnChangeStatus.Enabled = b;
+            btnDelete.Enabled = b;
+            btnSaveSteps.Enabled = b;
+            btnSaveIngredients.Enabled = b;
+        }
+
         private void FrmSingleRecipe_Activated(object? sender, EventArgs e)
         {
             if (notfirstactivation)

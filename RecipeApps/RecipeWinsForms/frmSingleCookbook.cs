@@ -7,6 +7,7 @@
         DataTable dtcookbookrecipe = new();
         BindingSource bindsource = new();
         DataRow row;
+        bool firstactivation = true;
         string deletecolname = "Delete";
         string orgfrmtext = "Cookbook - ";
         string cookbookname = string.Empty;
@@ -18,12 +19,11 @@
             btnDelete.Click += BtnDelete_Click;
             btnSaveRecipe.Click += BtnSaveRecipe_Click;
             gDataRecipe.CellContentClick += GDataRecipe_CellContentClick;
+            FormClosing += FrmSingleCookbook_FormClosing;
+            Activated += FrmSingleCookbook_Activated;
         }
 
-      
-
        
-
         public void LoadCookbook(int bookid = 0)
         {
             DataTable dtusers = new();
@@ -74,8 +74,10 @@
         }
 
 
-        private void Save()
+        private bool Save()
         {
+            bool saved = false;
+
             Cursor = Cursors.WaitCursor;
             try
             {
@@ -88,12 +90,14 @@
                 SetEnabledButtons();
                 GlobalVariables.reloadcookbooklist = true;
                 GlobalVariables.reloaddashboard = true;
+                saved = true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, Application.ProductName);
             }
             finally { Cursor = Cursors.Default; }
+            return saved;
         }
         private void Delete()
         {
@@ -119,12 +123,14 @@
                 }
             }
         }
-        private void SaveCookbookRecipe()
+        private bool SaveCookbookRecipe()
         {
+            bool saved = false;
             Cursor = Cursors.WaitCursor;
             try
             {
                 Cookbooks.SaveCookbookRecipe(dtcookbookrecipe, cookbookid);
+                saved = true;
             }
             catch (Exception ex)
             {
@@ -132,6 +138,7 @@
                 LoadCookbookRecipes();
             }
             finally { Cursor = Cursors.Default; }
+            return saved;
         }
         private void DeleteRecipeFromCookbook(int rowindex)
         {
@@ -163,6 +170,67 @@
             btnDelete.Enabled = cookbookid == 0 ? false : true;
             btnSaveRecipe.Enabled = cookbookid == 0 ? false : true;
         }
+        private void FrmSingleCookbook_FormClosing(object? sender, FormClosingEventArgs e)
+        {
+            bool cookbooksaved = true;
+            bool recipesaved = true;
+            bindsource.EndEdit();
+
+            bool change = CheckSaveForAllTables(out string changedtables, out bool recipechange, out bool cookbookchange);
+
+            string msg = $"You have unsaved changes in the following table(s) - {changedtables}. Do you want to save changes before closing?";
+
+            if (change)
+            {
+                DialogResult ans = MessageBox.Show(msg, Application.ProductName, MessageBoxButtons.YesNoCancel);
+                if (ans == DialogResult.Yes)
+                {
+                    if (cookbookchange)
+                    {
+                        cookbooksaved = Save();
+                    }
+                    if (recipechange)
+                    {
+                        recipesaved = SaveCookbookRecipe();
+                    }
+
+                    if (recipesaved == false || cookbooksaved == false)
+                    {
+                        e.Cancel = true;
+                        Activate();
+                    }
+                }
+                else if (ans == DialogResult.Cancel)
+                {
+                    e.Cancel = true;
+                    Activate();
+                }
+            }
+        }
+        private bool CheckSaveForAllTables(out string changedtables, out bool recipechange, out bool cookbookchange)
+        {
+            recipechange = SQLUtility.TableHasChanges(dtcookbookrecipe);
+            cookbookchange = SQLUtility.TableHasChanges(dtcookbook);
+
+            changedtables = cookbookchange ? "Cookbook, " : "";
+            changedtables += recipechange ? "Recipes" : "";
+
+            changedtables = changedtables.TrimEnd().TrimEnd(',');
+
+            return recipechange || cookbookchange;
+        }
+        private void FrmSingleCookbook_Activated(object? sender, EventArgs e)
+        {
+            if (firstactivation == false)
+            {
+                if (GlobalVariables.reloadcookbookrecipe)
+                {
+                    LoadCookbookRecipes();
+                    GlobalVariables.reloadcookbookrecipe = false;
+                }
+            }
+            firstactivation = false;
+        }
         private void BtnSave_Click(object? sender, EventArgs e)
         {
             Save();
@@ -183,5 +251,5 @@
                 DeleteRecipeFromCookbook(e.RowIndex);
             }
         }
-            }
+    }
 }

@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization.Formatters;
-
-namespace RecipeWinsForms
+﻿namespace RecipeWinsForms
 {
     public partial class frmDashboard : Form
     {
