@@ -36,6 +36,7 @@
             // 
             gData.AllowUserToAddRows = false;
             gData.AllowUserToDeleteRows = false;
+            gData.BackgroundColor = SystemColors.Control;
             gData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             gData.Dock = DockStyle.Fill;
             gData.Location = new Point(15, 15);
