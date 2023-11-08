@@ -2,24 +2,20 @@
 {
     public partial class frmDashboard : Form
     {
+
         public frmDashboard()
         {
             InitializeComponent();
-            BindData();
             Activated += FrmDashboard_Activated;
             btnRecipeList.Click += BtnRecipeList_Click;
             btnCookbookList.Click += BtnCookbookList_Click;
             btnMealList.Click += BtnMealList_Click;
         }
 
-      
+
         private void FrmDashboard_Activated(object? sender, EventArgs e)
         {
-            if (GlobalVariables.reloaddashboard)
-            {
-                BindData();
-                GlobalVariables.reloaddashboard = false;
-            }
+            BindData();
         }
 
 
@@ -38,7 +34,7 @@
                 btn.Text = rows[0]["DashboardText"].ToString();
             }
         }
-       
+
         private void BtnRecipeList_Click(object? sender, EventArgs e)
         {
             ((frmMain)MdiParent).OpenForm(typeof(frmRecipeList));

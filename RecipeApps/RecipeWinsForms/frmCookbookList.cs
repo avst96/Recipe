@@ -49,11 +49,7 @@
         }
         private void FrmCookbookList_Activated(object? sender, EventArgs e)
         {
-            if (GlobalVariables.reloadcookbooklist)
-            {
-                BindData();
-                GlobalVariables.reloadcookbooklist = false;
-            }
+            BindData();
         }
     }
 }

@@ -5,6 +5,7 @@
         BindingSource bindsource = new();
         DataTable dt = new();
         RecipeSystem.StatusEnum newstatusenum = new();
+        int recipeid = 0;
         string msg = "Are you sure you want to change to status of this recipe to ";
 
         public frmChangeStatus()
@@ -13,26 +14,49 @@
             btnDraft.Click += BtnDraft_Click;
             btnPublish.Click += BtnPublish_Click;
             btnArchive.Click += BtnArchive_Click;
+            Activated += FrmChangeStatus_Activated;
         }
-        public void LoadForm(int pkvalue)
+
+        private void FrmChangeStatus_Activated(object? sender, EventArgs e)
         {
+            LoadForm(recipeid, false);
+        }
+
+        public void LoadForm(int pkvalue, bool binddata = true)
+        {
+            recipeid = pkvalue;
             string recipename = "";
             this.Tag = pkvalue;
-            dt = RecipeSystem.LoadRecipe(pkvalue);
-            if (dt.Rows.Count > 0)
+            Cursor = Cursors.WaitCursor;
+            try
             {
-                bindsource.DataSource = dt;
+                dt = RecipeSystem.LoadRecipe(pkvalue);
+                if (dt.Rows.Count > 0)
+                {
+                    bindsource.DataSource = dt;
+                    if (binddata)
+                    {
+                        WindowsFormsUtility.SetControlBinding(lblRecipeName, bindsource);
+                        WindowsFormsUtility.SetControlBinding(lblRecipeStatus, bindsource);
+                        WindowsFormsUtility.SetControlBinding(txtDateDrafted, bindsource);
+                        WindowsFormsUtility.SetControlBinding(txtDatePublished, bindsource);
+                        WindowsFormsUtility.SetControlBinding(txtDateArchived, bindsource);
+                    }
 
-                WindowsFormsUtility.SetControlBinding(lblRecipeName, bindsource);
-                WindowsFormsUtility.SetControlBinding(lblRecipeStatus, bindsource);
-                WindowsFormsUtility.SetControlBinding(txtDateDrafted, bindsource);
-                WindowsFormsUtility.SetControlBinding(txtDatePublished, bindsource);
-                WindowsFormsUtility.SetControlBinding(txtDateArchived, bindsource);
-
-                recipename = RecipeSystem.GetMainColumnNameValue(dt.Rows[0], "Recipe");
-                Text = recipename + Text;
-                SetEnabledButtons(dt.Rows[0]);
+                    recipename = RecipeSystem.GetMainColumnNameValue(dt.Rows[0], "Recipe");
+                    Text = recipename + Text;
+                    SetEnabledButtons(dt.Rows[0]);
+                }
+                else if(dt.Rows.Count == 0) //Recipe was deleted
+                {
+                    Close();
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, Application.ProductName);
+            }
+            finally { Cursor = Cursors.Default; }
         }
 
         private void ChangeRecipeStatus(RecipeSystem.StatusEnum newstatusenum)

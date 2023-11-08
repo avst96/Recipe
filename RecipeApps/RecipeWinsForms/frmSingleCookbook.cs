@@ -7,7 +7,6 @@
         DataTable dtcookbookrecipe = new();
         BindingSource bindsource = new();
         DataRow row;
-        bool firstactivation = true;
         string deletecolname = "Delete";
         string orgfrmtext = "Cookbook - ";
         string cookbookname = string.Empty;
@@ -21,12 +20,12 @@
             gDataRecipe.CellContentClick += GDataRecipe_CellContentClick;
             FormClosing += FrmSingleCookbook_FormClosing;
             Activated += FrmSingleCookbook_Activated;
-        }
+                  }
 
 
-        public void LoadCookbook(int bookid = 0)
+        public void LoadCookbook(int bookid = 0, bool binddata = true)
         {
-            DataTable dtusers = new();
+            DataTable dtusers = DataMaintenance.GetDataList("Users", true);
             cookbookid = bookid;
             Cursor = Cursors.WaitCursor;
             try
@@ -40,12 +39,14 @@
                     dtcookbook.AcceptChanges();
                 }
                 row = dtcookbook.Rows[0];
-
-                WindowsFormsUtility.SetControlBinding(txtBookName, bindsource);
-                WindowsFormsUtility.SetControlBinding(txtPrice, bindsource);
-                WindowsFormsUtility.SetControlBinding(txtDateCreated, bindsource);
-                WindowsFormsUtility.SetControlBinding(chkIsActive, bindsource);
-                WindowsFormsUtility.SetListBinding(lstUserName, DataMaintenance.GetDataList("Users", true), dtcookbook, "Users");
+                if (binddata)
+                {
+                    WindowsFormsUtility.SetControlBinding(txtBookName, bindsource);
+                    WindowsFormsUtility.SetControlBinding(txtPrice, bindsource);
+                    WindowsFormsUtility.SetControlBinding(txtDateCreated, bindsource);
+                    WindowsFormsUtility.SetControlBinding(chkIsActive, bindsource);
+                    WindowsFormsUtility.SetListBinding(lstUserName, dtusers, dtcookbook, "Users");
+                }
                 SetEnabledButtons();
 
                 Show(); //Show should be before LoadCookbookRecipes() to avoid mix up in columns in grid
@@ -56,7 +57,14 @@
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Application.ProductName);
+                if (dtcookbook.Rows.Count == 0) //Cookbook was deleted from a different form
+                {
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show(ex.Message, Application.ProductName);
+                }
             }
             finally { Cursor = Cursors.Default; }
         }
@@ -88,8 +96,6 @@
                 this.Text = orgfrmtext + cookbookname;
                 bindsource.ResetBindings(false);
                 SetEnabledButtons();
-                GlobalVariables.reloadcookbooklist = true;
-                GlobalVariables.reloaddashboard = true;
                 saved = true;
             }
             catch (Exception ex)
@@ -101,7 +107,7 @@
         }
         private void Delete()
         {
-            DialogResult answer = MessageBox.Show($"Are you sure you want to delete this cookbook '{cookbookname}'?", "Recipe App", MessageBoxButtons.YesNo);
+            DialogResult answer = MessageBox.Show($"Are you sure you want to delete this cookbook '{cookbookname}'?", Application.ProductName, MessageBoxButtons.YesNo);
             if (answer == DialogResult.Yes)
             {
 
@@ -109,8 +115,6 @@
                 try
                 {
                     Cookbooks.DeleteCookbook(row);
-                    GlobalVariables.reloadcookbooklist = true;
-                    GlobalVariables.reloaddashboard = true;
                     Close();
                 }
                 catch (Exception ex)
@@ -221,12 +225,7 @@
         }
         private void FrmSingleCookbook_Activated(object? sender, EventArgs e)
         {
-            if (firstactivation == false && GlobalVariables.reloadcookbookrecipe)
-            {
-                LoadCookbookRecipes();
-                GlobalVariables.reloadcookbookrecipe = false;
-            }
-            firstactivation = false;
+            LoadCookbook(cookbookid, false);
         }
         private void BtnSave_Click(object? sender, EventArgs e)
         {

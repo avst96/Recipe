@@ -27,7 +27,7 @@
         }
 
 
-        public void LoadForm(int recipeid, bool fullload = true)
+        public void LoadForm(int recipeid, bool binddata = true)
         {
 
             recipepk = recipeid;
@@ -48,10 +48,10 @@
 #if DEBUG
                 SQLUtility.DebugPrintDataTable(dtrecipe);
 #endif
-                if (fullload)
+                DataTable dtusers = RecipeSystem.GetUserList();
+                DataTable dtcuisine = RecipeSystem.GetCuisineList();
+                if (binddata)
                 {
-                    DataTable dtusers = RecipeSystem.GetUserList();
-                    DataTable dtcuisine = RecipeSystem.GetCuisineList();
                     WindowsFormsUtility.SetListBinding(lstCuisineName, dtcuisine, dtrecipe, "Cuisine");
                     WindowsFormsUtility.SetListBinding(lstUserName, dtusers, dtrecipe, "Users");
                     WindowsFormsUtility.SetControlBinding(txtRecipeName, bindsource);
@@ -60,19 +60,27 @@
                     WindowsFormsUtility.SetControlBinding(txtDateDrafted, bindsource);
                     WindowsFormsUtility.SetControlBinding(txtDatePublished, bindsource);
                     WindowsFormsUtility.SetControlBinding(txtDateArchived, bindsource);
-                    Show(); //Show must be before the next 2 Load() to avoid a mix up in DataGrid Columns
-                    LoadRecipeIngredients();
-                    LoadDirections();
-                    this.Tag = recipeid;
-                    recipename = RecipeSystem.GetMainColumnNameValue(row, "Recipe");
-                    this.Text = orgfrmtext + recipename;
                 }
+                Show(); //Show must be before the next 2 Load() to avoid a mix up in DataGrid Columns
+                LoadRecipeIngredients();
+                LoadDirections();
+                this.Tag = recipeid;
+                recipename = RecipeSystem.GetMainColumnNameValue(row, "Recipe");
+                this.Text = orgfrmtext + recipename;
 
                 SetEnabledButtons();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Application.ProductName);
+                if (dtrecipe.Rows.Count == 0)
+                {
+                    //Means that this recipe was deleted from other form
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show(ex.Message, Application.ProductName);
+                }
             }
             finally
             {
@@ -115,8 +123,6 @@
                 bindsource.ResetBindings(false);
                 SetEnabledButtons();
                 recipesaved = true;
-                GlobalVariables.reloadrecipelist = true;
-                GlobalVariables.reloaddashboard = true;
             }
             catch (Exception ex)
             {
@@ -139,9 +145,6 @@
                 try
                 {
                     RecipeSystem.DeleteRecipe(row);
-                    GlobalVariables.reloadrecipelist = true;
-                    GlobalVariables.reloaddashboard = true;
-                    GlobalVariables.reloadcookbookrecipe = true;
                     Close();
                 }
                 catch (Exception ex)

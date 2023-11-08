@@ -4,11 +4,9 @@ namespace RecipeWinsForms
 {
     public partial class frmMealList : Form
     {
-        bool notfirstactivation = false;
         public frmMealList()
         {
             InitializeComponent();
-            BindData();
             Activated += FrmMealList_Activated;
         }
 
@@ -21,11 +19,7 @@ namespace RecipeWinsForms
         }
         private void FrmMealList_Activated(object? sender, EventArgs e)
         {
-            if (notfirstactivation && GlobalVariables.reloadmeallist)
-            {
-                BindData();
-            }
-            notfirstactivation = true;
+            BindData();
         }
     }
 }

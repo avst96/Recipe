@@ -5,28 +5,20 @@
         public frmRecipeList()
         {
             InitializeComponent();
-            BindData();
             Activated += FrmRecipeList_Activated;
             btnNewRecipe.Click += BtnNewRecipe_Click;
             gData.CellDoubleClick += GData_CellDoubleClick;
             gData.KeyDown += GData_KeyDown;
         }
 
-        private void BindData(bool formatgrid = true)
+        private void BindData()
         {
             gData.DataSource = RecipeList.GetRecipeSummary();
-            if (formatgrid)
-            {
-                WindowsFormsUtility.FormatGridForSearchResults(gData);
-            }
+            WindowsFormsUtility.FormatGridForSearchResults(gData);
         }
         private void FrmRecipeList_Activated(object? sender, EventArgs e)
         {
-            if (GlobalVariables.reloadrecipelist)
-            {
-                BindData(false);
-                GlobalVariables.reloadrecipelist = false;
-            }
+            BindData();
         }
 
         private void ShowRecipeForm(int rowindex)
