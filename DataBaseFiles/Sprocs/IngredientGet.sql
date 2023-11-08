@@ -11,11 +11,11 @@ begin
 
     select @IncludeBlank = isnull(@IncludeBlank,0)
 
-    select i.IngredientID, i.IngredientName, 1 as OrderBy
+    select i.IngredientID, i.IngredientName
     from Ingredient i 
-    union select 0, ' ', 0
+    union select 0, ' '
     where @IncludeBlank = 1
-    order by OrderBy, i.IngredientName
+    order by i.IngredientName
 
     return @return
 end 

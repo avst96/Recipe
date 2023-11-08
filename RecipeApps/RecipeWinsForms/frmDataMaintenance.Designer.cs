@@ -33,10 +33,10 @@
             gData = new DataGridView();
             flpOptions = new FlowLayoutPanel();
             optUsers = new RadioButton();
-            optCuisines = new RadioButton();
-            optIngredients = new RadioButton();
-            optMeasurements = new RadioButton();
-            optCourses = new RadioButton();
+            optCuisine = new RadioButton();
+            optIngredient = new RadioButton();
+            optMeasuringUnit = new RadioButton();
+            optCourse = new RadioButton();
             tblMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gData).BeginInit();
             flpOptions.SuspendLayout();
@@ -46,7 +46,7 @@
             // 
             tblMain.ColumnCount = 2;
             tblMain.ColumnStyles.Add(new ColumnStyle());
-            tblMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tblMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tblMain.Controls.Add(btnSave, 1, 1);
             tblMain.Controls.Add(gData, 1, 0);
             tblMain.Controls.Add(flpOptions, 0, 0);
@@ -55,7 +55,7 @@
             tblMain.Margin = new Padding(4);
             tblMain.Name = "tblMain";
             tblMain.RowCount = 2;
-            tblMain.RowStyles.Add(new RowStyle());
+            tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tblMain.RowStyles.Add(new RowStyle());
             tblMain.Size = new Size(495, 387);
             tblMain.TabIndex = 0;
@@ -87,10 +87,10 @@
             flpOptions.AutoSize = true;
             flpOptions.BackColor = SystemColors.ControlLight;
             flpOptions.Controls.Add(optUsers);
-            flpOptions.Controls.Add(optCuisines);
-            flpOptions.Controls.Add(optIngredients);
-            flpOptions.Controls.Add(optMeasurements);
-            flpOptions.Controls.Add(optCourses);
+            flpOptions.Controls.Add(optCuisine);
+            flpOptions.Controls.Add(optIngredient);
+            flpOptions.Controls.Add(optMeasuringUnit);
+            flpOptions.Controls.Add(optCourse);
             flpOptions.Dock = DockStyle.Fill;
             flpOptions.FlowDirection = FlowDirection.TopDown;
             flpOptions.Location = new Point(3, 3);
@@ -109,56 +109,57 @@
             optUsers.Name = "optUsers";
             optUsers.Size = new Size(67, 25);
             optUsers.TabIndex = 0;
+            optUsers.TabStop = true;
             optUsers.Text = "Users";
             optUsers.UseVisualStyleBackColor = true;
             // 
-            // optCuisines
+            // optCuisine
             // 
-            optCuisines.Anchor = AnchorStyles.Left;
-            optCuisines.AutoSize = true;
-            optCuisines.Location = new Point(15, 75);
-            optCuisines.Margin = new Padding(15, 20, 10, 10);
-            optCuisines.Name = "optCuisines";
-            optCuisines.Size = new Size(86, 25);
-            optCuisines.TabIndex = 1;
-            optCuisines.Text = "Cuisines";
-            optCuisines.UseVisualStyleBackColor = true;
+            optCuisine.Anchor = AnchorStyles.Left;
+            optCuisine.AutoSize = true;
+            optCuisine.Location = new Point(15, 75);
+            optCuisine.Margin = new Padding(15, 20, 10, 10);
+            optCuisine.Name = "optCuisine";
+            optCuisine.Size = new Size(86, 25);
+            optCuisine.TabIndex = 1;
+            optCuisine.Text = "Cuisines";
+            optCuisine.UseVisualStyleBackColor = true;
             // 
-            // optIngredients
+            // optIngredient
             // 
-            optIngredients.Anchor = AnchorStyles.Left;
-            optIngredients.AutoSize = true;
-            optIngredients.Location = new Point(15, 130);
-            optIngredients.Margin = new Padding(15, 20, 10, 10);
-            optIngredients.Name = "optIngredients";
-            optIngredients.Size = new Size(106, 25);
-            optIngredients.TabIndex = 2;
-            optIngredients.Text = "Ingredients";
-            optIngredients.UseVisualStyleBackColor = true;
+            optIngredient.Anchor = AnchorStyles.Left;
+            optIngredient.AutoSize = true;
+            optIngredient.Location = new Point(15, 130);
+            optIngredient.Margin = new Padding(15, 20, 10, 10);
+            optIngredient.Name = "optIngredient";
+            optIngredient.Size = new Size(106, 25);
+            optIngredient.TabIndex = 2;
+            optIngredient.Text = "Ingredients";
+            optIngredient.UseVisualStyleBackColor = true;
             // 
-            // optMeasurements
+            // optMeasuringUnit
             // 
-            optMeasurements.Anchor = AnchorStyles.Left;
-            optMeasurements.AutoSize = true;
-            optMeasurements.Location = new Point(15, 185);
-            optMeasurements.Margin = new Padding(15, 20, 10, 10);
-            optMeasurements.Name = "optMeasurements";
-            optMeasurements.Size = new Size(123, 25);
-            optMeasurements.TabIndex = 3;
-            optMeasurements.Text = "Measurments";
-            optMeasurements.UseVisualStyleBackColor = true;
+            optMeasuringUnit.Anchor = AnchorStyles.Left;
+            optMeasuringUnit.AutoSize = true;
+            optMeasuringUnit.Location = new Point(15, 185);
+            optMeasuringUnit.Margin = new Padding(15, 20, 10, 10);
+            optMeasuringUnit.Name = "optMeasuringUnit";
+            optMeasuringUnit.Size = new Size(123, 25);
+            optMeasuringUnit.TabIndex = 3;
+            optMeasuringUnit.Text = "Measurments";
+            optMeasuringUnit.UseVisualStyleBackColor = true;
             // 
-            // optCourses
+            // optCourse
             // 
-            optCourses.Anchor = AnchorStyles.Left;
-            optCourses.AutoSize = true;
-            optCourses.Location = new Point(15, 240);
-            optCourses.Margin = new Padding(15, 20, 10, 10);
-            optCourses.Name = "optCourses";
-            optCourses.Size = new Size(84, 25);
-            optCourses.TabIndex = 4;
-            optCourses.Text = "Courses";
-            optCourses.UseVisualStyleBackColor = true;
+            optCourse.Anchor = AnchorStyles.Left;
+            optCourse.AutoSize = true;
+            optCourse.Location = new Point(15, 240);
+            optCourse.Margin = new Padding(15, 20, 10, 10);
+            optCourse.Name = "optCourse";
+            optCourse.Size = new Size(84, 25);
+            optCourse.TabIndex = 4;
+            optCourse.Text = "Courses";
+            optCourse.UseVisualStyleBackColor = true;
             // 
             // frmDataMaintenance
             // 
@@ -186,9 +187,9 @@
         private DataGridView gData;
         private FlowLayoutPanel flpOptions;
         private RadioButton optUsers;
-        private RadioButton optCuisines;
-        private RadioButton optIngredients;
-        private RadioButton optMeasurements;
-        private RadioButton optCourses;
+        private RadioButton optCuisine;
+        private RadioButton optIngredient;
+        private RadioButton optMeasuringUnit;
+        private RadioButton optCourse;
     }
 }

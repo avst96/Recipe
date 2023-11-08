@@ -2,7 +2,7 @@ use HeartyHearthDB
 go
 
 
-create or alter proc dbo.MeasuringUnitGet(
+create or alter proc dbo.CourseGet(
     @IncludeBlank bit = 0,
     @Message varchar (500) = '' output
 )
@@ -13,14 +13,13 @@ begin
 
     select @IncludeBlank = isnull(@IncludeBlank,0)
 
-    select m.MeasuringUnitID, m.Unit
-    from MeasuringUnit m 
-    union select 0, ' '
+    select c.CourseID,c.CourseSeq,c.CourseName
+    from Course c 
+    union select 0, 0, ' '
     where @IncludeBlank = 1 
-    order by m.Unit
+    order by c.CourseSeq
 
 end
 go
 
-exec MeasuringUnitGet @IncludeBlank = 1
-
+exec CourseGet @IncludeBlank = 1

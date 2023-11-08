@@ -1,14 +1,25 @@
 use HeartyHearthDB
 go
 
-create or alter procedure dbo.CuisineGet (@CuisineId int = 0, @CuisineName varchar(20) = '', @All bit = 0)
+create or alter procedure dbo.CuisineGet
+	(
+		@CuisineId int = 0, 
+		@CuisineName varchar(20) = '', 
+		@All bit = 0,
+		@Message varchar(500) = '' output
+)
 as 
 begin
+	declare @return int= 0
+	select @CuisineId = isnull(@CuisineId,0), @CuisineName = isnull(@CuisineName, '')
+
 	select c.CuisineId, c.CuisineName
 	from Cuisine c 
 	where c.CuisineId = @CuisineId
 	or (c.CuisineName like '%' + @CuisineName + '%' and @CuisineName <> '')
 	or @All = 1 
+
+	return @return
 end
 go
 

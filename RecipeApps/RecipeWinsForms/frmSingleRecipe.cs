@@ -95,8 +95,8 @@
             dtrecipeingredients = RecipeChildrenRecords.LoadChildById(recipepk, "RecipeIngredientGet", "RecipeId");
             gIngredients.Columns.Clear();
             gIngredients.DataSource = dtrecipeingredients;
-            WindowsFormsUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("MeasuringUnit", true, false), "MeasuringUnit", "Unit");
-            WindowsFormsUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("Ingredient", true, false), "Ingredient", "IngredientName");
+            WindowsFormsUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("MeasuringUnit", true), "MeasuringUnit", "Unit");
+            WindowsFormsUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("Ingredient", true), "Ingredient", "IngredientName");
             WindowsFormsUtility.FormatGridForEdit(gIngredients);
             WindowsFormsUtility.AddDeleteButtonToGrid(gIngredients, deletecolumnname);
         }
