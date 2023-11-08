@@ -43,7 +43,7 @@
             tblMain.Controls.Add(gData, 0, 1);
             tblMain.Dock = DockStyle.Fill;
             tblMain.Location = new Point(0, 0);
-            tblMain.Margin = new Padding(4, 4, 4, 4);
+            tblMain.Margin = new Padding(4);
             tblMain.Name = "tblMain";
             tblMain.Padding = new Padding(10, 20, 10, 10);
             tblMain.RowCount = 2;
@@ -57,7 +57,7 @@
             btnNewRecipe.Anchor = AnchorStyles.Left;
             btnNewRecipe.AutoSize = true;
             btnNewRecipe.Location = new Point(14, 44);
-            btnNewRecipe.Margin = new Padding(4, 4, 4, 4);
+            btnNewRecipe.Margin = new Padding(4);
             btnNewRecipe.Name = "btnNewRecipe";
             btnNewRecipe.Size = new Size(132, 35);
             btnNewRecipe.TabIndex = 0;
@@ -68,6 +68,7 @@
             // 
             gData.AllowUserToAddRows = false;
             gData.AllowUserToDeleteRows = false;
+            gData.BackgroundColor = SystemColors.Control;
             gData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             gData.Dock = DockStyle.Fill;
             gData.Location = new Point(13, 107);
@@ -84,7 +85,7 @@
             ClientSize = new Size(718, 421);
             Controls.Add(tblMain);
             Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "frmRecipeList";
             Text = "Recipe List";
             tblMain.ResumeLayout(false);

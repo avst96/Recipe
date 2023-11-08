@@ -12,9 +12,9 @@
             mnuListCookbooks.Click += MnuListCookbooks_Click;
             mnuListMeals.Click += MnuListMeals_Click;
             mnuEditData.Click += MnuEditData_Click;
+            mnuNewCookbook.Click += MnuNewCookbook_Click;
         }
 
-      
 
         public void OpenForm(Type frmtype, int pkvalue = 0)
         {
@@ -48,7 +48,8 @@
                     f.LoadCookbook(pkvalue);
                     newfrm = f;
                 }
-                if (newfrm != null)
+                if (newfrm != null && (newfrm.Tag == null || newfrm.Tag is not string || newfrm.Tag.ToString() != "dont show form"))
+                //frmDataMainenance tag is set to this string if it shouldn't be shown
                 {
                     newfrm.MdiParent = this;
                     newfrm.WindowState = FormWindowState.Maximized;
@@ -75,34 +76,13 @@
             WindowsFormsUtility.SetUpNav(tsMain);
         }
 
-        private void FrmMain_Shown(object? sender, EventArgs e)
-        {
-            OpenForm(typeof(frmDashboard));
-        }
-
-        private void MnuDashboard_Click(object? sender, EventArgs e)
-        {
-            OpenForm(typeof(frmDashboard));
-        }
-        private void MnuListRecipe_Click(object? sender, EventArgs e)
-        {
-            OpenForm(typeof(frmRecipeList));
-        }
-        private void MnuNewRecipe_Click(object? sender, EventArgs e)
-        {
-            OpenForm(typeof(frmSingleRecipe));
-        }
-        private void MnuListCookbooks_Click(object? sender, EventArgs e)
-        {
-            OpenForm(typeof(frmCookbookList));
-        }
-        private void MnuListMeals_Click(object? sender, EventArgs e)
-        {
-            OpenForm(typeof(frmMealList));
-        }
-        private void MnuEditData_Click(object? sender, EventArgs e)
-        {
-            OpenForm(typeof(frmDataMaintenance));
-        }
+        private void FrmMain_Shown(object? sender, EventArgs e) { OpenForm(typeof(frmDashboard)); }
+        private void MnuDashboard_Click(object? sender, EventArgs e) { OpenForm(typeof(frmDashboard)); }
+        private void MnuListRecipe_Click(object? sender, EventArgs e) { OpenForm(typeof(frmRecipeList)); }
+        private void MnuNewRecipe_Click(object? sender, EventArgs e) { OpenForm(typeof(frmSingleRecipe)); }
+        private void MnuListCookbooks_Click(object? sender, EventArgs e) { OpenForm(typeof(frmCookbookList)); }
+        private void MnuListMeals_Click(object? sender, EventArgs e) { OpenForm(typeof(frmMealList)); }
+        private void MnuEditData_Click(object? sender, EventArgs e) { OpenForm(typeof(frmDataMaintenance)); }
+        private void MnuNewCookbook_Click(object? sender, EventArgs e) { OpenForm(typeof(frmSingleCookbook)); }
     }
 }

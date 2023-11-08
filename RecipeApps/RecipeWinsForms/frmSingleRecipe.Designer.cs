@@ -448,6 +448,7 @@
             // 
             // gIngredients
             // 
+            gIngredients.BackgroundColor = SystemColors.Control;
             gIngredients.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             gIngredients.Dock = DockStyle.Fill;
             gIngredients.Location = new Point(3, 40);
@@ -495,6 +496,7 @@
             // 
             // gSteps
             // 
+            gSteps.BackgroundColor = SystemColors.Control;
             gSteps.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             gSteps.Dock = DockStyle.Fill;
             gSteps.Location = new Point(3, 40);

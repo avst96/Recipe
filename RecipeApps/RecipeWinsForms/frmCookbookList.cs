@@ -12,7 +12,7 @@
             Activated += FrmCookbookList_Activated;
         }
 
-       
+
 
         private void BindData()
         {
@@ -23,8 +23,8 @@
         {
             int id = 0;
 
-            if(rowIndex >= 0) 
-            { 
+            if (rowIndex >= 0)
+            {
                 id = (int)gData.Rows[rowIndex].Cells["CookbookID"].Value;
                 ((frmMain)MdiParent).OpenForm(typeof(frmSingleCookbook), id);
             }
@@ -36,7 +36,7 @@
         }
         private void GData_KeyDown(object? sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
                 ShowCookbookForm(gData.SelectedRows[0].Index);
             }

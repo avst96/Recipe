@@ -10,7 +10,7 @@ create or alter procedure dbo.UsersGet (
 	) 
 as 
 begin
-	select u.UsersID, u.FirstName, u.LastName, u.UserName
+	select u.UsersID, u.UserName, u.FirstName, u.LastName
 	from Users u
 	where u.UsersId = @UsersId
 	or (u.UserName like '%' + @UsersName + '%' and @UsersName <> '')
@@ -23,12 +23,12 @@ go
  
 
 
+/*
 exec UsersGet
 
 exec UsersGet @All = 1, @IncludeBlank = 1
 
 exec UsersGet @UsersName = 'f'
-/*
 declare @ID int
 select top 1 @ID = UsersId from Users
 exec UsersGet @UsersId = @ID
