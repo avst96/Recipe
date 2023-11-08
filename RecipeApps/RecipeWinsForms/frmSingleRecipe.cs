@@ -186,7 +186,7 @@
                     }
                     else if (recordid == 0 && rowindex < currentgrid.Rows.Count)
                     {
-                        currentgrid.Rows.Remove(currentgrid.Rows[rowindex]);
+                        currentgrid.Rows.RemoveAt(rowindex);
                     }
                 }
                 catch (Exception ex)
@@ -194,7 +194,6 @@
                     MessageBox.Show(ex.Message, Application.ProductName);
                 }
                 finally { Cursor = Cursors.Default; }
-
             }
         }
 

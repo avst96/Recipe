@@ -12,6 +12,7 @@
             SetUpRadioButtons();
             BindData();
             btnSave.Click += BtnSave_Click;
+            gData.CellContentClick += GData_CellContentClick;
         }
 
         private void BindData()
@@ -36,6 +37,37 @@
             finally
             {
                 Cursor = Cursors.Default;
+            }
+        }
+
+        private void DeleteRecord(int rowindex)
+        {
+            string usermsg = currenttableenum == TableNameEnum.Users ? " and all related recipes, meals, and cookbooks" : " and any related records";
+            DialogResult ans = MessageBox.Show($"Are you sure that you want to delete this {currenttableenum}{usermsg}?", Application.ProductName, MessageBoxButtons.YesNo); ;
+
+            if (ans == DialogResult.Yes)
+            {
+
+                Cursor = Cursors.WaitCursor;
+                int recordid = WindowsFormsUtility.GetIdFromGrid(gData, rowindex, currenttableenum + "ID");
+                try
+                {
+                    if (recordid > 0)
+                    {
+                        DataMaintenance.DeleteRow(dt.Rows[rowindex], currenttableenum.ToString());
+                        BindData();
+                        //!Still needs work  GlobalVariables.SetSpecificReloads(currenttableenum.ToString());
+                    }
+                    else if (recordid == 0 && rowindex < gData.Rows.Count )
+                    {
+                        gData.Rows.RemoveAt(rowindex);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, Application.ProductName);
+                }
+                finally { Cursor = Cursors.Default; }
             }
         }
         private void SetUpRadioButtons()
@@ -69,6 +101,13 @@
         private void BtnSave_Click(object? sender, EventArgs e)
         {
             Save();
+        }
+        private void GData_CellContentClick(object? sender, DataGridViewCellEventArgs e)
+        {
+            if (gData.Columns[e.ColumnIndex].Name == delcolname)
+            {
+                DeleteRecord(e.RowIndex);
+            }
         }
     }
 }
