@@ -13,7 +13,9 @@
             mnuListMeals.Click += MnuListMeals_Click;
             mnuEditData.Click += MnuEditData_Click;
             mnuNewCookbook.Click += MnuNewCookbook_Click;
+            mnuCloneRecipe.Click += MnuCloneRecipe_Click;
         }
+
 
 
         public void OpenForm(Type frmtype, int pkvalue = 0)
@@ -28,7 +30,9 @@
                 else if (frmtype == typeof(frmCookbookList)) { newfrm = new frmCookbookList(); }
                 else if (frmtype == typeof(frmMealList)) { newfrm = new frmMealList(); }
                 else if (frmtype == typeof(frmDataMaintenance)) { newfrm = new frmDataMaintenance(); }
-                else if (frmtype == typeof(frmSingleRecipe))
+                else if (frmtype == typeof(frmCloneRecipe)) { newfrm = new frmCloneRecipe(); }
+
+                else if (frmtype == typeof(frmSingleRecipe)) 
                 {
                     frmSingleRecipe f = new frmSingleRecipe();
                     f.MdiParent = this;
@@ -84,5 +88,6 @@
         private void MnuListMeals_Click(object? sender, EventArgs e) { OpenForm(typeof(frmMealList)); }
         private void MnuEditData_Click(object? sender, EventArgs e) { OpenForm(typeof(frmDataMaintenance)); }
         private void MnuNewCookbook_Click(object? sender, EventArgs e) { OpenForm(typeof(frmSingleCookbook)); }
+        private void MnuCloneRecipe_Click(object? sender, EventArgs e) { OpenForm(typeof(frmCloneRecipe)); }
     }
 }

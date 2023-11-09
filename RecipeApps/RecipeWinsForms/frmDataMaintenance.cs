@@ -56,9 +56,8 @@
                     {
                         DataMaintenance.DeleteRow(dt.Rows[rowindex], currenttableenum.ToString());
                         BindData();
-                        //!Still needs work  GlobalVariables.SetSpecificReloads(currenttableenum.ToString());
                     }
-                    else if (recordid == 0 && rowindex < gData.Rows.Count )
+                    else if (recordid == 0 && rowindex < gData.Rows.Count)
                     {
                         gData.Rows.RemoveAt(rowindex);
                     }
