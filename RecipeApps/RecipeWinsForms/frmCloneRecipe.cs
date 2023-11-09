@@ -24,7 +24,7 @@
             try
             {
                 int primarykey = RecipeClone.CloneRecipe((int)lstRecipeName.SelectedValue);
-                ((frmMain)MdiParent).OpenForm(typeof(frmSingleRecipe), primarykey);
+                ((frmMain)Owner).OpenForm(typeof(frmSingleRecipe), primarykey);
                 this.Close();
             }
             catch (Exception ex) { MessageBox.Show(ex.Message, Application.ProductName); }

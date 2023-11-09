@@ -43,6 +43,10 @@
                     dtrecipe.Rows.Add();
                     dtrecipe.AcceptChanges();
                 }
+                if (dtrecipe.Rows.Count == 0)
+                {
+                    throw new Exception("This record has been deleted, this form will close.");
+                }
                 row = dtrecipe.Rows[0];
 
 #if DEBUG
@@ -52,8 +56,8 @@
                 DataTable dtcuisine = RecipeSystem.GetCuisineList();
                 if (binddata)
                 {
-                    WindowsFormsUtility.SetListBinding(lstCuisineName, dtcuisine, dtrecipe, "Cuisine");
-                    WindowsFormsUtility.SetListBinding(lstUserName, dtusers, dtrecipe, "Users");
+                    WindowsFormsUtility.SetListBinding(lstCuisineName, dtcuisine, bindsource, "Cuisine");
+                    WindowsFormsUtility.SetListBinding(lstUserName, dtusers, bindsource, "Users");
                     WindowsFormsUtility.SetControlBinding(txtRecipeName, bindsource);
                     WindowsFormsUtility.SetControlBinding(txtCalories, bindsource);
                     WindowsFormsUtility.SetControlBinding(lblRecipeStatus, bindsource);
@@ -72,14 +76,11 @@
             }
             catch (Exception ex)
             {
+
+                MessageBox.Show(ex.Message, Application.ProductName);
                 if (dtrecipe.Rows.Count == 0)
                 {
-                    //Means that this recipe was deleted from other form
                     Close();
-                }
-                else
-                {
-                    MessageBox.Show(ex.Message, Application.ProductName);
                 }
             }
             finally
@@ -339,8 +340,17 @@
         }
         private void BtnChangeStatus_Click(object? sender, EventArgs e)
         {
-            ((frmMain)MdiParent).OpenForm(typeof(frmChangeStatus), recipepk);
+            frmChangeStatus frm = new frmChangeStatus(recipepk);
+            frm.StartPosition = FormStartPosition.CenterParent;
+            frm.FormClosing += Frm_FormClosing; ;
+            frm.ShowDialog(this);
         }
+
+        private void Frm_FormClosing(object? sender, FormClosingEventArgs e)
+        {
+            LoadForm(recipepk, false);
+        }
+
     }
 }
 

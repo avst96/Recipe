@@ -178,6 +178,8 @@
             // lstUserName
             // 
             lstUserName.Anchor = AnchorStyles.Left;
+            lstUserName.AutoCompleteMode = AutoCompleteMode.Suggest;
+            lstUserName.AutoCompleteSource = AutoCompleteSource.ListItems;
             tblMain.SetColumnSpan(lstUserName, 2);
             lstUserName.DropDownStyle = ComboBoxStyle.DropDownList;
             lstUserName.FormattingEnabled = true;

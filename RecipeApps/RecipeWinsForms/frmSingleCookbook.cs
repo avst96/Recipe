@@ -11,6 +11,7 @@
         string orgfrmtext = "Cookbook - ";
         string cookbookname = string.Empty;
         int cookbookid = 0;
+        bool isfirstload = true;
         public frmSingleCookbook()
         {
             InitializeComponent();
@@ -20,16 +21,16 @@
             gDataRecipe.CellContentClick += GDataRecipe_CellContentClick;
             FormClosing += FrmSingleCookbook_FormClosing;
             Activated += FrmSingleCookbook_Activated;
-                  }
+        }
 
 
         public void LoadCookbook(int bookid = 0, bool binddata = true)
         {
-            DataTable dtusers = DataMaintenance.GetDataList("Users", true);
             cookbookid = bookid;
             Cursor = Cursors.WaitCursor;
             try
             {
+                DataTable dtusers = RecipeSystem.GetUserList();
                 dtcookbook = Cookbooks.SingleCookbookGet(cookbookid);
                 bindsource.DataSource = dtcookbook;
 
@@ -38,15 +39,19 @@
                     dtcookbook.Rows.Add();
                     dtcookbook.AcceptChanges();
                 }
-                row = dtcookbook.Rows[0];
+                if (dtcookbook.Rows.Count == 0)
+                {
+                    throw new Exception("This record has been deleted, this form will close.");
+                }
                 if (binddata)
                 {
+                    WindowsFormsUtility.SetListBinding(lstUserName, dtusers, bindsource, "Users");
                     WindowsFormsUtility.SetControlBinding(txtBookName, bindsource);
                     WindowsFormsUtility.SetControlBinding(txtPrice, bindsource);
                     WindowsFormsUtility.SetControlBinding(txtDateCreated, bindsource);
                     WindowsFormsUtility.SetControlBinding(chkIsActive, bindsource);
-                    WindowsFormsUtility.SetListBinding(lstUserName, dtusers, dtcookbook, "Users");
                 }
+                row = dtcookbook.Rows[0];
                 SetEnabledButtons();
 
                 Show(); //Show should be before LoadCookbookRecipes() to avoid mix up in columns in grid
@@ -57,13 +62,10 @@
             }
             catch (Exception ex)
             {
-                if (dtcookbook.Rows.Count == 0) //Cookbook was deleted from a different form
+                MessageBox.Show(ex.Message, Application.ProductName);
+                if (dtcookbook.Rows.Count == 0)
                 {
                     Close();
-                }
-                else
-                {
-                    MessageBox.Show(ex.Message, Application.ProductName);
                 }
             }
             finally { Cursor = Cursors.Default; }
@@ -225,7 +227,11 @@
         }
         private void FrmSingleCookbook_Activated(object? sender, EventArgs e)
         {
-            LoadCookbook(cookbookid, false);
+            if (!isfirstload)
+            {
+                LoadCookbook(cookbookid, false);
+            }
+            isfirstload = false;
         }
         private void BtnSave_Click(object? sender, EventArgs e)
         {

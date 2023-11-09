@@ -7,14 +7,16 @@
         RecipeSystem.StatusEnum newstatusenum = new();
         int recipeid = 0;
         string msg = "Are you sure you want to change to status of this recipe to ";
+        string orgfrmtext = " - Change Status";
 
-        public frmChangeStatus()
+        public frmChangeStatus(int pkvalue)
         {
             InitializeComponent();
             btnDraft.Click += BtnDraft_Click;
             btnPublish.Click += BtnPublish_Click;
             btnArchive.Click += BtnArchive_Click;
             Activated += FrmChangeStatus_Activated;
+            LoadForm(pkvalue);
         }
 
         private void FrmChangeStatus_Activated(object? sender, EventArgs e)
@@ -31,26 +33,19 @@
             try
             {
                 dt = RecipeSystem.LoadRecipe(pkvalue);
-                if (dt.Rows.Count > 0)
+                bindsource.DataSource = dt;
+                if (binddata)
                 {
-                    bindsource.DataSource = dt;
-                    if (binddata)
-                    {
-                        WindowsFormsUtility.SetControlBinding(lblRecipeName, bindsource);
-                        WindowsFormsUtility.SetControlBinding(lblRecipeStatus, bindsource);
-                        WindowsFormsUtility.SetControlBinding(txtDateDrafted, bindsource);
-                        WindowsFormsUtility.SetControlBinding(txtDatePublished, bindsource);
-                        WindowsFormsUtility.SetControlBinding(txtDateArchived, bindsource);
-                    }
+                    WindowsFormsUtility.SetControlBinding(lblRecipeName, bindsource);
+                    WindowsFormsUtility.SetControlBinding(lblRecipeStatus, bindsource);
+                    WindowsFormsUtility.SetControlBinding(txtDateDrafted, bindsource);
+                    WindowsFormsUtility.SetControlBinding(txtDatePublished, bindsource);
+                    WindowsFormsUtility.SetControlBinding(txtDateArchived, bindsource);
+                }
 
-                    recipename = RecipeSystem.GetMainColumnNameValue(dt.Rows[0], "Recipe");
-                    Text = recipename + Text;
-                    SetEnabledButtons(dt.Rows[0]);
-                }
-                else if(dt.Rows.Count == 0) //Recipe was deleted
-                {
-                    Close();
-                }
+                recipename = RecipeSystem.GetMainColumnNameValue(dt.Rows[0], "Recipe");
+                Text = recipename + orgfrmtext;
+                SetEnabledButtons(dt.Rows[0]);
             }
             catch (Exception ex)
             {
@@ -61,13 +56,14 @@
 
         private void ChangeRecipeStatus(RecipeSystem.StatusEnum newstatusenum)
         {
-            var ans = MessageBox.Show(msg + newstatusenum + "?", Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var ans = MessageBox.Show(msg + newstatusenum + "?", Application.ProductName, MessageBoxButtons.YesNo);
             if (ans == DialogResult.Yes)
             {
                 Cursor = Cursors.WaitCursor;
                 try
                 {
                     RecipeSystem.SetAndSaveRecipeStatus(dt, newstatusenum);
+                                       Close();
                 }
                 catch (Exception ex)
                 {
@@ -76,7 +72,6 @@
                 finally
                 {
                     Cursor = Cursors.Default;
-                    SetEnabledButtons(dt.Rows[0]);
                 }
             }
         }

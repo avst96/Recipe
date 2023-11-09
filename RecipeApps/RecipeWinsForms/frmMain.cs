@@ -32,17 +32,11 @@
                 else if (frmtype == typeof(frmDataMaintenance)) { newfrm = new frmDataMaintenance(); }
                 else if (frmtype == typeof(frmCloneRecipe)) { newfrm = new frmCloneRecipe(); }
 
-                else if (frmtype == typeof(frmSingleRecipe)) 
+                else if (frmtype == typeof(frmSingleRecipe))
                 {
                     frmSingleRecipe f = new frmSingleRecipe();
                     f.MdiParent = this;
                     f.LoadForm(pkvalue); //LoadForm must be after MidParent setting to avoid issues with column ordering in DataGrid
-                    newfrm = f;
-                }
-                else if (frmtype == typeof(frmChangeStatus))
-                {
-                    frmChangeStatus f = new frmChangeStatus();
-                    f.LoadForm(pkvalue);
                     newfrm = f;
                 }
                 else if (frmtype == typeof(frmSingleCookbook))
@@ -88,6 +82,12 @@
         private void MnuListMeals_Click(object? sender, EventArgs e) { OpenForm(typeof(frmMealList)); }
         private void MnuEditData_Click(object? sender, EventArgs e) { OpenForm(typeof(frmDataMaintenance)); }
         private void MnuNewCookbook_Click(object? sender, EventArgs e) { OpenForm(typeof(frmSingleCookbook)); }
-        private void MnuCloneRecipe_Click(object? sender, EventArgs e) { OpenForm(typeof(frmCloneRecipe)); }
-    }
+        private void MnuCloneRecipe_Click(object? sender, EventArgs e) 
+        {
+            frmCloneRecipe frm = new frmCloneRecipe();
+            frm.StartPosition = FormStartPosition.CenterParent;
+                        frm.ShowDialog(this);
+            //OpenForm(typeof(frmCloneRecipe)); 
+        }
+                   }
 }
