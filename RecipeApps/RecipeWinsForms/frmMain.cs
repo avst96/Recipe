@@ -14,6 +14,7 @@
             mnuEditData.Click += MnuEditData_Click;
             mnuNewCookbook.Click += MnuNewCookbook_Click;
             mnuCloneRecipe.Click += MnuCloneRecipe_Click;
+            mnuAutoCreateCookbook.Click += MnuAutoCreateCookbook_Click;
         }
 
 
@@ -30,7 +31,6 @@
                 else if (frmtype == typeof(frmCookbookList)) { newfrm = new frmCookbookList(); }
                 else if (frmtype == typeof(frmMealList)) { newfrm = new frmMealList(); }
                 else if (frmtype == typeof(frmDataMaintenance)) { newfrm = new frmDataMaintenance(); }
-                else if (frmtype == typeof(frmCloneRecipe)) { newfrm = new frmCloneRecipe(); }
 
                 else if (frmtype == typeof(frmSingleRecipe))
                 {
@@ -73,7 +73,19 @@
         {
             WindowsFormsUtility.SetUpNav(tsMain);
         }
+        private void OpenDialog(Type formtype)
+        {
+            Form dlg = new();
+            if (formtype == typeof(frmCloneRecipe)) { dlg = new frmCloneRecipe(); }
+            else if (formtype == typeof(frmAutoCreateCookbook)) { dlg = new frmAutoCreateCookbook(); }
 
+            if (dlg != null)
+            {
+                dlg.StartPosition = FormStartPosition.CenterParent;
+                dlg.ShowDialog(this);
+            }
+
+        }
         private void FrmMain_Shown(object? sender, EventArgs e) { OpenForm(typeof(frmDashboard)); }
         private void MnuDashboard_Click(object? sender, EventArgs e) { OpenForm(typeof(frmDashboard)); }
         private void MnuListRecipe_Click(object? sender, EventArgs e) { OpenForm(typeof(frmRecipeList)); }
@@ -82,12 +94,7 @@
         private void MnuListMeals_Click(object? sender, EventArgs e) { OpenForm(typeof(frmMealList)); }
         private void MnuEditData_Click(object? sender, EventArgs e) { OpenForm(typeof(frmDataMaintenance)); }
         private void MnuNewCookbook_Click(object? sender, EventArgs e) { OpenForm(typeof(frmSingleCookbook)); }
-        private void MnuCloneRecipe_Click(object? sender, EventArgs e) 
-        {
-            frmCloneRecipe frm = new frmCloneRecipe();
-            frm.StartPosition = FormStartPosition.CenterParent;
-                        frm.ShowDialog(this);
-            //OpenForm(typeof(frmCloneRecipe)); 
-        }
-                   }
+        private void MnuCloneRecipe_Click(object? sender, EventArgs e) { OpenDialog(typeof(frmCloneRecipe)); }
+        private void MnuAutoCreateCookbook_Click(object? sender, EventArgs e) { OpenDialog(typeof(frmAutoCreateCookbook)); }
+    }
 }

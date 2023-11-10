@@ -51,5 +51,13 @@
             cmd.Parameters["@CookbookRecipeId"].Value = recordid;
             SQLUtility.ExecuteSQL(cmd);
         }
+
+        public static int AutoCreateCookbook(int userid)
+        {
+            SqlCommand cmd = SQLUtility.GetSqlCommand("CookbookAutoCreate");
+            SQLUtility.SetParamValue(cmd, "@UsersId", userid);
+            SQLUtility.ExecuteSQL(cmd);
+            return SQLUtility.GetNewPrimaryKey(cmd, "CookbookID");
+        }
     }
 }

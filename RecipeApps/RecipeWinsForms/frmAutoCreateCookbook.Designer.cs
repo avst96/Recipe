@@ -43,8 +43,9 @@
             tblMain.Controls.Add(btnCreate, 1, 0);
             tblMain.Dock = DockStyle.Fill;
             tblMain.Location = new Point(0, 0);
-            tblMain.Margin = new Padding(5, 5, 5, 5);
+            tblMain.Margin = new Padding(5);
             tblMain.Name = "tblMain";
+            tblMain.Padding = new Padding(25, 65, 25, 25);
             tblMain.RowCount = 1;
             tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tblMain.Size = new Size(692, 293);
@@ -52,24 +53,24 @@
             // 
             // lstUserName
             // 
-            lstUserName.Anchor = AnchorStyles.None;
             lstUserName.AutoCompleteMode = AutoCompleteMode.Suggest;
             lstUserName.AutoCompleteSource = AutoCompleteSource.ListItems;
+            lstUserName.Dock = DockStyle.Fill;
             lstUserName.FormattingEnabled = true;
-            lstUserName.Location = new Point(34, 128);
+            lstUserName.Location = new Point(28, 68);
             lstUserName.Name = "lstUserName";
-            lstUserName.Size = new Size(278, 36);
+            lstUserName.Size = new Size(315, 36);
             lstUserName.TabIndex = 0;
             lstUserName.Text = "Select a User";
             // 
             // btnCreate
             // 
-            btnCreate.Anchor = AnchorStyles.None;
+            btnCreate.Anchor = AnchorStyles.Top;
             btnCreate.AutoSize = true;
-            btnCreate.Location = new Point(431, 122);
-            btnCreate.Margin = new Padding(5, 5, 5, 5);
+            btnCreate.Location = new Point(419, 70);
+            btnCreate.Margin = new Padding(5);
             btnCreate.Name = "btnCreate";
-            btnCreate.Size = new Size(175, 48);
+            btnCreate.Size = new Size(175, 38);
             btnCreate.TabIndex = 1;
             btnCreate.Text = "Create Cookbook";
             btnCreate.UseVisualStyleBackColor = true;
@@ -81,7 +82,7 @@
             ClientSize = new Size(692, 293);
             Controls.Add(tblMain);
             Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
-            Margin = new Padding(5, 5, 5, 5);
+            Margin = new Padding(5);
             Name = "frmAutoCreateCookbook";
             Text = "Hearty Hearth - Auto-Create a Cookbook";
             tblMain.ResumeLayout(false);
