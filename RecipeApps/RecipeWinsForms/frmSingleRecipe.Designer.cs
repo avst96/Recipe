@@ -142,6 +142,7 @@
             // 
             // txtCalories
             // 
+            txtCalories.CausesValidation = false;
             txtCalories.Dock = DockStyle.Fill;
             txtCalories.Font = new Font("Segoe UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
             txtCalories.Location = new Point(198, 135);

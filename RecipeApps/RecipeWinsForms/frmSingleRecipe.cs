@@ -24,7 +24,9 @@
             btnChangeStatus.Click += BtnChangeStatus_Click;
             FormClosing += FrmSingleRecipe_FormClosing;
             Activated += FrmSingleRecipe_Activated;
+            txtCalories.KeyPress += TxtCalories_KeyPress;
         }
+
 
 
         public void LoadForm(int recipeid, bool binddata = true)
@@ -316,6 +318,13 @@
             if (gSteps.Columns[e.ColumnIndex].Name == deletecolumnname)
             {
                 DeleteChildRecord(RecipeChildrenRecords.ChildRecordEnum.Steps, e.RowIndex);
+            }
+        }
+        private void TxtCalories_KeyPress(object? sender, KeyPressEventArgs e)
+        {
+            if (!WindowsFormsUtility.IsKeyIntOrControl(e.KeyChar))
+            {
+                e.Handled = true;
             }
         }
         private void BtnDelete_Click(object? sender, EventArgs e)

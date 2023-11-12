@@ -21,8 +21,10 @@
             gDataRecipe.CellContentClick += GDataRecipe_CellContentClick;
             FormClosing += FrmSingleCookbook_FormClosing;
             Activated += FrmSingleCookbook_Activated;
+            txtPrice.KeyPress += TxtPrice_KeyPress;
         }
 
+     
 
         public void LoadCookbook(int bookid = 0, bool binddata = true)
         {
@@ -82,7 +84,6 @@
             WindowsFormsUtility.FormatGridForEdit(gDataRecipe);
 
         }
-
 
         private bool Save()
         {
@@ -169,6 +170,17 @@
                 {
                     gDataRecipe.Rows.RemoveAt(rowindex);
                 }
+            }
+        }
+        private void TxtPrice_KeyPress(object? sender, KeyPressEventArgs e)
+        {
+            if (!WindowsFormsUtility.IsKeyIntOrControl(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+            if (e.KeyChar == '.' && txtPrice.Text.Contains('.'))
+            {
+                e.Handled = true;
             }
         }
         private void SetEnabledButtons()

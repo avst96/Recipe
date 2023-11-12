@@ -31,6 +31,7 @@
             tblMain = new TableLayoutPanel();
             lstUserName = new ComboBox();
             btnCreate = new Button();
+            lblUsers = new Label();
             tblMain.SuspendLayout();
             SuspendLayout();
             // 
@@ -39,14 +40,16 @@
             tblMain.ColumnCount = 2;
             tblMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tblMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tblMain.Controls.Add(lstUserName, 0, 0);
-            tblMain.Controls.Add(btnCreate, 1, 0);
+            tblMain.Controls.Add(lstUserName, 0, 1);
+            tblMain.Controls.Add(btnCreate, 1, 1);
+            tblMain.Controls.Add(lblUsers, 0, 0);
             tblMain.Dock = DockStyle.Fill;
             tblMain.Location = new Point(0, 0);
             tblMain.Margin = new Padding(5);
             tblMain.Name = "tblMain";
             tblMain.Padding = new Padding(25, 65, 25, 25);
-            tblMain.RowCount = 1;
+            tblMain.RowCount = 2;
+            tblMain.RowStyles.Add(new RowStyle());
             tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tblMain.Size = new Size(692, 293);
             tblMain.TabIndex = 0;
@@ -56,24 +59,34 @@
             lstUserName.AutoCompleteMode = AutoCompleteMode.Suggest;
             lstUserName.AutoCompleteSource = AutoCompleteSource.ListItems;
             lstUserName.Dock = DockStyle.Fill;
+            lstUserName.DropDownStyle = ComboBoxStyle.DropDownList;
             lstUserName.FormattingEnabled = true;
-            lstUserName.Location = new Point(28, 68);
+            lstUserName.Location = new Point(28, 96);
             lstUserName.Name = "lstUserName";
             lstUserName.Size = new Size(315, 36);
             lstUserName.TabIndex = 0;
-            lstUserName.Text = "Select a User";
             // 
             // btnCreate
             // 
             btnCreate.Anchor = AnchorStyles.Top;
             btnCreate.AutoSize = true;
-            btnCreate.Location = new Point(419, 70);
+            btnCreate.Location = new Point(419, 98);
             btnCreate.Margin = new Padding(5);
             btnCreate.Name = "btnCreate";
             btnCreate.Size = new Size(175, 38);
             btnCreate.TabIndex = 1;
             btnCreate.Text = "Create Cookbook";
             btnCreate.UseVisualStyleBackColor = true;
+            // 
+            // lblUsers
+            // 
+            lblUsers.Anchor = AnchorStyles.Bottom;
+            lblUsers.AutoSize = true;
+            lblUsers.Location = new Point(49, 65);
+            lblUsers.Name = "lblUsers";
+            lblUsers.Size = new Size(273, 28);
+            lblUsers.TabIndex = 2;
+            lblUsers.Text = "Pick User to Create Cookbook";
             // 
             // frmAutoCreateCookbook
             // 
@@ -95,5 +108,6 @@
         private TableLayoutPanel tblMain;
         private ComboBox lstUserName;
         private Button btnCreate;
+        private Label lblUsers;
     }
 }

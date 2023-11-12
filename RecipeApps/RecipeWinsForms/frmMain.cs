@@ -15,8 +15,9 @@
             mnuNewCookbook.Click += MnuNewCookbook_Click;
             mnuCloneRecipe.Click += MnuCloneRecipe_Click;
             mnuAutoCreateCookbook.Click += MnuAutoCreateCookbook_Click;
+            mnuCascadeWindow.Click += MnuCascadeWindow_Click;
+            mnuTileWindow.Click += MnuTileWindow_Click;
         }
-
 
 
         public void OpenForm(Type frmtype, int pkvalue = 0)
@@ -85,6 +86,16 @@
                 dlg.ShowDialog(this);
             }
 
+        }
+
+        private void MnuTileWindow_Click(object? sender, EventArgs e)
+        {
+            LayoutMdi(MdiLayout.TileVertical);
+        }
+
+        private void MnuCascadeWindow_Click(object? sender, EventArgs e)
+        {
+            LayoutMdi(MdiLayout.Cascade);
         }
         private void FrmMain_Shown(object? sender, EventArgs e) { OpenForm(typeof(frmDashboard)); }
         private void MnuDashboard_Click(object? sender, EventArgs e) { OpenForm(typeof(frmDashboard)); }

@@ -20,7 +20,8 @@
 
         private void BindData()
         {
-            DataTable dtusers = RecipeSystem.GetUserList();
+            BindingSource bind = new();
+            DataTable dtusers = DataMaintenance.GetDataList("Users", true);
             if (firstactivation)
             {
                 WindowsFormsUtility.SetListBinding(lstUserName, dtusers, null, "Users");

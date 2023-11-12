@@ -10,13 +10,21 @@ create or alter proc dbo.CookbookAutoCreate(
 )
 as
 begin
-    declare @return int = 0
+    declare @return int = 0, @numofrecipes int
+
+        select @numofrecipes = count(*) 
+            from Recipe r 
+            where r.UsersID = @UsersId
+        if(@numofrecipes = 0)
+        begin 
+            select @return = 1, @Message = 'This user has no receipes, cannot create cookbook'
+            goto finished
+        end
+        
 
         insert Cookbook(UsersID,BookName,Price,IsActive)
-            select @UsersId, concat('Recipes by ',u.FirstName,' ',u.LastName), count(r.RecipeID) * 1.33, 1 
+            select @UsersId, concat('Recipes by ',u.FirstName,' ',u.LastName), @numofrecipes * 1.33, 1 
             from Users u 
-            left join Recipe r on u.UsersID = r.UsersID 
-            where u.UsersID = @UsersId
             group by u.FirstName, u.LastName
 
         select @CookbookId = scope_identity()
@@ -27,10 +35,10 @@ begin
             where r.UsersID = @UsersId 
 
 
+    finished:
     return @return
 end
 go
---rule that cant add cookbook if no recipes
 
 
 

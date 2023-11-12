@@ -37,13 +37,13 @@
             lblActive = new Label();
             lblDate = new Label();
             txtBookName = new TextBox();
-            lstUserName = new ComboBox();
             txtPrice = new TextBox();
             txtDateCreated = new TextBox();
             chkIsActive = new CheckBox();
             label1 = new Label();
             btnSaveRecipe = new Button();
             gDataRecipe = new DataGridView();
+            lstUserName = new ComboBox();
             tblMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gDataRecipe).BeginInit();
             SuspendLayout();
@@ -62,13 +62,13 @@
             tblMain.Controls.Add(lblActive, 0, 5);
             tblMain.Controls.Add(lblDate, 2, 3);
             tblMain.Controls.Add(txtBookName, 1, 1);
-            tblMain.Controls.Add(lstUserName, 1, 2);
             tblMain.Controls.Add(txtPrice, 1, 4);
             tblMain.Controls.Add(txtDateCreated, 2, 4);
             tblMain.Controls.Add(chkIsActive, 1, 5);
             tblMain.Controls.Add(label1, 0, 6);
             tblMain.Controls.Add(btnSaveRecipe, 0, 7);
             tblMain.Controls.Add(gDataRecipe, 0, 8);
+            tblMain.Controls.Add(lstUserName, 1, 2);
             tblMain.Dock = DockStyle.Fill;
             tblMain.Location = new Point(0, 0);
             tblMain.Name = "tblMain";
@@ -175,24 +175,10 @@
             txtBookName.Size = new Size(310, 29);
             txtBookName.TabIndex = 7;
             // 
-            // lstUserName
-            // 
-            lstUserName.Anchor = AnchorStyles.Left;
-            lstUserName.AutoCompleteMode = AutoCompleteMode.Suggest;
-            lstUserName.AutoCompleteSource = AutoCompleteSource.ListItems;
-            tblMain.SetColumnSpan(lstUserName, 2);
-            lstUserName.DropDownStyle = ComboBoxStyle.DropDownList;
-            lstUserName.FormattingEnabled = true;
-            lstUserName.Location = new Point(160, 107);
-            lstUserName.Margin = new Padding(3, 11, 3, 32);
-            lstUserName.MaxDropDownItems = 20;
-            lstUserName.Name = "lstUserName";
-            lstUserName.Size = new Size(310, 29);
-            lstUserName.TabIndex = 8;
-            // 
             // txtPrice
             // 
             txtPrice.Anchor = AnchorStyles.Left;
+            txtPrice.CausesValidation = false;
             txtPrice.Location = new Point(160, 217);
             txtPrice.Margin = new Padding(3, 8, 3, 8);
             txtPrice.MaxLength = 11;
@@ -259,6 +245,21 @@
             gDataRecipe.RowTemplate.Height = 25;
             gDataRecipe.Size = new Size(516, 139);
             gDataRecipe.TabIndex = 14;
+            // 
+            // lstUserName
+            // 
+            lstUserName.Anchor = AnchorStyles.Left;
+            lstUserName.AutoCompleteMode = AutoCompleteMode.Suggest;
+            lstUserName.AutoCompleteSource = AutoCompleteSource.ListItems;
+            tblMain.SetColumnSpan(lstUserName, 2);
+            lstUserName.DropDownStyle = ComboBoxStyle.DropDownList;
+            lstUserName.FormattingEnabled = true;
+            lstUserName.Location = new Point(160, 107);
+            lstUserName.Margin = new Padding(3, 11, 3, 32);
+            lstUserName.MaxDropDownItems = 20;
+            lstUserName.Name = "lstUserName";
+            lstUserName.Size = new Size(310, 29);
+            lstUserName.TabIndex = 8;
             // 
             // frmSingleCookbook
             // 
