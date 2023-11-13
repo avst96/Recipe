@@ -126,7 +126,7 @@
             lstCuisineName.Location = new Point(198, 102);
             lstCuisineName.Name = "lstCuisineName";
             lstCuisineName.Size = new Size(252, 29);
-            lstCuisineName.TabIndex = 2;
+            lstCuisineName.TabIndex = 6;
             // 
             // lblCaptionCalories
             // 
@@ -137,7 +137,7 @@
             lblCaptionCalories.Margin = new Padding(30, 0, 3, 0);
             lblCaptionCalories.Name = "lblCaptionCalories";
             lblCaptionCalories.Size = new Size(105, 21);
-            lblCaptionCalories.TabIndex = 1;
+            lblCaptionCalories.TabIndex = 7;
             lblCaptionCalories.Text = "Num Calories";
             // 
             // txtCalories
@@ -148,7 +148,7 @@
             txtCalories.Location = new Point(198, 135);
             txtCalories.Name = "txtCalories";
             txtCalories.Size = new Size(252, 31);
-            txtCalories.TabIndex = 3;
+            txtCalories.TabIndex = 8;
             // 
             // lblCaptionCuisine
             // 
@@ -159,7 +159,7 @@
             lblCaptionCuisine.Margin = new Padding(30, 0, 3, 0);
             lblCaptionCuisine.Name = "lblCaptionCuisine";
             lblCaptionCuisine.Size = new Size(61, 21);
-            lblCaptionCuisine.TabIndex = 15;
+            lblCaptionCuisine.TabIndex = 5;
             lblCaptionCuisine.Text = "Cuisine";
             lblCaptionCuisine.TextAlign = ContentAlignment.MiddleLeft;
             // 
@@ -172,7 +172,7 @@
             lblCaptionRecipeName.Margin = new Padding(30, 0, 3, 0);
             lblCaptionRecipeName.Name = "lblCaptionRecipeName";
             lblCaptionRecipeName.Size = new Size(102, 21);
-            lblCaptionRecipeName.TabIndex = 0;
+            lblCaptionRecipeName.TabIndex = 3;
             lblCaptionRecipeName.Text = "Recipe Name";
             // 
             // txtRecipeName
@@ -182,7 +182,7 @@
             txtRecipeName.Location = new Point(198, 69);
             txtRecipeName.Name = "txtRecipeName";
             txtRecipeName.Size = new Size(252, 31);
-            txtRecipeName.TabIndex = 1;
+            txtRecipeName.TabIndex = 4;
             // 
             // lblCaptionRecipeStatus
             // 
@@ -193,7 +193,7 @@
             lblCaptionRecipeStatus.Margin = new Padding(30, 0, 3, 0);
             lblCaptionRecipeStatus.Name = "lblCaptionRecipeStatus";
             lblCaptionRecipeStatus.Size = new Size(109, 21);
-            lblCaptionRecipeStatus.TabIndex = 5;
+            lblCaptionRecipeStatus.TabIndex = 8;
             lblCaptionRecipeStatus.Text = "Current Status";
             // 
             // lblRecipeStatus
@@ -225,7 +225,7 @@
             tblButtons.RowCount = 1;
             tblButtons.RowStyles.Add(new RowStyle());
             tblButtons.Size = new Size(493, 27);
-            tblButtons.TabIndex = 16;
+            tblButtons.TabIndex = 0;
             // 
             // btnDelete
             // 
@@ -238,7 +238,7 @@
             btnDelete.Margin = new Padding(0);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(82, 26);
-            btnDelete.TabIndex = 3;
+            btnDelete.TabIndex = 1;
             btnDelete.Text = "&Delete";
             btnDelete.UseVisualStyleBackColor = false;
             // 
@@ -271,7 +271,7 @@
             btnChangeStatus.Margin = new Padding(0);
             btnChangeStatus.Name = "btnChangeStatus";
             btnChangeStatus.Size = new Size(97, 26);
-            btnChangeStatus.TabIndex = 1;
+            btnChangeStatus.TabIndex = 2;
             btnChangeStatus.Text = "&Change Status";
             btnChangeStatus.UseVisualStyleBackColor = false;
             // 
@@ -408,7 +408,7 @@
             tblMain.SetRowSpan(tbChildRecords, 4);
             tbChildRecords.SelectedIndex = 0;
             tbChildRecords.Size = new Size(493, 216);
-            tbChildRecords.TabIndex = 5;
+            tbChildRecords.TabIndex = 9;
             // 
             // tbIngredients
             // 
@@ -514,7 +514,7 @@
             lblUser.Margin = new Padding(30, 0, 3, 0);
             lblUser.Name = "lblUser";
             lblUser.Size = new Size(42, 21);
-            lblUser.TabIndex = 21;
+            lblUser.TabIndex = 1;
             lblUser.Text = "User";
             // 
             // lstUserName
@@ -530,7 +530,7 @@
             lstUserName.Margin = new Padding(3, 6, 3, 3);
             lstUserName.Name = "lstUserName";
             lstUserName.Size = new Size(252, 29);
-            lstUserName.TabIndex = 0;
+            lstUserName.TabIndex = 2;
             // 
             // frmSingleRecipe
             // 
