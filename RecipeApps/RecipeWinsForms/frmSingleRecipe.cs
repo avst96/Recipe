@@ -330,8 +330,7 @@
         }
         private void Grid_DataError(object? sender, DataGridViewDataErrorEventArgs e)
         {
-            MessageBox.Show("A data input error occured. Ensure you are not entering letters in a number only field.", Application.ProductName);
-            e.ThrowException = false;
+            WindowsFormsUtility.GridErrorMsg(e);
         }
         private void BtnDelete_Click(object? sender, EventArgs e)
         {

@@ -80,6 +80,7 @@
             gData.Name = "gData";
             gData.RowTemplate.Height = 25;
             gData.Size = new Size(335, 345);
+            gData.StandardTab = true;
             gData.TabIndex = 1;
             // 
             // flpOptions

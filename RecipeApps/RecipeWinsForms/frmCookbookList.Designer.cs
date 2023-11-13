@@ -73,6 +73,7 @@
             gData.ReadOnly = true;
             gData.RowTemplate.Height = 25;
             gData.Size = new Size(726, 378);
+            gData.StandardTab = true;
             gData.TabIndex = 1;
             // 
             // frmCookbookList

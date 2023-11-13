@@ -25,7 +25,7 @@
             gDataRecipe.DataError += GDataRecipe_DataError;
         }
 
-  
+
         public void LoadCookbook(int bookid = 0, bool binddata = true)
         {
             cookbookid = bookid;
@@ -185,8 +185,7 @@
         }
         private void GDataRecipe_DataError(object? sender, DataGridViewDataErrorEventArgs e)
         {
-            MessageBox.Show("A data input error occured. Ensure you are not entering letters in a number only field.", Application.ProductName);
-            e.ThrowException = false;
+            WindowsFormsUtility.GridErrorMsg(e);
         }
         private void SetEnabledButtons()
         {

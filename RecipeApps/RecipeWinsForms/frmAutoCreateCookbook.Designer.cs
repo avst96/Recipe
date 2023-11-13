@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             tblMain = new TableLayoutPanel();
             lstUserName = new ComboBox();
             btnCreate = new Button();
             lblUsers = new Label();
+            ttpFrmAutoCreate = new ToolTip(components);
             tblMain.SuspendLayout();
             SuspendLayout();
             // 
@@ -65,6 +67,7 @@
             lstUserName.Name = "lstUserName";
             lstUserName.Size = new Size(315, 36);
             lstUserName.TabIndex = 0;
+            ttpFrmAutoCreate.SetToolTip(lstUserName, "Select a User from the list.");
             // 
             // btnCreate
             // 
@@ -109,5 +112,6 @@
         private ComboBox lstUserName;
         private Button btnCreate;
         private Label lblUsers;
+        private ToolTip ttpFrmAutoCreate;
     }
 }

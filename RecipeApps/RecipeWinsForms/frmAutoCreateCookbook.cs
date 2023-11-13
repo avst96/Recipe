@@ -48,6 +48,5 @@
             else
             { CreateCookbook(); }
         }
-
     }
 }

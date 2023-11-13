@@ -244,6 +244,7 @@
             gDataRecipe.Name = "gDataRecipe";
             gDataRecipe.RowTemplate.Height = 25;
             gDataRecipe.Size = new Size(516, 139);
+            gDataRecipe.StandardTab = true;
             gDataRecipe.TabIndex = 11;
             // 
             // lstUserName

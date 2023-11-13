@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             tblMain = new TableLayoutPanel();
             btnNewRecipe = new Button();
             gData = new DataGridView();
+            ttpFrmRecipeList = new ToolTip(components);
             tblMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gData).BeginInit();
             SuspendLayout();
@@ -76,7 +78,9 @@
             gData.ReadOnly = true;
             gData.RowTemplate.Height = 25;
             gData.Size = new Size(692, 301);
+            gData.StandardTab = true;
             gData.TabIndex = 1;
+            ttpFrmRecipeList.SetToolTip(gData, "Double click on recipe to open recipe detail page.");
             // 
             // frmRecipeList
             // 
@@ -99,5 +103,6 @@
         private TableLayoutPanel tblMain;
         private Button btnNewRecipe;
         private DataGridView gData;
+        private ToolTip ttpFrmRecipeList;
     }
 }
