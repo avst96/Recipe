@@ -21,14 +21,21 @@
         private void BtnClone_Click(object? sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
-            try
+            if ((int)lstRecipeName.SelectedValue == 0)
             {
-                int primarykey = RecipeClone.CloneRecipe((int)lstRecipeName.SelectedValue);
-                ((frmMain)Owner).OpenForm(typeof(frmSingleRecipe), primarykey);
-                this.Close();
+                MessageBox.Show("Please select a recipe to clone", Application.ProductName);
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message, Application.ProductName); }
-            finally { Cursor = Cursors.Default; }
+            else
+            {
+                try
+                {
+                    int primarykey = RecipeClone.CloneRecipe((int)lstRecipeName.SelectedValue);
+                    ((frmMain)Owner).OpenForm(typeof(frmSingleRecipe), primarykey);
+                    this.Close();
+                }
+                catch (Exception ex) { MessageBox.Show(ex.Message, Application.ProductName); }
+                finally { Cursor = Cursors.Default; }
+            }
         }
 
     }

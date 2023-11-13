@@ -68,6 +68,8 @@
             // 
             // lstRecipeName
             // 
+            lstRecipeName.AutoCompleteMode = AutoCompleteMode.Suggest;
+            lstRecipeName.AutoCompleteSource = AutoCompleteSource.ListItems;
             lstRecipeName.DropDownStyle = ComboBoxStyle.DropDownList;
             lstRecipeName.FormattingEnabled = true;
             lstRecipeName.Location = new Point(23, 44);
@@ -82,7 +84,7 @@
             lblRecipe.Location = new Point(23, 20);
             lblRecipe.Name = "lblRecipe";
             lblRecipe.Size = new Size(311, 21);
-            lblRecipe.TabIndex = 3;
+            lblRecipe.TabIndex = 0;
             lblRecipe.Text = "Select a recipe to clone";
             // 
             // frmCloneRecipe

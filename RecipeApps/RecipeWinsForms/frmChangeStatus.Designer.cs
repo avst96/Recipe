@@ -151,7 +151,7 @@
             tblDates.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             tblDates.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             tblDates.Size = new Size(634, 217);
-            tblDates.TabIndex = 4;
+            tblDates.TabIndex = 0;
             // 
             // lblPublished
             // 
@@ -239,7 +239,7 @@
             btnDraft.Margin = new Padding(0);
             btnDraft.Name = "btnDraft";
             btnDraft.Size = new Size(100, 31);
-            btnDraft.TabIndex = 3;
+            btnDraft.TabIndex = 0;
             btnDraft.Text = "Draft";
             btnDraft.UseVisualStyleBackColor = true;
             // 
@@ -251,7 +251,7 @@
             btnPublish.Margin = new Padding(0);
             btnPublish.Name = "btnPublish";
             btnPublish.Size = new Size(100, 31);
-            btnPublish.TabIndex = 7;
+            btnPublish.TabIndex = 1;
             btnPublish.Text = "Publish";
             btnPublish.UseVisualStyleBackColor = true;
             // 
@@ -263,7 +263,7 @@
             btnArchive.Margin = new Padding(0);
             btnArchive.Name = "btnArchive";
             btnArchive.Size = new Size(100, 31);
-            btnArchive.TabIndex = 8;
+            btnArchive.TabIndex = 2;
             btnArchive.Text = "Archive";
             btnArchive.UseVisualStyleBackColor = true;
             // 

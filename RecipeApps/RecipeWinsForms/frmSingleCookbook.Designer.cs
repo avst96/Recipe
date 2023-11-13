@@ -128,7 +128,7 @@
             lblUser.Margin = new Padding(20, 10, 10, 10);
             lblUser.Name = "lblUser";
             lblUser.Size = new Size(42, 21);
-            lblUser.TabIndex = 3;
+            lblUser.TabIndex = 4;
             lblUser.Text = "User";
             // 
             // lblPrice
@@ -139,7 +139,7 @@
             lblPrice.Margin = new Padding(20, 10, 10, 10);
             lblPrice.Name = "lblPrice";
             lblPrice.Size = new Size(44, 21);
-            lblPrice.TabIndex = 4;
+            lblPrice.TabIndex = 6;
             lblPrice.Text = "Price";
             // 
             // lblActive
@@ -150,7 +150,7 @@
             lblActive.Margin = new Padding(20, 10, 10, 10);
             lblActive.Name = "lblActive";
             lblActive.Size = new Size(52, 21);
-            lblActive.TabIndex = 5;
+            lblActive.TabIndex = 8;
             lblActive.Text = "Active";
             // 
             // lblDate
@@ -173,7 +173,7 @@
             txtBookName.Margin = new Padding(3, 8, 3, 8);
             txtBookName.Name = "txtBookName";
             txtBookName.Size = new Size(310, 29);
-            txtBookName.TabIndex = 7;
+            txtBookName.TabIndex = 3;
             // 
             // txtPrice
             // 
@@ -184,7 +184,7 @@
             txtPrice.MaxLength = 11;
             txtPrice.Name = "txtPrice";
             txtPrice.Size = new Size(100, 29);
-            txtPrice.TabIndex = 9;
+            txtPrice.TabIndex = 7;
             // 
             // txtDateCreated
             // 
@@ -209,7 +209,7 @@
             chkIsActive.Location = new Point(160, 267);
             chkIsActive.Name = "chkIsActive";
             chkIsActive.Size = new Size(15, 14);
-            chkIsActive.TabIndex = 11;
+            chkIsActive.TabIndex = 9;
             chkIsActive.UseVisualStyleBackColor = false;
             // 
             // label1
@@ -231,7 +231,7 @@
             btnSaveRecipe.Margin = new Padding(20, 10, 10, 10);
             btnSaveRecipe.Name = "btnSaveRecipe";
             btnSaveRecipe.Size = new Size(100, 31);
-            btnSaveRecipe.TabIndex = 13;
+            btnSaveRecipe.TabIndex = 10;
             btnSaveRecipe.Text = "S&ave";
             btnSaveRecipe.UseVisualStyleBackColor = false;
             // 
@@ -244,7 +244,7 @@
             gDataRecipe.Name = "gDataRecipe";
             gDataRecipe.RowTemplate.Height = 25;
             gDataRecipe.Size = new Size(516, 139);
-            gDataRecipe.TabIndex = 14;
+            gDataRecipe.TabIndex = 11;
             // 
             // lstUserName
             // 
@@ -259,7 +259,7 @@
             lstUserName.MaxDropDownItems = 20;
             lstUserName.Name = "lstUserName";
             lstUserName.Size = new Size(310, 29);
-            lstUserName.TabIndex = 8;
+            lstUserName.TabIndex = 5;
             // 
             // frmSingleCookbook
             // 

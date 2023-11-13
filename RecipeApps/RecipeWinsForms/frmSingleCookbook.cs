@@ -24,7 +24,7 @@
             txtPrice.KeyPress += TxtPrice_KeyPress;
         }
 
-     
+
 
         public void LoadCookbook(int bookid = 0, bool binddata = true)
         {

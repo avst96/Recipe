@@ -43,8 +43,10 @@
             gData.Name = "gData";
             gData.ReadOnly = true;
             gData.RowTemplate.Height = 25;
+            gData.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             gData.Size = new Size(589, 376);
             gData.TabIndex = 0;
+            gData.TabStop = false;
             // 
             // frmMealList
             // 

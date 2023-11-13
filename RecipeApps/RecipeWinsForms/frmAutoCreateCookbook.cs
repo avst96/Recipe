@@ -43,7 +43,10 @@
 
         private void BtnCreate_Click(object? sender, EventArgs e)
         {
-            CreateCookbook();
+            if ((int)lstUserName.SelectedValue == 0)
+            { MessageBox.Show("Please select which user to create a cookbook for.", Application.ProductName); }
+            else
+            { CreateCookbook(); }
         }
 
     }

@@ -67,7 +67,7 @@
             btnSave.Margin = new Padding(4, 4, 20, 0);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(96, 32);
-            btnSave.TabIndex = 0;
+            btnSave.TabIndex = 2;
             btnSave.Text = "&Save";
             btnSave.UseVisualStyleBackColor = true;
             // 
@@ -97,7 +97,7 @@
             flpOptions.Name = "flpOptions";
             tblMain.SetRowSpan(flpOptions, 2);
             flpOptions.Size = new Size(148, 381);
-            flpOptions.TabIndex = 2;
+            flpOptions.TabIndex = 0;
             // 
             // optUsers
             // 

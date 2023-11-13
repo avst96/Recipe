@@ -63,7 +63,7 @@
                 try
                 {
                     RecipeSystem.SetAndSaveRecipeStatus(dt, newstatusenum);
-                                       Close();
+                    Close();
                 }
                 catch (Exception ex)
                 {

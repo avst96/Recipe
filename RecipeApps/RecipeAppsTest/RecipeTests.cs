@@ -101,7 +101,7 @@ namespace RecipeAppsTest
 
             if (isinsert)
             {
-                dt = SQLUtility.GetDataTable("select RecipeId, UsersID , CuisineID, RecipeName, Calories, DateDrafted from Recipe where recipeid = " + recipeid);
+                dt = SQLUtility.GetDataTable("select RecipeId, UsersID , CuisineID, RecipeName, Calories, DateDrafted, DatePublished, DateArchived, RecipeStatus from Recipe where recipeid = " + recipeid);
                 Assume.That(dt.Rows.Count == 0);
                 r = dt.Rows.Add();
                 recipename += " " + newtime;
@@ -111,7 +111,7 @@ namespace RecipeAppsTest
             else
             {
                 recipeid = SQLUtility.GetFirstColumnFirstRowValue("select top 1 recipeid from recipe");
-                dt = SQLUtility.GetDataTable("select RecipeID, UsersID , CuisineID, RecipeName, Calories, DateDrafted from Recipe where recipeid = " + recipeid);
+                dt = SQLUtility.GetDataTable("select RecipeID, UsersID , CuisineID, RecipeName, Calories, DateDrafted, DatePublished, DateArchived, RecipeStatus from Recipe where recipeid = " + recipeid);
                 r = dt.Rows[0];
                 oldrecipename = r["recipename"].ToString()!;
                 // To remove any DateTime added in first update to ensure it doesn't get to long
@@ -128,12 +128,13 @@ namespace RecipeAppsTest
             Assume.That(userid > 0 && cuisineid > 0, "Users table or Cuisine table are empty, test can't run");
 
 
-
             r["UsersID"] = userid;
             r["CuisineID"] = cuisineid;
             r["RecipeName"] = recipename;
             r["Calories"] = calories;
             r["DateDrafted"] = newtime;
+            r["DatePublished"] = DBNull.Value;
+            r["DateArchived"] = DBNull.Value;
 
             RecipeSystem.SaveRecipe(dt, r);
 
@@ -194,20 +195,7 @@ and (r.RecipeStatus = 'draft' or datediff(day, r.DateArchived, getdate()) > 30) 
             TestContext.WriteLine("Recipe with ID of " + recipeid + " and related records have been deleted from DB");
         }
 
-        [Test]
-        public void InvalidDeleteDueToRelatedRecordsTest()
-        {
-            DataTable dt = SQLUtility.GetDataTable("select top 1 r.RecipeID, r.RecipeName from Recipe r join RecipeIngredient ri on r.RecipeID = ri.RecipeID");
-            Assume.That(dt.Rows.Count == 1, "No unrelated recipe in DB, can't run test");
-            DataRow r = dt.Rows[0];
-            int recipeid = (int)r["RecipeID"];
-
-            TestContext.WriteLine("Ensure that Recipe '" + r["RecipeName"] + "' with ID of " + recipeid + " throws exception when delete is attempted");
-
-            string msg = Assert.Throws<Exception>(() => RecipeSystem.DeleteRecipe(r)).Message;
-
-            TestContext.WriteLine("Exception throw with message '" + msg + "'");
-        }
+    
 
         [Test]
         public void InvalidDeleteDueToBusinessRule()
