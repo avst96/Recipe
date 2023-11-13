@@ -13,6 +13,7 @@
             BindData();
             btnSave.Click += BtnSave_Click;
             gData.CellContentClick += GData_CellContentClick;
+            gData.DataError += GData_DataError;
         }
 
         private void BindData()
@@ -88,7 +89,11 @@
                 }
             }
         }
-
+        private void GData_DataError(object? sender, DataGridViewDataErrorEventArgs e)
+        {
+            MessageBox.Show("A data input error occured. Ensure you are not entering letters in a number only field.", Application.ProductName);
+            e.ThrowException = false;
+        }
         private void C_Click(object? sender, EventArgs e)
         {
             if (sender is RadioButton rb && rb.Tag is TableNameEnum table)

@@ -25,8 +25,9 @@
             FormClosing += FrmSingleRecipe_FormClosing;
             Activated += FrmSingleRecipe_Activated;
             txtCalories.KeyPress += TxtCalories_KeyPress;
+            gIngredients.DataError += Grid_DataError;
+            gSteps.DataError += Grid_DataError;
         }
-
 
 
         public void LoadForm(int recipeid, bool binddata = true)
@@ -326,6 +327,11 @@
             {
                 e.Handled = true;
             }
+        }
+        private void Grid_DataError(object? sender, DataGridViewDataErrorEventArgs e)
+        {
+            MessageBox.Show("A data input error occured. Ensure you are not entering letters in a number only field.", Application.ProductName);
+            e.ThrowException = false;
         }
         private void BtnDelete_Click(object? sender, EventArgs e)
         {
