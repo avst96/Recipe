@@ -2,7 +2,7 @@
 {
     public partial class frmAutoCreateCookbook : Form
     {
-        BindingSource bindsource;
+        BindingSource? bindsource;
         bool firstactivation = true;
         public frmAutoCreateCookbook()
         {
@@ -11,8 +11,6 @@
             btnCreate.Click += BtnCreate_Click;
         }
 
-
-
         private void FrmAutoCreateCookbook_Activated(object? sender, EventArgs e)
         {
             BindData();
@@ -20,7 +18,6 @@
 
         private void BindData()
         {
-            BindingSource bind = new();
             DataTable dtusers = DataMaintenance.GetDataList("Users", true);
             if (firstactivation)
             {
@@ -28,12 +25,12 @@
             }
         }
 
-        private void CreateCookbook()
+        private void CreateCookbook(int userid)
         {
             Cursor = Cursors.WaitCursor;
             try
             {
-                int cookbookid = Cookbooks.AutoCreateCookbook((int)lstUserName.SelectedValue);
+                int cookbookid = Cookbooks.AutoCreateCookbook(userid);
                 ((frmMain)Owner).OpenForm(typeof(frmSingleCookbook), cookbookid);
                 Close();
             }
@@ -43,10 +40,16 @@
 
         private void BtnCreate_Click(object? sender, EventArgs e)
         {
-            if ((int)lstUserName.SelectedValue == 0)
-            { MessageBox.Show("Please select which user to create a cookbook for.", Application.ProductName); }
+            int selecteduser = WindowsFormsUtility.GetIdFromComboBox(lstUserName);
+
+            if (selecteduser == 0)
+            {
+                MessageBox.Show("Please select a user to create a cookbook.", Application.ProductName);
+            }
             else
-            { CreateCookbook(); }
+            {
+                CreateCookbook(selecteduser);
+            }
         }
     }
 }

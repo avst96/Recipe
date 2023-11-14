@@ -5,15 +5,16 @@
         public frmCookbookList()
         {
             InitializeComponent();
-            BindData();
             btnNewCookbook.Click += BtnNewCookbook_Click;
             gData.CellDoubleClick += GData_CellDoubleClick;
             gData.KeyDown += GData_KeyDown;
             Activated += FrmCookbookList_Activated;
         }
 
-
-
+        private void FrmCookbookList_Activated(object? sender, EventArgs e)
+        {
+            BindData();
+        }
         private void BindData()
         {
             gData.DataSource = Cookbooks.CookbookSummaryGet();
@@ -42,14 +43,9 @@
             }
         }
 
-
         private void GData_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
         {
             ShowCookbookForm(e.RowIndex);
-        }
-        private void FrmCookbookList_Activated(object? sender, EventArgs e)
-        {
-            BindData();
         }
     }
 }

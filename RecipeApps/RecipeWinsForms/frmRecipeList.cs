@@ -13,7 +13,7 @@
 
         private void BindData()
         {
-            gData.DataSource = RecipeList.GetRecipeSummary();
+            gData.DataSource = RecipeSystem.GetRecipeSummary();
             WindowsFormsUtility.FormatGridForSearchResults(gData);
         }
         private void FrmRecipeList_Activated(object? sender, EventArgs e)

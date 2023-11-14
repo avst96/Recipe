@@ -3,7 +3,7 @@
     public class RecipeSystem
 
     {
-        public enum StatusEnum { Drafted, Published, Archived }
+        
         public static DataTable SearchRecipe(string recipename)
         {
             SqlCommand cmd = SQLUtility.GetSqlCommand("RecipeGet");
@@ -53,6 +53,29 @@
 
             SQLUtility.SaveDataRow(row, "RecipeUpdate");
         }
+
+        public static DataTable GetRecipeSummary()
+        {
+            SqlCommand cmd = SQLUtility.GetSqlCommand("RecipeSummaryGet");
+            return SQLUtility.GetDataTable(cmd);
+        }
+        public static int CloneRecipe(int recipeid)
+        {
+            int pk = 0;
+
+            SqlCommand cmd = SQLUtility.GetSqlCommand("RecipeClone");
+            SQLUtility.SetParamValue(cmd, "@RecipeId", recipeid);
+            SQLUtility.ExecuteSQL(cmd);
+            pk = SQLUtility.GetNewPrimaryKey(cmd, "RecipeId");
+            if (pk == 0)
+            {
+                Exception pkerror = new Exception("New recipe ID received was 0. An error occured in the program");
+                throw pkerror;
+            }
+            return pk;
+        }
+
+        public enum StatusEnum { Drafted, Published, Archived }
         public static void SetAndSaveRecipeStatus(DataTable table, StatusEnum status)
         {
             if (table.Rows.Count == 1)
@@ -83,7 +106,7 @@
             if (row[columnname] != DBNull.Value)
             {
                 name = row[columnname].ToString();
-                if (name.Length > 16)
+                if (name != null && name.Length > 16)
                 {
                     name = name.Substring(0, 13) + "...";
                 }

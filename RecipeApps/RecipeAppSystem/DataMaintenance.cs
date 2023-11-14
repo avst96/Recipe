@@ -7,9 +7,17 @@
         {
             SQLUtility.SaveDataTable(dt, tabletosaveto + "Update");
         }
-        public static void DeleteRow(DataRow row , string tablename)
+        public static void DeleteRow(DataRow row, string tablename)
         {
-            int primarykey = (int)row[tablename + "Id"];
+            int primarykey;
+            try
+            {
+                primarykey = (int)row[tablename + "Id"];
+            }
+            catch
+            {
+                throw;
+            }
             SqlCommand cmd = SQLUtility.GetSqlCommand(tablename + "Delete");
             SQLUtility.SetParamValue(cmd, $"@{tablename}Id", primarykey);
             SQLUtility.ExecuteSQL(cmd);

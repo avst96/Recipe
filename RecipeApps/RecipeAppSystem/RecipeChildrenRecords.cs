@@ -3,10 +3,12 @@
     public class RecipeChildrenRecords
     {
         public enum ChildRecordEnum { Ingredient, Steps }
-        public static DataTable LoadChildById(int primarykey, string sprocname, string idcolumnname)
+        public static DataTable LoadChildById(int primarykey, ChildRecordEnum recordtoload)
         {
+            string sprocname = recordtoload == ChildRecordEnum.Ingredient ? "RecipeIngredientGet" : "DirectionsGet";
+            
             SqlCommand cmd = SQLUtility.GetSqlCommand(sprocname);
-            SQLUtility.SetParamValue(cmd, $"@{idcolumnname}", primarykey);
+            SQLUtility.SetParamValue(cmd, $"@RecipeId", primarykey);
             return SQLUtility.GetDataTable(cmd);
         }
 

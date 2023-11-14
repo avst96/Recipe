@@ -1,6 +1,4 @@
-﻿using CPUFramework;
-
-namespace RecipeAppSystem
+﻿namespace RecipeAppSystem
 {
     public class DBManager
     {

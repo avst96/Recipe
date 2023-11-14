@@ -95,7 +95,7 @@
 
         private void LoadDirections()
         {
-            dtdirections = RecipeChildrenRecords.LoadChildById(recipepk, "DirectionsGet", "RecipeID");
+            dtdirections = RecipeChildrenRecords.LoadChildById(recipepk, RecipeChildrenRecords.ChildRecordEnum.Steps);
             gSteps.Columns.Clear();
             gSteps.DataSource = dtdirections;
             WindowsFormsUtility.FormatGridForEdit(gSteps);
@@ -104,7 +104,7 @@
 
         private void LoadRecipeIngredients()
         {
-            dtrecipeingredients = RecipeChildrenRecords.LoadChildById(recipepk, "RecipeIngredientGet", "RecipeId");
+            dtrecipeingredients = RecipeChildrenRecords.LoadChildById(recipepk, RecipeChildrenRecords.ChildRecordEnum.Ingredient);
             gIngredients.Columns.Clear();
             gIngredients.DataSource = dtrecipeingredients;
             WindowsFormsUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("MeasuringUnit", true), "MeasuringUnit", "Unit");

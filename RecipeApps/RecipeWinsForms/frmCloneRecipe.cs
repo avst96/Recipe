@@ -21,7 +21,9 @@
         private void BtnClone_Click(object? sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
-            if ((int)lstRecipeName.SelectedValue == 0)
+            int selectedrecipe = WindowsFormsUtility.GetIdFromComboBox(lstRecipeName);
+
+            if (selectedrecipe == 0)
             {
                 MessageBox.Show("Please select a recipe to clone", Application.ProductName);
             }
@@ -29,7 +31,7 @@
             {
                 try
                 {
-                    int primarykey = RecipeClone.CloneRecipe((int)lstRecipeName.SelectedValue);
+                    int primarykey = RecipeSystem.CloneRecipe(selectedrecipe);
                     ((frmMain)Owner).OpenForm(typeof(frmSingleRecipe), primarykey);
                     this.Close();
                 }
@@ -37,6 +39,5 @@
                 finally { Cursor = Cursors.Default; }
             }
         }
-
     }
 }
