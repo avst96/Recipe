@@ -5,6 +5,7 @@
         BindingSource bindsource = new();
         DataTable dt = new();
         RecipeSystem.StatusEnum newstatusenum = new();
+        bool isfirstactivation = true;
         int recipeid = 0;
         string msg = "Are you sure you want to change to status of this recipe to ";
         string orgfrmtext = " - Change Status";
@@ -21,7 +22,11 @@
 
         private void FrmChangeStatus_Activated(object? sender, EventArgs e)
         {
-            LoadForm(recipeid, false);
+            if (!isfirstactivation)
+            {
+                LoadForm(recipeid, false);
+            }
+            isfirstactivation = false;
         }
 
         public void LoadForm(int pkvalue, bool binddata = true)
