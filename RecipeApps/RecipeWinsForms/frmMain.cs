@@ -47,7 +47,7 @@
                     f.LoadCookbook(pkvalue);
                     newfrm = f;
                 }
-                if (newfrm != null && (newfrm.Tag == null || newfrm.Tag is not string || newfrm.Tag.ToString() != "dont show form"))
+                if (newfrm != null && (newfrm.Tag is not string || newfrm.Tag.ToString() != "dont show form"))
                 //frmDataMainenance tag is set to this string if it shouldn't be shown
                 {
                     newfrm.MdiParent = this;
@@ -85,7 +85,6 @@
                 dlg.StartPosition = FormStartPosition.CenterParent;
                 dlg.ShowDialog(this);
             }
-
         }
 
         private void MnuTileWindow_Click(object? sender, EventArgs e)

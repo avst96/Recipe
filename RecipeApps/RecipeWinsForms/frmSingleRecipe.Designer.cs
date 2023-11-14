@@ -456,7 +456,6 @@
             gIngredients.Name = "gIngredients";
             gIngredients.RowTemplate.Height = 25;
             gIngredients.Size = new Size(473, 133);
-            gIngredients.StandardTab = true;
             gIngredients.TabIndex = 1;
             // 
             // tbSteps
@@ -504,7 +503,6 @@
             gSteps.Location = new Point(3, 40);
             gSteps.Name = "gSteps";
             gSteps.Size = new Size(473, 133);
-            gSteps.StandardTab = true;
             gSteps.TabIndex = 1;
             // 
             // lblUser

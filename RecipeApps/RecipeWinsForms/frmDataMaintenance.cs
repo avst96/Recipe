@@ -33,7 +33,11 @@
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Application.ProductName);
+                var ans = WindowsFormsUtility.MessageBoxWithReset(ex.Message);
+                if (ans == DialogResult.Yes)
+                {
+                    BindData();
+                }
             }
             finally
             {

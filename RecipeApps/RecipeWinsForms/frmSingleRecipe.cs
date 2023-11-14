@@ -120,12 +120,7 @@
             try
             {
                 RecipeSystem.SaveRecipe(dtrecipe, dtrecipe.Rows[0]);
-                recipepk = SQLUtility.GetValueFromFirstRowAsInt(dtrecipe, "RecipeID");
-                this.Tag = recipepk;
-                recipename = RecipeSystem.GetMainColumnNameValue(row, "Recipe");
-                this.Text = orgfrmtext + recipename;
-                bindsource.ResetBindings(false);
-                SetEnabledButtons();
+                LoadForm(SQLUtility.GetValueFromFirstRowAsInt(dtrecipe, "RecipeID"), false);
                 recipesaved = true;
             }
             catch (Exception ex)
@@ -144,7 +139,6 @@
             DialogResult answer = MessageBox.Show($"Are you sure you want to delete this recipe '{recipename}' and all related records?", "Recipe App", MessageBoxButtons.YesNo);
             if (answer == DialogResult.Yes)
             {
-
                 Application.UseWaitCursor = true;
                 try
                 {
@@ -173,7 +167,6 @@
             if (ans == DialogResult.Yes)
             {
                 recordid = WindowsFormsUtility.GetIdFromGrid(currentgrid, rowindex, currentcolumn);
-
 
                 Cursor = Cursors.WaitCursor;
                 try
@@ -215,8 +208,11 @@
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Application.ProductName);
-                LoadRecipeIngredients();
+                var ans = WindowsFormsUtility.MessageBoxWithReset(ex.Message);
+                if (ans == DialogResult.Yes)
+                {
+                    LoadRecipeIngredients();
+                }
             }
             return b;
         }
@@ -230,8 +226,11 @@
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Application.ProductName);
-                LoadDirections();
+                var ans = WindowsFormsUtility.MessageBoxWithReset(ex.Message);
+                if (ans == DialogResult.Yes)
+                {
+                    LoadDirections();
+                }
             }
             return b;
         }
@@ -310,10 +309,8 @@
             if (gIngredients.Columns[e.ColumnIndex].Name == deletecolumnname)
             {
                 DeleteChildRecord(RecipeChildrenRecords.ChildRecordEnum.Ingredient, e.RowIndex);
-
             }
         }
-
         private void GSteps_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
             if (gSteps.Columns[e.ColumnIndex].Name == deletecolumnname)
@@ -328,16 +325,31 @@
                 e.Handled = true;
             }
         }
+
+        private void OpenChangeStatus()
+        {
+            frmChangeStatus frm = new frmChangeStatus(recipepk);
+            frm.StartPosition = FormStartPosition.CenterParent;
+            frm.FormClosing += Frm_FormClosing; ;
+            frm.ShowDialog(this);
+        }
+
+        private void Frm_FormClosing(object? sender, FormClosingEventArgs e)
+        {
+            LoadForm(recipepk, false);
+        }
+        private void BtnChangeStatus_Click(object? sender, EventArgs e)
+        {
+            OpenChangeStatus();
+        }
         private void Grid_DataError(object? sender, DataGridViewDataErrorEventArgs e)
         {
             WindowsFormsUtility.GridErrorMsg(e);
         }
         private void BtnDelete_Click(object? sender, EventArgs e)
         {
-
             RecipeDelete();
         }
-
         private void BtnSaveIngredients_Click(object? sender, EventArgs e)
         {
             IngredientsSave();
@@ -351,18 +363,6 @@
         private void BtnSave_Click(object? sender, EventArgs e)
         {
             Save();
-        }
-        private void BtnChangeStatus_Click(object? sender, EventArgs e)
-        {
-            frmChangeStatus frm = new frmChangeStatus(recipepk);
-            frm.StartPosition = FormStartPosition.CenterParent;
-            frm.FormClosing += Frm_FormClosing; ;
-            frm.ShowDialog(this);
-        }
-
-        private void Frm_FormClosing(object? sender, FormClosingEventArgs e)
-        {
-            LoadForm(recipepk, false);
         }
 
     }

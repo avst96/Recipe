@@ -2,7 +2,6 @@
 {
     public partial class frmDashboard : Form
     {
-
         public frmDashboard()
         {
             InitializeComponent();
@@ -17,7 +16,6 @@
         {
             BindData();
         }
-
 
         private void BindData()
         {
@@ -47,6 +45,5 @@
         {
             ((frmMain)MdiParent).OpenForm(typeof(frmMealList));
         }
-
     }
 }

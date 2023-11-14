@@ -1,6 +1,5 @@
 ﻿namespace RecipeWinsForms
 {
-
     public partial class frmSingleCookbook : Form
     {
         DataTable dtcookbook = new();
@@ -82,7 +81,6 @@
             WindowsFormsUtility.AddComboBoxToGrid(gDataRecipe, DataMaintenance.GetDataList("Recipe", true), "Recipe", "RecipeName");
             WindowsFormsUtility.AddDeleteButtonToGrid(gDataRecipe, deletecolname);
             WindowsFormsUtility.FormatGridForEdit(gDataRecipe);
-
         }
 
         private bool Save()
@@ -93,12 +91,7 @@
             try
             {
                 Cookbooks.SaveCookbook(dtcookbook);
-                cookbookid = SQLUtility.GetValueFromFirstRowAsInt(dtcookbook, "CookbookID");
-                this.Tag = cookbookid;
-                cookbookname = RecipeSystem.GetMainColumnNameValue(row, "Book");
-                this.Text = orgfrmtext + cookbookname;
-                bindsource.ResetBindings(false);
-                SetEnabledButtons();
+                LoadCookbook(SQLUtility.GetValueFromFirstRowAsInt(dtcookbook, "CookbookID"), false);
                 saved = true;
             }
             catch (Exception ex)
@@ -113,7 +106,6 @@
             DialogResult answer = MessageBox.Show($"Are you sure you want to delete this cookbook '{cookbookname}'?", Application.ProductName, MessageBoxButtons.YesNo);
             if (answer == DialogResult.Yes)
             {
-
                 Application.UseWaitCursor = true;
                 try
                 {
@@ -141,8 +133,11 @@
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Application.ProductName);
-                LoadCookbookRecipes();
+                var ans = WindowsFormsUtility.MessageBoxWithReset(ex.Message);
+                if (ans == DialogResult.Yes)
+                {
+                    LoadCookbookRecipes();
+                }
             }
             finally { Cursor = Cursors.Default; }
             return saved;
@@ -263,7 +258,6 @@
         }
         private void GDataRecipe_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
-
             if (gDataRecipe.Columns[e.ColumnIndex].Name == deletecolname)
             {
                 DeleteRecipeFromCookbook(e.RowIndex);

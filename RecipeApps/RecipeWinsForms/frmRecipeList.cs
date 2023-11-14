@@ -50,7 +50,5 @@
         {
             ((frmMain)MdiParent).OpenForm(typeof(frmSingleRecipe));
         }
-
-
     }
 }
