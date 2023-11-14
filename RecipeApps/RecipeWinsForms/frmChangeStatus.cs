@@ -27,8 +27,6 @@
         public void LoadForm(int pkvalue, bool binddata = true)
         {
             recipeid = pkvalue;
-            string recipename = "";
-            this.Tag = pkvalue;
             Cursor = Cursors.WaitCursor;
             try
             {
@@ -41,10 +39,9 @@
                     WindowsFormsUtility.SetControlBinding(txtDateDrafted, bindsource);
                     WindowsFormsUtility.SetControlBinding(txtDatePublished, bindsource);
                     WindowsFormsUtility.SetControlBinding(txtDateArchived, bindsource);
+                    Text = RecipeSystem.GetMainColumnNameValue(dt.Rows[0], "Recipe") + orgfrmtext;
                 }
 
-                recipename = RecipeSystem.GetMainColumnNameValue(dt.Rows[0], "Recipe");
-                Text = recipename + orgfrmtext;
                 SetEnabledButtons(dt.Rows[0]);
             }
             catch (Exception ex)
@@ -63,7 +60,7 @@
                 try
                 {
                     RecipeSystem.SetAndSaveRecipeStatus(dt, newstatusenum);
-                    Close();
+                    SetEnabledButtons(dt.Rows[0]);
                 }
                 catch (Exception ex)
                 {

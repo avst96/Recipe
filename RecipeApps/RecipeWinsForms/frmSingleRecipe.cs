@@ -330,7 +330,7 @@
         {
             frmChangeStatus frm = new frmChangeStatus(recipepk);
             frm.StartPosition = FormStartPosition.CenterParent;
-            frm.FormClosing += Frm_FormClosing; ;
+            frm.FormClosing += Frm_FormClosing;
             frm.ShowDialog(this);
         }
 
