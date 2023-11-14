@@ -2,27 +2,19 @@
 {
     public partial class frmAutoCreateCookbook : Form
     {
-        BindingSource? bindsource;
-        bool firstactivation = true;
         public frmAutoCreateCookbook()
         {
             InitializeComponent();
-            Activated += FrmAutoCreateCookbook_Activated;
+            BindData();
             btnCreate.Click += BtnCreate_Click;
         }
 
-        private void FrmAutoCreateCookbook_Activated(object? sender, EventArgs e)
-        {
-            BindData();
-        }
 
         private void BindData()
         {
             DataTable dtusers = DataMaintenance.GetDataList("Users", true);
-            if (firstactivation)
-            {
-                WindowsFormsUtility.SetListBinding(lstUserName, dtusers, null, "Users");
-            }
+            WindowsFormsUtility.SetListBinding(lstUserName, dtusers, null, "Users");
+
         }
 
         private void CreateCookbook(int userid)

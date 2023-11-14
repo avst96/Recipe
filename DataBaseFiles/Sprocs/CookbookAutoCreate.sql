@@ -25,6 +25,7 @@ begin
         insert Cookbook(UsersID,BookName,Price,IsActive)
             select @UsersId, concat('Recipes by ',u.FirstName,' ',u.LastName), @numofrecipes * 1.33, 1 
             from Users u 
+            where u.UsersID = @UsersId
             group by u.FirstName, u.LastName
 
         select @CookbookId = scope_identity()
