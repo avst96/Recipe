@@ -63,13 +63,14 @@
             // btnSave
             // 
             btnSave.Anchor = AnchorStyles.Right;
+            btnSave.BackColor = Color.LimeGreen;
             btnSave.Location = new Point(379, 355);
             btnSave.Margin = new Padding(4, 4, 20, 0);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(96, 32);
             btnSave.TabIndex = 2;
             btnSave.Text = "&Save";
-            btnSave.UseVisualStyleBackColor = true;
+            btnSave.UseVisualStyleBackColor = false;
             // 
             // gData
             // 

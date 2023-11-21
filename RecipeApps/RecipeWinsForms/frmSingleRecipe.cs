@@ -119,6 +119,10 @@
             bool recipesaved = false;
             try
             {
+                if(recipepk == 0)
+                {
+                    dtrecipe.Rows[0]["DateDrafted"] = DateTime.Now; //It should be set according to this computer and not by database time
+                }
                 RecipeSystem.SaveRecipe(dtrecipe, dtrecipe.Rows[0]);
                 LoadForm(SQLUtility.GetValueFromFirstRowAsInt(dtrecipe, "RecipeID"), false);
                 recipesaved = true;
