@@ -79,7 +79,6 @@
             Form dlg = new();
             if (formtype == typeof(frmCloneRecipe)) { dlg = new frmCloneRecipe(); }
             else if (formtype == typeof(frmAutoCreateCookbook)) { dlg = new frmAutoCreateCookbook(); }
-            else if (formtype == typeof(frmLogin)) { dlg = new frmLogin(); }
             if (dlg != null)
             {
                 dlg.StartPosition = FormStartPosition.CenterParent;
@@ -98,8 +97,17 @@
         }
         private void FrmMain_Shown(object? sender, EventArgs e)
         {
-            OpenDialog(typeof(frmLogin));
-            OpenForm(typeof(frmDashboard));
+            frmLogin f = new();
+            f.StartPosition = FormStartPosition.CenterParent;
+            bool loggedin = f.LoginForm();
+            if (!loggedin)
+            {
+                Application.Exit();
+            }
+            else
+            {
+                OpenForm(typeof(frmDashboard));
+            }
         }
         private void MnuDashboard_Click(object? sender, EventArgs e) { OpenForm(typeof(frmDashboard)); }
         private void MnuListRecipe_Click(object? sender, EventArgs e) { OpenForm(typeof(frmRecipeList)); }
