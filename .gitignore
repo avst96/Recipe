@@ -6,6 +6,7 @@
 # Secret files
 *create-login.sql
 *secret.config
+*secret-appsettings.json
 
 # User-specific files
 *.rsuser
