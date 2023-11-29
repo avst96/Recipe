@@ -3,10 +3,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecipeMAUI.RecipeSearch"
              Title="RecipeSearch">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+
+    <Grid ColumnDefinitions="*,auto,*" VerticalOptions="Center">
+        <Border  Grid.Column="1" Padding="25" BackgroundColor="Wheat" Stroke="Black">
+        <ListView x:Name="RecipeLst">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell >
+                        <Grid RowDefinitions="auto" ColumnDefinitions="auto,auto,auto,auto,auto" ColumnSpacing="15" HorizontalOptions="Center">
+                            <Label Grid.Column="0" Text="{Binding Path=[RecipeName]}"/>
+                        <Label Grid.Column="1" Text="{Binding Path=[RecipeStatus]}"/>
+                        <Label Grid.Column="2" Text="{Binding Path=[Users]}"/>
+                        <Label Grid.Column="3" Text="{Binding Path=[Calories]}"/>
+                        <Label Grid.Column="4" Text="{Binding Path=[Num_Ingredients]}"/>
+                    </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        </Border>
+    </Grid>
+
+
 </ContentPage>
