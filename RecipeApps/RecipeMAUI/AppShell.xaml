@@ -13,7 +13,7 @@
         Route="Home" />
 
         <ShellContent
-        Title="Recipe Search"
+        Title="Recipe List"
         ContentTemplate="{DataTemplate local:RecipeSearch}"
         Route="RecipeSearch" />
     </TabBar>
