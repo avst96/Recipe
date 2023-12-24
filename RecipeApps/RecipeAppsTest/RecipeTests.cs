@@ -96,7 +96,8 @@ namespace RecipeAppsTest
 
             TestContext.WriteLine("Current RecipeID to be loaded = " + recipeid + ". Ensure app loades correct recipe.");
 
-            DataTable dt = RecipeSystem.LoadRecipe(recipeid);
+            bizRecipe recz = new();
+            DataTable dt = recz.Load(recipeid);
             int loadedid = (int)dt.Rows[0]["RecipeID"];
 
             Assert.IsTrue(recipeid == loadedid, "Wrong recipe was loaded. Recipe loaded has ID of (" + loadedid + ") and recipe to be loaded has ID of (" + recipeid + ").");
@@ -155,7 +156,8 @@ namespace RecipeAppsTest
             r["DatePublished"] = DBNull.Value;
             r["DateArchived"] = DBNull.Value;
 
-            RecipeSystem.SaveRecipe(dt, r);
+            bizRecipe recz = new();
+            recz.Save(dt);
 
             DataTable newdt;
             if (isinsert)
@@ -186,12 +188,12 @@ left join RecipeIngredient ri on r.RecipeID = ri.RecipeID
 where ri.IngredientID is null 
 and (r.RecipeStatus = 'draft' or datediff(day, r.DateArchived, getdate()) > 30) ");
             Assume.That(dt.Rows.Count == 1, "No unrelated recipe in DB that doesn't violate business rule, can't run test");
-            DataRow r = dt.Rows[0];
-            int recipeid = (int)r["RecipeID"];
+          
+            int recipeid = (int)dt.Rows[0]["RecipeID"];
 
-            TestContext.WriteLine("Ensure that Recipe '" + r["RecipeName"] + "' with ID of " + recipeid + " is deleted from DB");
-
-            RecipeSystem.DeleteRecipe(r);
+            TestContext.WriteLine("Ensure that Recipe '" + dt.Rows[0]["RecipeName"] + "' with ID of " + recipeid + " is deleted from DB");
+            bizRecipe recz = new();
+            recz.Delete(dt);
 
             DataTable afterdelete = GetDataTable("select * from recipe where recipeid = " + recipeid);
             Assert.IsTrue(afterdelete.Rows.Count == 0, "Recipe with ID of " + recipeid + "has not deleted from DB");

@@ -163,7 +163,7 @@
         <Setter Property="FontFamily" Value="OpenSansRegular" />
         <Setter Property="FontSize" Value="18" />
         <Setter Property="VerticalTextAlignment" Value="Center"/>
-        <Setter Property="HorizontalTextAlignment" Value="Start"/>A
+        <Setter Property="HorizontalTextAlignment" Value="Start"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
