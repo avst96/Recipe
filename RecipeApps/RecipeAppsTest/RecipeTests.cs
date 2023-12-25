@@ -93,13 +93,15 @@ namespace RecipeAppsTest
                 recipeid = GetFirstColumnFirstRowValue("select top 1 recipeid from recipe order by RecipeName");
             }
             //Af There is just  a typo in the message below - it's "recipes" without the "i"
-            Assume.That(recipeid > 0, "No recipies in DB, can't run test.");
+            //Fixed
+            Assume.That(recipeid > 0, "No recipes in DB, can't run test.");
 
             TestContext.WriteLine("Current RecipeID to be loaded = " + recipeid + ". Ensure app loades correct recipe.");
 
             //AF Variable naming should be clear - I'm not sure what "z" in "recz" is representing
-            bizRecipe recz = new();
-            DataTable dt = recz.Load(recipeid);
+            //Fixed
+            bizRecipe rec = new();
+            DataTable dt = rec.Load(recipeid);
             int loadedid = (int)dt.Rows[0]["RecipeID"];
 
             Assert.IsTrue(recipeid == loadedid, "Wrong recipe was loaded. Recipe loaded has ID of (" + loadedid + ") and recipe to be loaded has ID of (" + recipeid + ").");
@@ -122,13 +124,14 @@ namespace RecipeAppsTest
             string oldrecipename = "";
 
             //AF If you are inserting / updating the calories, that should be included in the message too
+            //Fixed
             if (isinsert)
             {
                 dt = GetDataTable("select RecipeId, UsersID , CuisineID, RecipeName, Calories, DateDrafted, DatePublished, DateArchived, RecipeStatus from Recipe where recipeid = " + recipeid);
                 Assume.That(dt.Rows.Count == 0);
                 r = dt.Rows.Add();
                 recipename += " " + newtime;
-                TestContext.WriteLine("Add a new recipe to the table with recipe name of " + recipename);
+                TestContext.WriteLine("Add a new recipe to the table with recipe name of " + recipename + "and following amount of calories " + calories);
             }
 
             else
@@ -159,15 +162,15 @@ namespace RecipeAppsTest
             r["DatePublished"] = DBNull.Value;
             r["DateArchived"] = DBNull.Value;
 
-            bizRecipe recz = new();
-            recz.Save(dt);
+            bizRecipe rec = new();
+            rec.Save(dt);
 
             DataTable newdt;
             if (isinsert)
             {
                 newdt = GetDataTable("select RecipeName, Calories, DateDrafted from recipe where recipename = '" + recipename + "'");
                 Assert.IsTrue(newdt.Rows[0][0].ToString() == recipename, "No recipe with a name of " + recipename + " was found in DB");
-                TestContext.WriteLine("New recipe with name of " + recipename + " and RecipeId of " + r["RecipeId"] + " was inserted in the DB");
+                TestContext.WriteLine("New recipe with name of " + recipename + " and RecipeId of " + r["RecipeId"] + " and calories count of " + r["Calories"] + " was inserted in the DB");
             }
             else
             {
@@ -180,24 +183,30 @@ namespace RecipeAppsTest
             }
 
         }
-        
+
         [Test]
         public void DeleteTest()
         {
-            //I only checked for related record in the RecipeIngredient table with the assumption that if it doesn't have ingredients then it doesn't have any other foreign constraints.
             //Af I don't think that's 100% secure, what if a recipe is still in a cookbook etc, it doesn't hurt to write a full select statement that covers any problems
+            //Fixed
             DataTable dt = GetDataTable(@"select top 1 r.RecipeID, r.RecipeName 
-from Recipe r 
-left join RecipeIngredient ri on r.RecipeID = ri.RecipeID
-where ri.IngredientID is null 
-and (r.RecipeStatus = 'draft' or datediff(day, r.DateArchived, getdate()) > 30) ");
+                                        from Recipe r 
+                                        left join RecipeIngredient ri on r.RecipeID = ri.RecipeID
+                                        left join Directions d on r.RecipeID = d.RecipeID
+                                        left join CookbookRecipe cr on r.RecipeID = cr.RecipeID
+                                        left join MealCourseRecipe mcr on r.RecipeID = mcr.RecipeID 
+                                        where ri.IngredientID is null
+                                        and d.DirectionsID is null 
+                                        and cr.CookbookRecipeID is null
+                                        and mcr.MealCourseRecipeID is null 
+                                        and (r.RecipeStatus = 'draft' or datediff(day, r.DateArchived, getdate()) > 30) ");
             Assume.That(dt.Rows.Count == 1, "No unrelated recipe in DB that doesn't violate business rule, can't run test");
-          
+
             int recipeid = (int)dt.Rows[0]["RecipeID"];
 
             TestContext.WriteLine("Ensure that Recipe '" + dt.Rows[0]["RecipeName"] + "' with ID of " + recipeid + " is deleted from DB");
-            bizRecipe recz = new();
-            recz.Delete(dt);
+            bizRecipe rec = new();
+            rec.Delete(dt);
 
             DataTable afterdelete = GetDataTable("select * from recipe where recipeid = " + recipeid);
             Assert.IsTrue(afterdelete.Rows.Count == 0, "Recipe with ID of " + recipeid + "has not deleted from DB");
