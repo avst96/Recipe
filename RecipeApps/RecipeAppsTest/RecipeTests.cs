@@ -92,7 +92,6 @@ namespace RecipeAppsTest
             {
                 recipeid = GetFirstColumnFirstRowValue("select top 1 recipeid from recipe order by RecipeName");
             }
-
             Assume.That(recipeid > 0, "No recipes in DB, can't run test.");
 
             TestContext.WriteLine("Current RecipeID to be loaded = " + recipeid + ". Ensure app loades correct recipe.");
