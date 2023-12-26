@@ -92,14 +92,10 @@ namespace RecipeAppsTest
             {
                 recipeid = GetFirstColumnFirstRowValue("select top 1 recipeid from recipe order by RecipeName");
             }
-            //Af There is just  a typo in the message below - it's "recipes" without the "i"
-            //Fixed
             Assume.That(recipeid > 0, "No recipes in DB, can't run test.");
 
             TestContext.WriteLine("Current RecipeID to be loaded = " + recipeid + ". Ensure app loades correct recipe.");
 
-            //AF Variable naming should be clear - I'm not sure what "z" in "recz" is representing
-            //Fixed
             bizRecipe rec = new();
             DataTable dt = rec.Load(recipeid);
             int loadedid = (int)dt.Rows[0]["RecipeID"];
@@ -123,8 +119,6 @@ namespace RecipeAppsTest
 
             string oldrecipename = "";
 
-            //AF If you are inserting / updating the calories, that should be included in the message too
-            //Fixed
             if (isinsert)
             {
                 dt = GetDataTable("select RecipeId, UsersID , CuisineID, RecipeName, Calories, DateDrafted, DatePublished, DateArchived, RecipeStatus from Recipe where recipeid = " + recipeid);
@@ -187,8 +181,6 @@ namespace RecipeAppsTest
         [Test]
         public void DeleteTest()
         {
-            //Af I don't think that's 100% secure, what if a recipe is still in a cookbook etc, it doesn't hurt to write a full select statement that covers any problems
-            //Fixed
             DataTable dt = GetDataTable(@"select top 1 r.RecipeID, r.RecipeName 
                                         from Recipe r 
                                         left join RecipeIngredient ri on r.RecipeID = ri.RecipeID
