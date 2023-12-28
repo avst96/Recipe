@@ -122,7 +122,7 @@ namespace RecipeAppsTest
             if (isinsert)
             {
                 recipename += " " + newtime;
-                TestContext.WriteLine("Add a new recipe to the table with recipe name of " + recipename + "and following amount of calories " + calories);
+                TestContext.WriteLine("Add a new recipe to the table with recipe name of " + recipename + " and following amount of calories " + calories);
             }
 
             else
