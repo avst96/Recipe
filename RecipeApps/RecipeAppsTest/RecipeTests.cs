@@ -150,7 +150,7 @@ namespace RecipeAppsTest
             rec.RecipeName = recipename;
             rec.Calories = calories;
             rec.DateDrafted = newtime;
-            rec.DatePublished = null;
+            rec.DatePublished = DateTime.Now;
             rec.DateArchived = null;
 
             rec.Save();

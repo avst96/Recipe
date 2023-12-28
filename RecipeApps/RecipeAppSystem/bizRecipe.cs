@@ -5,7 +5,7 @@
         private int _recipeid, _usersid, _cuisineid, _calories;
         private string _recipename = "", _recipestatus = "", _recipepic = "";
         private DateTime _datedrafted;
-        private DateOnly? _datepublished, _datearchived;
+        private DateTime? _datearchived, _datepublished;
 
         public int RecipeId
         {
@@ -47,12 +47,12 @@
             get => _datedrafted;
             set { if (_datedrafted != value) { _datedrafted = value; InvokePropertyChanged(); } }
         }
-        public DateOnly? DatePublished
+        public DateTime? DatePublished
         {
             get => _datepublished;
             set { if (_datepublished != value) { _datepublished = value; InvokePropertyChanged(); } }
         }
-        public DateOnly? DateArchived
+        public DateTime? DateArchived
         {
             get => _datearchived;
             set { if (_datearchived != value) { _datearchived = value; InvokePropertyChanged(); } }
