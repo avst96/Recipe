@@ -97,11 +97,11 @@ namespace RecipeAppsTest
             TestContext.WriteLine("Current RecipeID to be loaded = " + recipeid + ". Ensure app loades correct recipe.");
 
             bizRecipe rec = new();
-            DataTable dt = rec.Load(recipeid);
-            int loadedid = (int)dt.Rows[0]["RecipeID"];
+            rec.Load(recipeid);
+            int loadedid = rec.RecipeId;
 
             Assert.IsTrue(recipeid == loadedid, "Wrong recipe was loaded. Recipe loaded has ID of (" + loadedid + ") and recipe to be loaded has ID of (" + recipeid + ").");
-            TestContext.WriteLine("Recipe with ID (" + loadedid + ") was loaded.");
+            TestContext.WriteLine("Recipe with ID (" + loadedid + ") and recipe name of '" + rec.RecipeName+"' was loaded.");
         }
 
         [Test]
@@ -109,8 +109,8 @@ namespace RecipeAppsTest
         [TestCase(false, "", 20)] //Test for update
         public void SaveRecipeTest(bool isinsert, string recipename, int calories)
         {
-            DataTable dt;
-            DataRow r;
+            bizRecipe rec = new();
+
             int recipeid = 0;
 
             //I needed to remove the milisecond because the milisecond wasn't getting updated in the DB and was causing assert to fail
@@ -121,9 +121,6 @@ namespace RecipeAppsTest
 
             if (isinsert)
             {
-                dt = GetDataTable("select RecipeId, UsersID , CuisineID, RecipeName, Calories, DateDrafted, DatePublished, DateArchived, RecipeStatus from Recipe where recipeid = " + recipeid);
-                Assume.That(dt.Rows.Count == 0);
-                r = dt.Rows.Add();
                 recipename += " " + newtime;
                 TestContext.WriteLine("Add a new recipe to the table with recipe name of " + recipename + "and following amount of calories " + calories);
             }
@@ -131,9 +128,9 @@ namespace RecipeAppsTest
             else
             {
                 recipeid = GetFirstColumnFirstRowValue("select top 1 recipeid from recipe");
-                dt = GetDataTable("select RecipeID, UsersID , CuisineID, RecipeName, Calories, DateDrafted, DatePublished, DateArchived, RecipeStatus from Recipe where recipeid = " + recipeid);
-                r = dt.Rows[0];
-                oldrecipename = r["recipename"].ToString()!;
+                rec.Load(recipeid);
+                oldrecipename = rec.RecipeName;
+
                 // To remove any DateTime added in first update to ensure it doesn't get to long
                 string dateTimePattern = @"\b\d{1,2}/\d{1,2}/\d{4} \d{1,2}:\d{2}:\d{2} (AM|PM)\b";
                 recipename = Regex.Replace(oldrecipename, dateTimePattern, "").TrimEnd() + " " + newtime;
@@ -148,23 +145,22 @@ namespace RecipeAppsTest
             Assume.That(userid > 0 && cuisineid > 0, "Users table or Cuisine table are empty, test can't run");
 
 
-            r["UsersID"] = userid;
-            r["CuisineID"] = cuisineid;
-            r["RecipeName"] = recipename;
-            r["Calories"] = calories;
-            r["DateDrafted"] = newtime;
-            r["DatePublished"] = DBNull.Value;
-            r["DateArchived"] = DBNull.Value;
+            rec.UsersId = userid;
+            rec.CuisineId = cuisineid;
+            rec.RecipeName = recipename;
+            rec.Calories = calories;
+            rec.DateDrafted = newtime;
+            rec.DatePublished = null;
+            rec.DateArchived = null;
 
-            bizRecipe rec = new();
-            rec.Save(dt);
-
+            rec.Save();
+            
             DataTable newdt;
             if (isinsert)
             {
-                newdt = GetDataTable("select RecipeName, Calories, DateDrafted from recipe where recipename = '" + recipename + "'");
+                newdt = GetDataTable("select RecipeName, Calories, DateDrafted, RecipeId from recipe where recipeid = " + rec.RecipeId);
                 Assert.IsTrue(newdt.Rows[0][0].ToString() == recipename, "No recipe with a name of " + recipename + " was found in DB");
-                TestContext.WriteLine("New recipe with name of " + recipename + " and RecipeId of " + r["RecipeId"] + " and calories count of " + r["Calories"] + " was inserted in the DB");
+                TestContext.WriteLine("New recipe with name of " + recipename + " and RecipeId of " + newdt.Rows[0][3] + " and calories count of " + newdt.Rows[0][1] + " was inserted in the DB");
             }
             else
             {
@@ -198,7 +194,8 @@ namespace RecipeAppsTest
 
             TestContext.WriteLine("Ensure that Recipe '" + dt.Rows[0]["RecipeName"] + "' with ID of " + recipeid + " is deleted from DB");
             bizRecipe rec = new();
-            rec.Delete(dt);
+            rec.Load(recipeid);
+            rec.Delete();
 
             DataTable afterdelete = GetDataTable("select * from recipe where recipeid = " + recipeid);
             Assert.IsTrue(afterdelete.Rows.Count == 0, "Recipe with ID of " + recipeid + "has not deleted from DB");

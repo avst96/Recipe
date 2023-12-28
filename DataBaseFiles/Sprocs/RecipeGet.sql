@@ -18,7 +18,7 @@ begin
 	or r.RecipeName like '%' + @RecipeName + '%'
 	or @All = 1
 
-	-- How to add default
+	
 	union select 0,0,0, ' ',0, null, null, null, null, null,0
 	where @IncludeBlank = 1 
 	order by Orderby, r.RecipeName
