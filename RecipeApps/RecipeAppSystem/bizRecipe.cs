@@ -44,17 +44,17 @@
         }
         public DateTime DateDrafted
         {
-            get => _datedrafted;
+            get => _datedrafted.Date;
             set { if (_datedrafted != value) { _datedrafted = value; InvokePropertyChanged(); } }
         }
         public DateTime? DatePublished
         {
-            get => _datepublished;
+            get =>  _datepublished?.Date;
             set { if (_datepublished != value) { _datepublished = value; InvokePropertyChanged(); } }
         }
         public DateTime? DateArchived
         {
-            get => _datearchived;
+            get => _datearchived?.Date;
             set { if (_datearchived != value) { _datearchived = value; InvokePropertyChanged(); } }
         }
     }
