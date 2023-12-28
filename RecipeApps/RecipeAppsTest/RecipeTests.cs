@@ -49,6 +49,21 @@ namespace RecipeAppsTest
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
+        public void GetAllRecipeTest(bool includeblank)
+        {
+            string msg = "";
+            int num = GetFirstColumnFirstRowValue("select total = count(*) from recipe");
+            Assume.That(num > 0, "No recipies in DB, cannot run test.");
+            if (includeblank) { num++; msg = " plus a blank"; }
+            TestContext.WriteLine("Assure that num of recipes returned match the num of recipes in DB" + msg + ". (Num recipes in DB" + msg + " is " + num + ")");
+            bizRecipe rec = new();
+            var lst = rec.GetList(includeblank);
+            Assert.IsTrue(lst.Count == num, "Num of recipes returned (" + lst.Count + ") doesn't match num of recipes in DB" + msg + " (" + num + ").");
+            TestContext.WriteLine($"Num of recipes{msg} returned by app was {num}, matching the total num of recipes{msg} in the DB.");
+        }
+        [Test]
         public void GetUsersListTest()
         {
             int usercount = GetFirstColumnFirstRowValue("select count(*) from Users");
@@ -101,7 +116,7 @@ namespace RecipeAppsTest
             int loadedid = rec.RecipeId;
 
             Assert.IsTrue(recipeid == loadedid, "Wrong recipe was loaded. Recipe loaded has ID of (" + loadedid + ") and recipe to be loaded has ID of (" + recipeid + ").");
-            TestContext.WriteLine("Recipe with ID (" + loadedid + ") and recipe name of '" + rec.RecipeName+"' was loaded.");
+            TestContext.WriteLine("Recipe with ID (" + loadedid + ") and recipe name of '" + rec.RecipeName + "' was loaded.");
         }
 
         [Test]
@@ -154,7 +169,7 @@ namespace RecipeAppsTest
             rec.DateArchived = null;
 
             rec.Save();
-            
+
             DataTable newdt;
             if (isinsert)
             {

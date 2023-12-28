@@ -1,6 +1,6 @@
 ﻿namespace RecipeAppSystem
 {
-    public class bizRecipe : bizObject
+    public class bizRecipe : bizObject<bizRecipe>
     {
         private int _recipeid, _usersid, _cuisineid, _calories;
         private string _recipename = "", _recipestatus = "", _recipepic = "";
