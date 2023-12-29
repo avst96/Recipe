@@ -49,13 +49,21 @@
         }
         public DateTime? DatePublished
         {
-            get =>  _datepublished?.Date;
+            get => _datepublished?.Date;
             set { if (_datepublished != value) { _datepublished = value; InvokePropertyChanged(); } }
         }
         public DateTime? DateArchived
         {
             get => _datearchived?.Date;
             set { if (_datearchived != value) { _datearchived = value; InvokePropertyChanged(); } }
+        }
+
+        public List<bizRecipe> SearchRecipe(string search)
+        {
+            SqlCommand cmd = SQLUtility.GetSqlCommand(GetSprocName);
+            if (search == "") { SQLUtility.SetParamValue(cmd, "All", 1); }
+            else { SQLUtility.SetParamValue(cmd, "RecipeName", search); }
+            return GetListFromDataTable(SQLUtility.GetDataTable(cmd));
         }
     }
 }

@@ -42,10 +42,11 @@ namespace RecipeAppsTest
             Assume.That(num > 0, "No recipes match search provided");
 
             TestContext.WriteLine("Assure that num of recipes returned by SearchRecipe match num of recipes with search parameters (" + criteria + "); num in DB that match (" + num + ")");
-            DataTable dt = RecipeSystem.SearchRecipe(criteria);
+            bizRecipe rec = new();
+            var lst = rec.SearchRecipe(criteria);
 
-            Assert.IsTrue(dt.Rows.Count == num, "Rows returned by SearchRecipe (" + dt.Rows.Count + ") don't match num of recipes with matching criteria in DB (" + num + ")");
-            TestContext.WriteLine("Num of rows returned by Search app (" + dt.Rows.Count + ") = rows matching in DB (" + num + ")");
+            Assert.IsTrue(lst.Count == num, "Rows returned by SearchRecipe (" + lst.Count + ") don't match num of recipes with matching criteria in DB (" + num + ")");
+            TestContext.WriteLine("Num of rows returned by Search app (" + lst.Count + ") = rows matching in DB (" + num + ")");
         }
 
         [Test]
