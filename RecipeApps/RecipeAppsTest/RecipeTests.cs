@@ -31,7 +31,7 @@ namespace RecipeAppsTest
         [Test]
         [TestCase("")]
         [TestCase("a")]
-        public void SearchTest(string criteria)
+        public void SearchRecipeTest(string criteria)
         {
             int num = GetFirstColumnFirstRowValue("select total = count(*) from recipe where RecipeName like '%" + criteria + "%'");
             if (num == 0 && criteria != "")
@@ -93,6 +93,37 @@ namespace RecipeAppsTest
 
             TestContext.WriteLine("Num of Cuisines returned by app match num of Cuisines in DB");
         }
+        [Test]
+        [TestCase(true)]
+        [TestCase(false)]
+
+        public void GetIngredientListTest(bool includeblank)
+        {
+            string msg = "";
+            int num = GetFirstColumnFirstRowValue("select total = count(*) from ingredient");
+            Assume.That(num > 0, "No ingredients in DB, cannot run test.");
+            if (includeblank) { num++; msg = " plus a blank"; }
+            TestContext.WriteLine("Assure that num of ingredients returned match the num of ingredients in DB" + msg + ". (Num ingredients in DB" + msg + " is " + num + ")");
+            bizIngredient ing = new();
+            var lst = ing.GetList(includeblank);
+            Assert.IsTrue(lst.Count == num, "Num of ingredients returned (" + lst.Count + ") doesn't match num of ingredients in DB" + msg + " (" + num + ").");
+            TestContext.WriteLine($"Num of ingredients{msg} returned by app was {num}, matching the total num of ingredients{msg} in the DB.");
+        }
+        [Test]
+        [TestCase("e")]
+        [TestCase("a")]
+        public void SearchIngredientList(string search)
+        {
+            int num = GetFirstColumnFirstRowValue("select count(*) from Ingredient where IngredientName like '%" + search + "%'");
+            Assume.That(num > 0, "No ingredient match the search criteria, can't run test");
+            TestContext.WriteLine($"Assure the num of ingredients returned match the num of existing ingredients that match the search ({num})");
+            bizIngredient ing = new();
+            var lst = ing.SearchIngredient(search);
+            Assert.IsTrue(lst.Count == num, $"Num of ingredients returned ({lst.Count}) doesn't match num of ingredients in DB that match search criteria ({num}).");
+            TestContext.WriteLine($"Num of ingredients returned by app was {lst.Count}, matching the total num of ingredients with matching criteria in the DB {num}.");
+        }
+
+    
 
         [Test]
         [TestCase(1)]
