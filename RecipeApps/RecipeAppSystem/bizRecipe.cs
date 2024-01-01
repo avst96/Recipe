@@ -54,6 +54,7 @@
         }
         public DateTime? DateArchived
         {
+
             get => _datearchived?.Date;
             set { if (_datearchived != value) { _datearchived = value; InvokePropertyChanged(); } }
         }
