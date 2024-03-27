@@ -1,4 +1,13 @@
+using System.Linq.Expressions;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
+builder.Configuration.AddJsonFile("secret-appsettings.json", true, true);
 
 // Add services to the container.
 
@@ -18,8 +27,22 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("AllowAllOrigins");
+
 app.UseAuthorization();
+
+string settingname = "Settings:liveconn";
+#if DEBUG
+settingname = "Settings:devconn";
+#endif
+
+string? connstring = builder.Configuration[settingname];
+
+ 
+RecipeAppSystem.DBManager.SetConnectionString(connstring, true);
 
 app.MapControllers();
 
 app.Run();
+
+
