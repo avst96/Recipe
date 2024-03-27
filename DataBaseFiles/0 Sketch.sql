@@ -104,3 +104,4 @@ CookbookRecipe
     RecipeSeq int not null > 0,
     constraint CookbookID, RecipeID unique,
     constraint CookbookID, RecipeSeq unique
+*/
