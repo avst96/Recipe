@@ -76,8 +76,9 @@ create table dbo.Recipe(
     constraint ck_Recipe_DatePublished_must_be_before_DateArchived check (DatePublished <= DateArchived)
     --I had to cast to date in case I draft a order 7am and try to publish it the same day
 )  
+go
+alter table Recipe add isVegan bit not null default 0
 
-  
 create table dbo.Directions(
     DirectionsID int not null identity primary key,
     RecipeID int not null constraint f_Recipe_Directions foreign key references Recipe(RecipeID),

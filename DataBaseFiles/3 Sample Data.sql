@@ -62,6 +62,7 @@ insert Ingredient (IngredientName)
     union select 'Vanilla Pudding'
     union select 'Whipped Cream Cheese'
     union select 'Sour Cream'
+    
 
 
 ;with x as (
@@ -69,6 +70,7 @@ insert Ingredient (IngredientName)
     union select 'McFarm', 'French','Apple Yogurt Smoothie', 22, null,null 
     union select '26@forever', 'English', 'Cheese Bread', 29, '2023-3-22', null 
     union select '26@forever', 'American', 'Butter Muffins', 41, '2023-3-22', null 
+    
 )
     insert Recipe(UsersID,CuisineID,RecipeName,Calories,DateDrafted,DatePublished,DateArchived)
         select u.UsersID, c.CuisineID, x.Recipe, x.Calories,'2023-01-15', x.Published, x.Archived

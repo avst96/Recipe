@@ -12,14 +12,14 @@ as
 begin
 	select @RecipeName = nullif (@RecipeName, '')
 	
-	select r.RecipeID, r.UsersID, r.CuisineID, r.RecipeName, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeStatus, r.RecipePic, 1 as Orderby
+	select r.RecipeID, r.UsersID, r.CuisineID, r.RecipeName, r.Calories, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeStatus, r.RecipePic, r.isVegan, 1 as Orderby
 	from Recipe r
 	where r.RecipeID = @RecipeId
 	or r.RecipeName like '%' + @RecipeName + '%'
 	or @All = 1
 
 	
-	union select 0,0,0, ' ',0, null, null, null, null, null,0
+	union select 0,0,0, ' ',0, null, null, null, null, null,0,0
 	where @IncludeBlank = 1 
 	order by Orderby, r.RecipeName
 end
