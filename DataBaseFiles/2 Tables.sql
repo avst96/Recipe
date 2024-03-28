@@ -155,6 +155,11 @@ create table dbo.Cookbook(
     IsActive bit not null default 1,
     CookbookPic as concat('Cookbook-',translate(BookName,' ','-'),'.jpg') persisted
 )
+go
+alter table Cookbook add Skill int constraint ck_Cookbook_Skill_can_only_be_1_to_3 check(Skill between 1 and 3) default 1
+go
+alter table Cookbook add SkillLevel as case Skill when 1 then 'Beginner' when 2 then 'Intermediate' else 'Advanced' end persisted
+go 
 
 
 create table dbo.CookbookRecipe(
