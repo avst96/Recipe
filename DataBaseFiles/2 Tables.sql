@@ -121,6 +121,9 @@ create table dbo.Meal(
     IsActive bit not null default 1,
     MealPic as concat('Meal-',translate(MealName,' ','-'),'.jpg') persisted
 )
+go
+alter table Meal add MealDesc varchar(50) not null default ' '
+go 
 
 
 create table dbo.MealCourse(

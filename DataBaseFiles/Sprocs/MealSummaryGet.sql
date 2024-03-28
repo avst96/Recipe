@@ -9,7 +9,7 @@ as
 begin
     declare @return int = 0
 
-        select m.MealName, u.UserName, sum(r.Calories) as Num_Calories, count(mc.CourseID) as Num_Courses, count(mcr.RecipeID) as Num_Recipes
+        select m.MealName, u.UserName, sum(r.Calories) as Num_Calories, count(mc.CourseID) as Num_Courses, count(mcr.RecipeID) as Num_Recipes, m.MealDesc
         from Meal m 
         join Users u 
         on m.UsersID = u.UsersID
@@ -19,7 +19,7 @@ begin
         on mc.MealCourseID = mcr.MealCourseID
         left join Recipe r 
         on mcr.RecipeID = r.RecipeID
-        group by m.MealName, u.UserName
+        group by m.MealName, u.UserName, m.MealDesc
         order by m.MealName
 
     return @return
@@ -28,4 +28,5 @@ go
 
 
 exec MealSummaryGet
+
 

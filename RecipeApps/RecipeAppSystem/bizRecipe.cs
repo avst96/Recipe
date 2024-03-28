@@ -6,7 +6,7 @@
         private string _recipename = "", _recipestatus = "", _recipepic = "";
         private DateTime _datedrafted;
         private DateTime? _datearchived, _datepublished;
-        private bool _vegan;
+        private bool _isvegan;
 
         public int RecipeId
         {
@@ -59,10 +59,10 @@
             get => _datearchived?.Date;
             set { if (_datearchived != value) { _datearchived = value; InvokePropertyChanged(); } }
         }
-        public bool Vegan
+        public bool isVegan
         {
-            set { if (_vegan != value) { _vegan = value; InvokePropertyChanged(); } }
-            get => _vegan;
+            set { if (_isvegan != value) { _isvegan = value; InvokePropertyChanged(); } }
+            get => _isvegan;
         }
 
         

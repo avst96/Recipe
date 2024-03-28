@@ -42,3 +42,14 @@ insert Directions(RecipeID,Steps,StepsSeq)
         on x.Ingredient = i.IngredientName
         order by r.RecipeID, x.IngredientSeq
 
+;with x as (
+    select  'Breakfast bash' as MealName, 'Morning meal is the most important of the day!' as MealDesc
+    union select  'Luncheon', 'Keep it to one healthy meal.'
+    union select  'Super supper', 'The main meal for the western wolrd.'
+)
+update m
+set m.MealDesc = x.MealDesc
+from Meal m 
+join x
+on x.MealName = m.MealName
+

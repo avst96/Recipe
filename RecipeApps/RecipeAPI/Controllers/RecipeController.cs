@@ -13,6 +13,7 @@ namespace RecipeAPI.Controllers
         {
             return new bizRecipe().GetList();
         }
+
         [HttpGet("{id:int:min(0)}")]
         public bizRecipe GetRecipe(int id)
         {
