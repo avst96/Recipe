@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RecipeAppSystem
+﻿namespace RecipeAppSystem
 {
-    public class bizMeal : bizObject<bizMeal>
+    public class bizMealSummary : bizObject<bizMealSummary>
     {
-        public bizMeal() : base("MealSummary") { }
+
 
         private string _mealname = "", _username = "", _mealdesc = "";
         private int _numcalories, _numcourses, _numrecipes;

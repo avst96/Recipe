@@ -9,9 +9,9 @@ namespace RecipeAPI.Controllers
     public class MealController : ControllerBase
     {
         [HttpGet]
-        public List<bizMeal> Get()
+        public List<bizMealSummary> Get()
         {
-            return new bizMeal().GetList();
+            return new bizMealSummary().GetList();
         }
     }
 }

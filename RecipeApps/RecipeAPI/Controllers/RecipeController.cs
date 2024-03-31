@@ -9,15 +9,15 @@ namespace RecipeAPI.Controllers
     public class RecipeController : ControllerBase
     {
         [HttpGet]
-        public List<bizRecipe> Get()
+        public List<bizRecipeSummary> Get()
         {
-            return new bizRecipe().GetList();
+            return new bizRecipeSummary().GetList();
         }
 
         [HttpGet("{id:int:min(0)}")]
-        public bizRecipe GetRecipe(int id)
+        public bizRecipeSummary GetRecipe(int id)
         {
-            bizRecipe recipe = new();
+            bizRecipeSummary recipe = new();
             recipe.Load(id);
             return recipe;
         }

@@ -9,14 +9,14 @@ namespace RecipeAPI.Controllers
     public class CookbookController : ControllerBase
     {
         [HttpGet]
-        public List<bizCookbook> Get()
+        public List<bizCookbookSummary> Get()
         {
-            return new bizCookbook().GetList();
+            return new bizCookbookSummary().GetList();
         }
         [HttpGet("{id:int:min(0)}")]
-        public bizCookbook GetCookbook(int id)
+        public bizCookbookSummary GetCookbook(int id)
         {
-            bizCookbook book = new();
+            bizCookbookSummary book = new();
             book.Load(id);
             return book;
         }

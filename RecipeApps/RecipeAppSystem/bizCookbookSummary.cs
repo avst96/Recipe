@@ -1,8 +1,8 @@
 ﻿namespace RecipeAppSystem
 {
-    public class bizCookbook : bizObject<bizCookbook>
+    public class bizCookbookSummary : bizObject<bizCookbookSummary>
     {
-        public bizCookbook() : base("CookbookSummary") { }
+
 
         private int _cookbookid, _num_recipes;
         private string _cookbookname = "", _author = "", _skilllevel = "";
