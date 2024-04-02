@@ -13,7 +13,7 @@ begin
     select @CookbookSummaryId = isnull(@CookbookSummaryId, 0), @All = isnull(@All, 0)
     declare @return int = 0
 
-    select c.CookbookID, c.BookName as Cookbook_Name, concat(u.FirstName, ' ', u.LastName) as Author, count(cr.RecipeID)as Num_Recipes, c.Price, c.SkillLevel
+    select c.CookbookID, c.BookName as CookbookName, concat(u.FirstName, ' ', u.LastName) as Author, count(cr.RecipeID)as Num_Recipes, c.Price, c.SkillLevel
     from Cookbook c 
     join Users u
     on c.UsersID = u.UsersID
