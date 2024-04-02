@@ -62,6 +62,7 @@ insert Ingredient (IngredientName)
     union select 'Vanilla Pudding'
     union select 'Whipped Cream Cheese'
     union select 'Sour Cream'
+    
 
 
 ;with x as (
@@ -69,6 +70,7 @@ insert Ingredient (IngredientName)
     union select 'McFarm', 'French','Apple Yogurt Smoothie', 22, null,null 
     union select '26@forever', 'English', 'Cheese Bread', 29, '2023-3-22', null 
     union select '26@forever', 'American', 'Butter Muffins', 41, '2023-3-22', null 
+    
 )
     insert Recipe(UsersID,CuisineID,RecipeName,Calories,DateDrafted,DatePublished,DateArchived)
         select u.UsersID, c.CuisineID, x.Recipe, x.Calories,'2023-01-15', x.Published, x.Archived
@@ -247,3 +249,68 @@ insert MeasuringUnit(Unit)
         on x.cookbook = c.BookName
         join Recipe r 
         on x.recipe = r.RecipeName
+
+
+--------------------Added info for new columns-------------------------------------
+        
+insert Ingredient (IngredientName)
+select 'Nuts'
+
+;with x as (
+    select 'Acat' as UserName, 'French' as Cuisine, 'Nutty Nuts' as Recipe, 41 as Calories, null as Published, '2023-3-22' as Archived, 1 as isVegan
+       
+)
+    insert Recipe(UsersID,CuisineID,RecipeName,Calories,DateDrafted,DatePublished,DateArchived, isVegan)
+        select u.UsersID, c.CuisineID, x.Recipe, x.Calories,'2023-01-15', x.Published, x.Archived, x.isVegan
+        from x 
+        join Users u 
+        on x.UserName = u.UserName
+        join Cuisine c 
+        on x.Cuisine = c.CuisineName 
+    
+    ;with x as (
+    select 'Nutty Nuts' as Recipe, 'Melt sugar over low flame' as Steps, 1 as StepsSeq
+    union select 'Nutty Nuts' as Recipe, 'Mix in nuts' as Steps, 2 as StepsSeq
+    union select 'Nutty Nuts' as Recipe, 'Cool, and enjoy' as Steps, 3 as StepsSeq
+    
+)
+insert Directions(RecipeID,Steps,StepsSeq)
+    select r.RecipeID, x.Steps, x.StepsSeq
+    from x
+    join Recipe r 
+    on x.Recipe = r.RecipeName
+
+    ;with x as (
+    select 'Nutty Nuts' as Recipe, 'Cup' as Unit, 'Sugar' as Ingredient, 2 as IngredientSeq, 2 as Amount
+    union select 'Nutty Nuts', 'Cup', 'Nuts', 1, 2
+)    
+    insert RecipeIngredient(RecipeID,MeasuringUnitID,IngredientID,IngredientSeq,Amount)
+        select r.RecipeID, mu.MeasuringUnitID, i.IngredientID, x.IngredientSeq, x.Amount
+        from x 
+        join Recipe r
+        on x.Recipe = r.RecipeName
+        left join MeasuringUnit mu 
+        on x.Unit = mu.Unit
+        join Ingredient i 
+        on x.Ingredient = i.IngredientName
+        order by r.RecipeID, x.IngredientSeq
+
+;with x as (
+    select  'Breakfast bash' as MealName, 'Morning meal is the most important of the day!' as MealDesc
+    union select  'Luncheon', 'Keep it to one healthy meal.'
+    union select  'Super supper', 'The main meal for the western wolrd.'
+)
+update m
+set m.MealDesc = x.MealDesc
+from Meal m 
+join x
+on x.MealName = m.MealName
+
+
+;with x as (
+   select 'Treats for two' as bookname, 2 as Skill
+)
+update c
+set c.Skill = x.Skill
+from Cookbook c 
+join x on c.BookName = x.bookname

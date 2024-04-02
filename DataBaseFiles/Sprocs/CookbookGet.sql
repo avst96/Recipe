@@ -12,7 +12,7 @@ begin
     select @CookbookId = isnull(@CookbookId, 0), @All = isnull(@All, 0)
 
     declare @return int = 0
-        select c.CookbookID, c.UsersID, c.BookName, c.Price, c.DateCreated, c.IsActive
+        select c.CookbookID, c.UsersID, c.BookName, c.Price, c.DateCreated, c.IsActive, c.SkillLevel
         from Cookbook c
         where c.CookbookID = @CookbookId
         or @All = 1

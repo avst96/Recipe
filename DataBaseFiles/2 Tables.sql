@@ -76,8 +76,9 @@ create table dbo.Recipe(
     constraint ck_Recipe_DatePublished_must_be_before_DateArchived check (DatePublished <= DateArchived)
     --I had to cast to date in case I draft a order 7am and try to publish it the same day
 )  
+go
+alter table Recipe add isVegan bit not null default 0
 
-  
 create table dbo.Directions(
     DirectionsID int not null identity primary key,
     RecipeID int not null constraint f_Recipe_Directions foreign key references Recipe(RecipeID),
@@ -120,6 +121,9 @@ create table dbo.Meal(
     IsActive bit not null default 1,
     MealPic as concat('Meal-',translate(MealName,' ','-'),'.jpg') persisted
 )
+go
+alter table Meal add MealDesc varchar(50) not null default ' '
+go 
 
 
 create table dbo.MealCourse(
@@ -151,6 +155,11 @@ create table dbo.Cookbook(
     IsActive bit not null default 1,
     CookbookPic as concat('Cookbook-',translate(BookName,' ','-'),'.jpg') persisted
 )
+go
+alter table Cookbook add Skill int constraint ck_Cookbook_Skill_can_only_be_1_to_3 check(Skill between 1 and 3) default 1
+go
+alter table Cookbook add SkillLevel as case Skill when 1 then 'Beginner' when 2 then 'Intermediate' else 'Advanced' end persisted
+go 
 
 
 create table dbo.CookbookRecipe(
