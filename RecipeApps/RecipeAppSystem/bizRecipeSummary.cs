@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RecipeAppSystem
+﻿namespace RecipeAppSystem
 {
     public class bizRecipeSummary : bizObject<bizRecipeSummary>
     {
@@ -43,6 +37,11 @@ namespace RecipeAppSystem
             get => _isvegan;
             set { if (_isvegan != value) { _isvegan = value; InvokePropertyChanged(); } }
         }
-
+        public List<bizRecipeSummary> SearchRecipeByCookbook(string cookbook)
+        {
+            SqlCommand cmd = SQLUtility.GetSqlCommand(GetSprocName);
+            SQLUtility.SetParamValue(cmd, "CookbookName", cookbook); 
+            return GetListFromDataTable(SQLUtility.GetDataTable(cmd));
+        }
     }
 }
