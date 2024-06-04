@@ -13,7 +13,7 @@ begin
     declare @return int = 0
     select @All = isnull(@All,0) , @RecipeSummaryId = isnull(@RecipeSummaryId,0), @CookbookName = nullif(@CookbookName,''), @CuisineId = nullif(@CuisineId, 0)
 
-    select r.RecipeID, r.RecipeName, r.RecipeStatus, concat(u.FirstName, ' ', u.LastName) as Users , r.Calories, count(ri.IngredientID) as Num_Ingredients, r.isVegan 
+    select r.RecipeID, r.RecipeName, r.RecipeStatus, concat(u.FirstName, ' ', u.LastName) as Users , r.Calories, count(ri.IngredientID) as Num_Ingredients, r.isVegan, r.RecipePic 
     from Recipe r 
     join Users u 
     on r.UsersID = u.UsersID
@@ -27,7 +27,7 @@ begin
         or @All = 1
         or c.BookName = @CookbookName
         or r.cuisineid = @CuisineId
-    group by r.RecipeID, r.RecipeName, r.RecipeStatus, u.FirstName, u.LastName, r.Calories, r.isVegan 
+    group by r.RecipeID, r.RecipeName, r.RecipeStatus, u.FirstName, u.LastName, r.Calories, r.isVegan, r.RecipePic
     order by r.RecipeStatus desc
 
 

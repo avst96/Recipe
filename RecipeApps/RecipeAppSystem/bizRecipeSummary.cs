@@ -37,10 +37,19 @@
             get => _isvegan;
             set { if (_isvegan != value) { _isvegan = value; InvokePropertyChanged(); } }
         }
+
+      
         public List<bizRecipeSummary> SearchRecipeByCookbook(string cookbook)
         {
             SqlCommand cmd = SQLUtility.GetSqlCommand(GetSprocName);
             SQLUtility.SetParamValue(cmd, "CookbookName", cookbook); 
+            return GetListFromDataTable(SQLUtility.GetDataTable(cmd));
+        }
+
+        public List<bizRecipeSummary> GetRecipebyCuisineId(int cuisineid)
+        {
+            SqlCommand cmd = SQLUtility.GetSqlCommand(GetSprocName);
+            SQLUtility.SetParamValue(cmd, "CuisineId", cuisineid);
             return GetListFromDataTable(SQLUtility.GetDataTable(cmd));
         }
     }

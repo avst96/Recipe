@@ -27,5 +27,11 @@ namespace RecipeAPI.Controllers
             bizRecipeSummary recipe = new();
             return recipe.SearchRecipeByCookbook(value);
         }
-    }
+        [HttpGet("bycuisine{id:int:min(0)}")]
+        public List<bizRecipeSummary> GetRecipebyCuisineId(int id)
+        {
+            bizRecipeSummary recipe = new();
+            return recipe.GetRecipebyCuisineId(id);
+        }
+}
 }
