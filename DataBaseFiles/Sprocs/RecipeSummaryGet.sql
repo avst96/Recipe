@@ -4,13 +4,14 @@ go
 create or alter proc dbo.RecipeSummaryGet(
     @CookbookName varchar(25) = '',
     @RecipeSummaryId int = 0,
+    @CuisineId int = 0,
     @All bit = 0,
     @Message varchar(500) = '' output
 )
 as
 begin
     declare @return int = 0
-    select @All = isnull(@All,0) , @RecipeSummaryId = isnull(@RecipeSummaryId,0), @CookbookName = nullif(@CookbookName,'')
+    select @All = isnull(@All,0) , @RecipeSummaryId = isnull(@RecipeSummaryId,0), @CookbookName = nullif(@CookbookName,''), @CuisineId = nullif(@CuisineId, 0)
 
     select r.RecipeID, r.RecipeName, r.RecipeStatus, concat(u.FirstName, ' ', u.LastName) as Users , r.Calories, count(ri.IngredientID) as Num_Ingredients, r.isVegan 
     from Recipe r 
@@ -25,6 +26,7 @@ begin
     where r.RecipeID = @RecipeSummaryId 
         or @All = 1
         or c.BookName = @CookbookName
+        or r.cuisineid = @CuisineId
     group by r.RecipeID, r.RecipeName, r.RecipeStatus, u.FirstName, u.LastName, r.Calories, r.isVegan 
     order by r.RecipeStatus desc
 
@@ -32,5 +34,7 @@ begin
     return @return
 end
 go
+
+
 
 
