@@ -8,6 +8,7 @@ namespace RecipeAPI.Controllers
     [ApiController]
     public class RecipeController : ControllerBase
     {
+    
         [HttpGet]
         public List<bizRecipeSummary> Get()
         {
@@ -33,5 +34,20 @@ namespace RecipeAPI.Controllers
             bizRecipeSummary recipe = new();
             return recipe.GetRecipebyCuisineId(id);
         }
-}
+
+        [HttpPost]
+        public IActionResult Recipe([FromForm] bizRecipe rec)
+        {
+            try
+            {
+                rec.Save();
+                return Ok(new {message= "Recipe Saved Successfully", recipeId=rec.RecipeId });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+    }
 }

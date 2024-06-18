@@ -3,9 +3,22 @@
     public class bizRecipeSummary : bizObject<bizRecipeSummary>
     {
         private string _recipename = "", _status = "", _users = "";
-        private int _calories, _numingredients;
+        private int _recipeid, _calories, _numingredients;
         private bool _isvegan;
 
+
+        public int RecipeId
+        {
+            get => _recipeid;
+            set
+            {
+                if (_recipeid != value)
+                {
+                    _recipeid = value;
+                    InvokePropertyChanged();
+                }
+            }
+        }
         public string RecipeName
         {
             get => _recipename;
@@ -38,11 +51,11 @@
             set { if (_isvegan != value) { _isvegan = value; InvokePropertyChanged(); } }
         }
 
-      
+
         public List<bizRecipeSummary> SearchRecipeByCookbook(string cookbook)
         {
             SqlCommand cmd = SQLUtility.GetSqlCommand(GetSprocName);
-            SQLUtility.SetParamValue(cmd, "CookbookName", cookbook); 
+            SQLUtility.SetParamValue(cmd, "CookbookName", cookbook);
             return GetListFromDataTable(SQLUtility.GetDataTable(cmd));
         }
 

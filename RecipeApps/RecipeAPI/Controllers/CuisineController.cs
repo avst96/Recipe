@@ -10,7 +10,7 @@ namespace CuisineAPI.Controllers
         [HttpGet]
         public List<bizCuisine> Get()
         {
-            return new bizCuisine().GetList();
+            return new bizCuisine().GetList(true);
         }
                
     }
