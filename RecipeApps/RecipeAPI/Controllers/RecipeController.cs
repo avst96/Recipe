@@ -58,8 +58,8 @@ namespace RecipeAPI.Controllers
                 bizRecipe r = new();
                 r.Load(id);
                 r.Delete(id);
-                
-                return Ok(new { message = $"{r.RecipeName} was deleted" });
+                string msg = r.RecipeName == "" ? "Recipe was not found" : $"{r.RecipeName} was deleted";
+                return Ok(new { message = msg });
             }
             catch (Exception ex)
             {
