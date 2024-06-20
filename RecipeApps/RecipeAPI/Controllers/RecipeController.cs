@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using RecipeAppSystem;
 
 namespace RecipeAPI.Controllers
@@ -8,7 +9,7 @@ namespace RecipeAPI.Controllers
     [ApiController]
     public class RecipeController : ControllerBase
     {
-    
+
         [HttpGet]
         public List<bizRecipeSummary> Get()
         {
@@ -39,13 +40,30 @@ namespace RecipeAPI.Controllers
         public IActionResult Recipe([FromForm] bizRecipe rec)
         {
             try
-                {
+            {
                 rec.Save();
-                return Ok(new {message= "Recipe Saved Successfully", recipeId=rec.RecipeId });
+                return Ok(new { message = "Recipe Saved Successfully", recipeId = rec.RecipeId });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { ex.Message });
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpDelete]
+        public IActionResult Recipe(int id)
+        {
+            try
+            {
+                bizRecipe r = new();
+                r.Load(id);
+                r.Delete(id);
+                
+                return Ok(new { message = $"{r.RecipeName} was deleted" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
         }
 
