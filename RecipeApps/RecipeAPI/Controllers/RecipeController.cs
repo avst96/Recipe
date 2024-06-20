@@ -39,13 +39,13 @@ namespace RecipeAPI.Controllers
         public IActionResult Recipe([FromForm] bizRecipe rec)
         {
             try
-            {
+                {
                 rec.Save();
                 return Ok(new {message= "Recipe Saved Successfully", recipeId=rec.RecipeId });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { ex.Message });
             }
         }
 

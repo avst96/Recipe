@@ -8,6 +8,7 @@ create or alter proc dbo.RecipeUpdate (
 	@RecipeName varchar (50),
 	@Calories int ,
 	@RecipeStatus varchar(9) = '' output ,
+	@isVegan bit ,
 	@DateDrafted datetime output,
 	@DatePublished date output,
 	@DateArchived date output,
@@ -20,8 +21,8 @@ begin
 
 	if(@RecipeId = 0)
 	begin
-		insert Recipe (UsersId, CuisineId, RecipeName, Calories, DateDrafted, DatePublished, DateArchived )
-			values (@UsersId, @CuisineId, @RecipeName, @Calories, @DateDrafted, @DatePublished, @DateArchived)
+		insert Recipe (UsersId, CuisineId, RecipeName, Calories, DateDrafted, DatePublished, DateArchived, isVegan )
+			values (@UsersId, @CuisineId, @RecipeName, @Calories, @DateDrafted, @DatePublished, @DateArchived, @isVegan)
 
 	select @RecipeId = scope_Identity()
 
@@ -37,7 +38,8 @@ begin
 			Calories = @Calories ,
 			DateDrafted = @DateDrafted,
 			DatePublished = @DatePublished,
-			DateArchived = @DateArchived	
+			DateArchived = @DateArchived,
+			isVegan = @isVegan	
 		from recipe r
 		where r.RecipeId = @RecipeId
 	end
