@@ -1,5 +1,5 @@
 /*
-
+---------------------------------------------------------------
 Users
     UsersID PK,
     FirstName varchar(35) not null not blank,
@@ -7,23 +7,29 @@ Users
     UserName varchar(20) not null not blank unique
 
 
+-----------------------------------------------------------------
 Cuisine 
     CuisineID PK,
     CuisineName varchar(20) not null not blank unique,
     
 
+-----------------------------------------------------------------
+
 Course
     CourseID PK,
     CourseName varchar(20) not null not blank unique,
     CourseSeq int not null > 0 unique,
-    
 
+
+-----------------------------------------------------------------    
 
 Ingredient
     IngredientID PK,
     IngredientName varchar(20) not null not blank unique
     IngredientPicture compute Tablename-IngredientName-.jpg
     
+
+-----------------------------------------------------------------
 
 Recipe 
     RecipeID PK,
@@ -39,7 +45,8 @@ Recipe
         when (else) DateArchived not null = Archived
     RecipePic = compute tablename-recipename-.jpg
     
-    
+
+-----------------------------------------------------------------    
 Directions
     DirectionsID PK,
     RecipeID FK,
@@ -48,11 +55,13 @@ Directions
     constraint RecipeID, StepsSeq 
     
 
+-----------------------------------------------------------------
 MeasuringUnit
     MeasuringUnitID PK,
     UnitName varchar(12) not null not blank unique
 
 
+-----------------------------------------------------------------
 RecipeIngredient
     RecipeIngredientID PK,
     RecipeID FK,
@@ -63,6 +72,7 @@ RecipeIngredient
     constraint RecipeID and IngredientSequence unique
 
 
+-----------------------------------------------------------------
 Meal 
     MealID PK,
     MealName varchar(30) not null not blank unique,
@@ -72,6 +82,7 @@ Meal
     MealPic = compute tablename-mealname-.jpg
 
 
+-----------------------------------------------------------------
 MealCourse
     MealCourseID PK,
     MealID FK,
@@ -79,6 +90,7 @@ MealCourse
     constraint MealID, CourseID unique
     
 
+-----------------------------------------------------------------
 MealCourseRecipe
     MealCourseRecipeID PK,
     MealCourseID FK,
@@ -87,6 +99,7 @@ MealCourseRecipe
     constraint MealCourseID and RecipeID unique
 
 
+-----------------------------------------------------------------
 Cookbook unique
     CookbookID PK,
     Name varchar(30) not null not blank unique
@@ -97,6 +110,7 @@ Cookbook unique
     CookbookPicture compute Tablename-IngredientName-.jpg
 
 
+-----------------------------------------------------------------
 CookbookRecipe
     CookbookRecipeID PK,
     CookbookID FK,
@@ -104,4 +118,7 @@ CookbookRecipe
     RecipeSeq int not null > 0,
     constraint CookbookID, RecipeID unique,
     constraint CookbookID, RecipeSeq unique
+
+
+-----------------------------------------------------------------
 */
