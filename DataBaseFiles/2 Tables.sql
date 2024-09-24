@@ -1,6 +1,7 @@
 -- SM Excellent! 100% See comments.
 use HeartyHearthDB
 go
+--13 Tables total
 drop table if exists CookbookRecipe
 drop table if exists Cookbook
 drop table if exists MealCourseRecipe
@@ -16,7 +17,7 @@ drop table if exists Cuisine
 drop table if exists Users
 go 
 
-
+---
 create table dbo.Users(
     UsersID int not null identity primary key,
     FirstName varchar(35) not null constraint ck_Users_FirstName_cannot_be_blank check(FirstName > ''),
@@ -25,7 +26,7 @@ create table dbo.Users(
         constraint ck_Users_UserName_cannot_be_blank check(UserName > '') 
         constraint u_Users_UserName_must_be unique
 )
-
+---
 
 create table dbo.Cuisine (
     CuisineID int not null identity primary key,
@@ -34,7 +35,7 @@ create table dbo.Cuisine (
         constraint u_Cuisine_CuisineName_must_be unique
 )   
 
- 
+ -----
 create table dbo.Course(
     CourseID int not null identity primary key,
     CourseName varchar(20) not null 
@@ -45,6 +46,7 @@ create table dbo.Course(
         constraint u_Course_CourseSeq_must_be unique
 )
 
+--
 
 create table dbo.Ingredient(
     IngredientID int not null identity primary key,
